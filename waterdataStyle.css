@@ -1,0 +1,111 @@
+body {
+	font-family:  Helvetica, Arial, sans-serif;
+	margin: 32px;
+		font-size: 14px;
+	/*font-weight: bold;
+	fill: #666;*/
+}
+
+#wrapper{
+	position: absolute;
+	left:100px;
+}
+
+#ph-gauge g.arc, #temp-gauge g.arc, #height-gauge g.arc, #mPh-gauge g.arc, #mTemp-gauge g.arc, #mHeight-gauge g.arc, #oPh-gauge g.arc, #oTemp-gauge g.arc, #oHeight-gauge g.arc  {
+	fill: steelblue;
+}
+
+#ph-gauge g.pointer, #temp-gauge g.pointer, #height-gauge g.pointer, #mPh-gauge g.pointer, #mTemp-gauge g.pointer, #mHeight-gauge g.pointer, #oPh-gauge g.pointer, #oTemp-gauge g.pointer, #oHeight-gauge g.pointer {
+	fill: #e85116;
+	stroke: #b64011;
+}
+
+#ph-gauge g.label text, #temp-gauge g.label text, #height-gauge g.label text, #mPh-gauge g.label text, #mTemp-gauge g.label text, #mHeight-gauge g.label text, #oPh-gauge g.label text, #oTemp-gauge g.label text, #oHeight-gauge g.label text {
+	text-anchor: middle;
+	font-size: 14px;
+	font-weight: bold;
+	fill: #666;
+}
+
+#allegheny, #monongahela, #ohio {
+	height: 100%;
+	position: absolute;
+	left:20px;
+	top:10px;
+	font-weight: bolder;
+}
+#monongahela {
+	left:465px;
+}
+#ohio {
+	left:890px;
+}
+
+#heading{
+	font-size: 18px;
+/*	padding-left: 80px;*/
+	text-align: center;
+} 
+
+/* PH */
+
+#mGraph {
+	border: 1px solid blue;
+	width:270px;
+	height:210px;
+	margin-left: 15px;
+	margin-top: 50px;
+}
+
+#ph-gauge-average, #mPh-gauge-average, #oPh-gauge-average{
+	width:180px;
+	height:100px;
+	margin-left: 60px;
+	margin-top: 110px;
+}
+#ph-gauge, #mPh-gauge, #oPh-gauge{
+	width: 300px;
+	height: 150px;
+	margin-top: -160px;
+}
+#acmetoniaPh-gauge-label, #elizabethPh-gauge-label, #ohioviewPh-gauge-label, #mGraphLabel{
+	padding-left: 25px;
+	margin-top: 30px;
+	width: 275px;
+}
+
+/* temp */
+#temp-gauge-average, #mTemp-gauge-average, #oTemp-gauge-average{
+	width: 180px;
+	height: 100px;
+	margin-left: 60px;
+	margin-top: 110px;
+}
+#temp-gauge, #mTemp-gauge, #oTemp-gauge{
+	width: 300px;
+	height: 150px;
+	margin-top: -160px;
+}
+#acmetoniaTemp-gauge-label, #elizabethTemp-gauge-label, #ohioviewTemp-gauge-label{
+	padding-left: 25px;
+	margin-top: 30px;
+	width:275px;
+}
+
+/* height */
+#height-gauge-average, #mHeight-gauge-average, #oHeight-gauge-average{
+	width: 180px;
+	height: 100px;
+	margin-left: 60px;
+	margin-top: 110px;
+}
+#height-gauge, #mHeight-gauge, #oHeight-gauge{
+	width: 300px;
+	height: 150px;
+	margin-top: -160px;
+}
+#acmetoniaHeight-gauge-label, #elizabethHeight-gauge-label, #ohioviewHeight-gauge-label{
+	padding-left: 25px;
+	margin-top: 30px;
+	width: 275px;
+}

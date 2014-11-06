@@ -1,0 +1,130 @@
+    body {
+        font: 16px arial;
+        background-color: #fff;/* #515151; */
+        color: #272829;
+        font-size: 20px;
+        font-family: 'Play', verdana, sans-serif;
+        font-weight: normal;
+    }
+
+    #acmetoniaHeading {
+    	position: absolute;
+        left:180px;
+        top: 10px;
+    }
+    #alleghenyPH{
+        position: absolute;
+        left:70px;
+        top: 0px;
+    }
+    #alleghenyTemp{
+        position: absolute;
+        left:70px;
+        top: 240px;
+    }
+    #alleghenyHeight{
+        position: absolute;
+        left:70px;
+        top: 490px;
+    }
+
+
+    #elizabethHeading {
+    	position: absolute;
+    	left:570px;
+    	top: 10px;
+    }
+    #monongahelaPH {
+        position: absolute;
+        left:480px;
+        top: 0px;
+    }
+    #monongahelaTemp {
+        position: absolute;
+        left:480px;
+        top: 240px;
+    }
+    #monongahelaHeight {
+        position: absolute;
+        left:480px;
+        top: 490px;
+    }
+
+
+    #ohioviewHeading {
+    	position: absolute;
+    	right:180px;
+    	top: 10px;
+    }
+    #ohioPH {
+    	position: absolute;
+    	right:0px;
+    	top: 0px;
+    }
+    #ohioTemp {
+    	position: absolute;
+    	right:0px;
+    	top: 240px;
+    }
+    #ohioHeight {
+    	position: absolute;
+    	right:0px;
+    	top: 490px;
+    }
+
+    #alleghenyPH p, #alleghenyTemp p, #alleghenyHeight p, #monongahelaPH p, #monongahelaTemp p, #monongahelaHeight p, #ohioPH p, #ohioTemp p, #ohioHeight p, {
+        margin-top:-205px;
+    }
+
+    .unselectable {
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* css formats for the gauge */
+    .gauge .domain {
+        stroke-width: 2px;
+        stroke: #fff;
+    }
+
+    .gauge .tick line {
+        stroke: #fff;
+        stroke-width: 2px;
+    }
+    
+    .gauge line {
+        stroke: #fff;
+    }
+
+    .gauge .arc, .gauge .cursor {
+        opacity: 1;
+        fill: #1878f9;
+    }
+
+    .gauge .major {
+        fill: #272829;
+        font-size: 20px;
+        font-family: 'Play', verdana, sans-serif;
+        font-weight: normal;
+        color: #272829;
+    }
+    
+    .gauge .indicator {
+        stroke: #EE3311;
+        fill: #000;
+        stroke-width: 4px;
+    }
+
+    /* css formats for the segment display */
+    .segdisplay .on {
+        fill: #00FFFF;
+
+    }
+
+    .segdisplay .off {
+        fill: #00FFFF;
+        opacity: 0.15;
+    }

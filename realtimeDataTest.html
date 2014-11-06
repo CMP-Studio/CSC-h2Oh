@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="updater.js"></script>
+
+	<script>
+
+		$(function(){                           // Start document ready
+		    $.updater({                         // Call the plugin
+		        url: 'http://waterservices.usgs.gov/nwis/iv/?format=json&sites=03049640&modifiedSince=PT30M',             // Request URL
+		        data: {userId:1}                // Gonna send to server
+		    },
+		    function(result, response){   // Callback method..
+		        $('#myList').append('<li>'+result.name + ' | ' + result.country+'</li>');
+		    });
+		});
+
+	</script>
+
+  </head>
+	
+  <body>
+
+  	<ul id="myList">
+	</ul>
+
+  </body>
+    
+</html>

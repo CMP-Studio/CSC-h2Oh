@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=320" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<title>data dashboard</title>
+	<!--
+	<script type="text/javascript" src="http://d3js.org/d3.v2.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	-->
+	<script type="text/javascript" src="lib/d3.min.js"></script>
+	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+
+	<link rel='stylesheet' href='waterdataStyle.css' type='text/css'/>
+
+</head>
+<body>
+
+<div id="wrapper">
+	<!-- Allgheny River-->
+	<div id="allegheny">
+		<div id="heading">Allegheny River</div>
+
+		<div id="ph-gauge-average"></div>
+		<div id="ph-gauge"></div>
+		<div id="acmetoniaPh-gauge-label"><p></p></div>
+
+		<div id="temp-gauge-average"></div>
+		<div id="temp-gauge"></div>
+		<div id="acmetoniaTemp-gauge-label"><p></p></div>
+
+		<div id="height-gauge-average"></div>
+		<div id="height-gauge"></div>
+		<div id="acmetoniaHeight-gauge-label"><p></p></div>
+	</div>
+
+
+	<!-- Monongahela River-->
+	<div id="monongahela">
+		<div id="heading">Monongahela River</div>
+		
+		<div id="mPh">
+			<div id="mPh-gauge-average"></div>
+			<div id="mPh-gauge"></div>
+			<div id="elizabethPh-gauge-label"><p></p></div>
+		</div>
+
+		<div id="mGraph">
+			<div id="mGraphLabel"><p></p></div>
+		</div>
+
+		<div id="mTemp-gauge-average"></div>
+		<div id="mTemp-gauge"></div>
+		<div id="elizabethTemp-gauge-label"><p></p></div>
+
+		<div id="mHeight-gauge-average"></div>
+		<div id="mHeight-gauge"></div>
+		<div id="elizabethHeight-gauge-label"><p></p></div>
+	</div>
+
+
+	<!-- Ohio River-->
+	<div id="ohio">
+		<div id="heading">Ohio River</div>
+
+		<div id="oPh-gauge-average"></div>
+		<div id="oPh-gauge"></div>
+		<div id="ohioviewPh-gauge-label"><p></p></div>
+
+		<div id="oTemp-gauge-average"></div>
+		<div id="oTemp-gauge"></div>
+		<div id="ohioviewTemp-gauge-label"><p></p></div>
+
+		<div id="oHeight-gauge-average"></div>
+		<div id="oHeight-gauge"></div>
+		<div id="ohioviewHeight-gauge-label"><p></p></div>
+	</div>
+</div>
+
+<!-- <button onclick="getElementById('mPh-gauge').innerHTML=Date()">What is the time?</button> -->
+<div id="textinput"></div>
+
+<script type="text/javascript" src="gauge.js"></script>
+<script type="text/javascript" src="average.js"></script>
+
+<script>
+
+// hide graphs
+$( "#mGraph" ).hide();
+
+// variable to store data over time
+var alleghenyGageHeight;
+var alleghenyTemp;
+var alleghenyPh;
+
+var monongahelaGageHeight;
+var monongahelaTemp;
+var monongahelaPh;
+
+var ohioGageHeight;
+var ohioTemp;
+var ohioPh;
+
+var updateInterval = 22222;
+
+function onDocumentReady() {
+
+	/* -------- Allegheny Gauges -------*/
+	// ph
+	var aPHGaugeAverage = average('#ph-gauge-average', {
+		size: 180,
+		ringWidth: 10,
+		majorTicks: 3,
+	});
+	aPHGaugeAverage.render();
+	var aPhGauge = gauge('#ph-gauge', {
+		size: 300,
+		clipWidth: 300,
+		clipHeight: 300,
+		ringWidth: 60,
+		maxValue: 14,
+		majorTicks: 14,
+		transitionMs: 4000,
+		arcColorFn: d3.interpolateHsl(d3.rgb('#f9480a'), d3.rgb('#9e0cc3')),
+	});
+	aPhGauge.render();
+	// temp
+	var aTempGaugeAverage = average('#temp-gauge-average', {
+		size: 180,
+		ringWidth: 10,
+		majorTicks: 3,
+	});
+	aTempGaugeAverage.render();
+
+	var aTempGauge = gauge('#temp-gauge', {
+		size: 300,
+		clipWidth: 300,
+		clipHeight: 300,
+		ringWidth: 60,
+		minValue: 30,
+		maxValue: 90,
+		majorTicks: 6,
+		transitionMs: 4000,
+		arcColorFn: d3.interpolateHsl(d3.rgb('#d1f8f4'), d3.rgb('#f50404')),
+	});
+	aTempGauge.render();
+	// height
+	var aHeightGaugeAverage = average('#height-gauge-average', {
+		size: 180,
+		ringWidth: 10,
+		majorTicks: 3,
+	});
+	aHeightGaugeAverage.render();
+	var aHeightGauge = gauge('#height-gauge', {
+		size: 300,
+		clipWidth: 300,
+		clipHeight: 300,
+		ringWidth: 60,
+		minValue: 0,
+		maxValue: 16,
+		majorTicks: 10,
+		transitionMs: 4000,
+	});
+	aHeightGauge.render();
+
+
+
+	/* -------- Monongahela Gauges ------*/
+	// ph
+	var mPHGaugeAverage = average('#mPh-gauge-average', {
+		size: 180,
+		ringWidth: 10,
+		majorTicks: 3,
+	});
+	mPHGaugeAverage.render();
+	var mPhGauge = gauge('#mPh-gauge', {
+		size: 300,
+		clipWidth: 300,
+		clipHeight: 300,
+		ringWidth: 60,
+		maxValue: 14,
+		majorTicks: 14,
+		transitionMs: 4000,
+		arcColorFn: d3.interpolateHsl(d3.rgb('#f9480a'), d3.rgb('#9e0cc3')),
+	});
+	mPhGauge.render();
+	// temp
+	var mTempGaugeAverage = average('#mTemp-gauge-average', {
+		size: 180,
+		ringWidth: 10,
+		majorTicks: 3,
+	});
+	mTempGaugeAverage.render();
+	var mTempGauge = gauge('#mTemp-gauge', {
+		size: 300,
+		clipWidth: 300,
+		clipHeight: 300,
+		ringWidth: 60,
+		minValue: 30,
+		maxValue: 90,
+		majorTicks: 6,
+		transitionMs: 4000,
+		arcColorFn: d3.interpolateHsl(d3.rgb('#d1f8f4'), d3.rgb('#f50404')),
+	});
+	mTempGauge.render();
+	// height
+	var mHeightGaugeAverage = average('#mHeight-gauge-average', {
+		size: 180,
+		ringWidth: 10,
+		majorTicks: 3,
+	});
+	mHeightGaugeAverage.render();
+	var mHeightGauge = gauge('#mHeight-gauge', {
+		size: 300,
+		clipWidth: 300,
+		clipHeight: 300,
+		ringWidth: 60,
+		minValue: 0,
+		maxValue: 16,
+		majorTicks: 10,
+		transitionMs: 4000,
+	});
+	mHeightGauge.render();
+
+
+
+	/* ------ Ohio Gauges ------------ */
+	// ph
+	var oPHGaugeAverage = average('#oPh-gauge-average', {
+		size: 180,
+		ringWidth: 10,
+		majorTicks: 3,
+	});
+	oPHGaugeAverage.render();
+	var oPhGauge = gauge('#oPh-gauge', {
+		size: 300,
+		clipWidth: 300,
+		clipHeight: 300,
+		ringWidth: 60,
+		maxValue: 14,
+		majorTicks: 14,
+		transitionMs: 4000,
+		arcColorFn: d3.interpolateHsl(d3.rgb('#f9480a'), d3.rgb('#9e0cc3')),
+	});
+	oPhGauge.render();
+	// temp
+	var oTempGaugeAverage = average('#oTemp-gauge-average', {
+		size: 180,
+		ringWidth: 10,
+		majorTicks: 3,
+	});
+	oTempGaugeAverage.render();
+	var oTempGauge = gauge('#oTemp-gauge', {
+		size: 300,
+		clipWidth: 300,
+		clipHeight: 300,
+		ringWidth: 60,
+		minValue: 30,
+		maxValue: 90,
+		majorTicks: 6,
+		transitionMs: 4000,
+		arcColorFn: d3.interpolateHsl(d3.rgb('#d1f8f4'), d3.rgb('#f50404')),
+	});
+	oTempGauge.render();
+	// height
+	var oHeightGaugeAverage = average('#oHeight-gauge-average', {
+		size: 180,
+		ringWidth: 10,
+		majorTicks: 3,
+	});
+	oHeightGaugeAverage.render();
+	var oHeightGauge = gauge('#oHeight-gauge', {
+		size: 300,
+		clipWidth: 300,
+		clipHeight: 300,
+		ringWidth: 60,
+		minValue: 0,
+		maxValue: 16,
+		majorTicks: 10,
+		transitionMs: 4000,
+	});
+	oHeightGauge.render();
+
+	/*
+	 * updates gauges from locally saved json data
+	 */
+	function updateGauges(location, time){
+
+		// var time specifies what data to display
+		switch(time){
+			case 'today':
+				var riverData = "riverData/"+location+"PA-IV.json";
+
+				$.getJSON( riverData, function( data ) { 
+					updateRiverGauges(data, location, 0);
+					//console.log(location + ": json data UI:30sec (no internet connection)");
+				}).fail(function( jqxhr, textStatus, error ) {
+					var err = textStatus + ", " + error;
+					console.error( "Problem with local data: " + err);
+				});
+				break;
+			case 'twoWeeksAgo':
+				var riverData = "riverData/"+location+"PA-DV.json";
+
+				$.getJSON( riverData, function( data ) { 
+					var dv = parseInt(data.value.timeSeries[0].values[0].value.length) - 100;
+					updateRiverGauges(data, location, dv);
+					//console.log(location + ": json data UI:30sec (no internet connection)");
+				}).fail(function( jqxhr, textStatus, error ) {
+					var err = textStatus + ", " + error;
+					console.error( "Problem with local data: " + err);
+				});
+				break;
+			case 'halfYearAgo':
+				var riverData = "riverData/"+location+"PA-DV.json";
+
+				$.getJSON( riverData, function( data ) { 
+					updateRiverGauges(data, location, 0);
+					//console.log(location + ": json data UI:30sec (no internet connection)");
+				}).fail(function( jqxhr, textStatus, error ) {
+					var err = textStatus + ", " + error;
+					console.error( "Problem with local data: " + err);
+				});
+				break;
+		}
+	}
+	
+	// initial reading values
+	getIVdata("acmetonia");
+	getIVdata("elizabeth");
+	getIVdata("ohioview");
+
+	updateGauges("acmetonia", "today");
+	updateGauges("elizabeth", "today");
+	updateGauges("ohioview", "today");
+
+	// every few minutes update reading values
+	setInterval(function() {
+		getIVdata("acmetonia");
+		getIVdata("elizabeth");
+		getIVdata("ohioview");
+
+		updateGauges("acmetonia", "today");
+		updateGauges("elizabeth", "today");
+		updateGauges("ohioview", "today");
+
+	}, 1800000); // 30 minutes (1800000 millliseconds), updateInterval (300000 = 5 min)
+
+	// update the data for all gauges and labels
+	function updateRiverGauges(data, location, dateValue){
+
+		var dv = dateValue;
+		//console.log(location+": " + dv);
+
+		// get data from json response
+		temp = data.value.timeSeries[0].values[0].value[dv].value;
+		tempTime = data.value.timeSeries[0].values[0].value[dv].dateTime;
+		gageHeight = data.value.timeSeries[1].values[0].value[dv].value;
+		gageHeightTime = data.value.timeSeries[1].values[0].value[dv].dateTime;
+		ph = data.value.timeSeries[2].values[0].value[dv].value;
+		phTime = data.value.timeSeries[2].values[0].value[dv].dateTime;
+
+		//console.log("temp:"+temp+" tempTime:"+tempTime+" gageHeight:"+gageHeight+" gageHeightTime:"+gageHeightTime+" ph:"+ph+" phTime:"+phTime);
+
+		temp = convertCtoF(temp);
+
+		
+		//update gauges
+		switch(location){
+			case "acmetonia":
+				aPhGauge.update(ph);
+				aTempGauge.update(temp);
+				aHeightGauge.update(gageHeight);
+				break;
+			case "elizabeth":
+				mPhGauge.update(ph);
+				mTempGauge.update(temp);
+				mHeightGauge.update(gageHeight);
+				break;
+			case "ohioview":
+				oPhGauge.update(ph);
+				oTempGauge.update(temp);
+				oHeightGauge.update(gageHeight);
+				break;
+		}
+		//console.error(formatDateToDisplay(phTime));
+
+		$('#'+location+'Ph-gauge-label p').remove();
+		$('#'+location+'Temp-gauge-label p').remove();
+		$('#'+location+'Height-gauge-label p').remove();
+		$('#'+location+'Ph-gauge-label').append('<p>PH of ' + ph + ' measured in ' +capFirstLetter(location)+' PA. Last update on ' + formatDateToDisplay(phTime)+ ' at: ' + formatTimeToDisplay(phTime)+'</p>');
+		$('#'+location+'Temp-gauge-label').append('<p>Temperature of ' + temp + ' F&#186; measured in ' +capFirstLetter(location)+' PA. Last update at: ' + formatDateToDisplay(tempTime)+ ' at: ' + formatTimeToDisplay(tempTime)+'</p>');
+		$('#'+location+'Height-gauge-label').append('<p>Gage Height of ' + gageHeight + '\' measured in ' +capFirstLetter(location)+' PA. Last update at: ' + formatDateToDisplay(gageHeightTime)+ ' at: ' + formatTimeToDisplay(gageHeightTime)+'</p>');
+
+		// save values in case resonse is 0
+		storeData(temp, gageHeight, ph, tempTime, gageHeightTime, phTime, location);
+
+		updateInterval = 3000;//900000; // 15 min
+		//console.log(location + ": last updated PH at"+ phTime + ", " + gageHeight);
+	}
+
+	// stores the last retreived water data from the request in case it cannot be updated.
+	function storeData(temp, gageHeight, ph, ttime, htime, phtime, location){
+
+		switch(location){
+			case "acmetonia":
+				alleghenyPh = ph;
+				alleghenyTemp = temp;
+				alleghenyGageHeight = gageHeight;
+
+				aTempTime = ttime;
+				aGageHeightTime = htime;
+				aPhTime = phtime;
+
+				break;
+			case "elizabeth":
+				monongahelaPh = ph;
+				monongahelaTemp = temp;
+				monongahelaGageHeight = gageHeight;
+
+				mTempTime = ttime;
+				mGageHeightTime = htime;
+				mPhTime = phtime;
+
+				break;
+			case "ohioview":
+				ohioPh = ph;
+				ohioTemp = temp;
+				ohioGageHeight = gageHeight;
+
+				oTempTime = ttime;
+				oGageHeightTime = htime;
+				oPhTime = phtime;
+
+				break;
+		}
+	}
+
+	//			
+	function setUpdateInterval(ui) {
+
+		updateInterval = ui;
+	}
+
+	// capitalizes the first Letter of the string
+	function capFirstLetter(string){
+
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+
+	// extract date to display
+	function formatDateToDisplay(string){
+		var date = string.substr(0, 10);
+
+		var year = date.substr(0, 4);
+		var month = date.substr(5,2);
+		var day = date.substr(8, 5);
+
+		date = month+"/"+day+"/"+year;
+
+		return date;
+	}
+
+	// extract time to display
+	function formatTimeToDisplay(string){
+		
+		var time = string.substr(11,5);
+		var hour = time.substr(0,2);
+		var minutes = time.substr(3,4);
+		
+		if(parseInt(hour) > 12){
+			hour = hour - 12;
+			time = hour+":"+minutes+" pm";
+		} else {
+			time = time + "am";
+		}
+		return time;
+	}
+
+	// convert C to F
+	function convertCtoF(c){
+		// (°C × 9/5) + 32
+		var f = c * 1.8 + 32;
+		f = Math.round(f*100)/100;
+		return f;
+	}
+
+	// handles the click event, sends the query
+	function getIVdata(location) {
+
+	   $.ajax({
+	   	  type: "POST",
+	      url:'saveInstantaneousValues.php',
+	      data: {riverLocation:location},
+	      complete: function (response) {
+	          console.log(location + ": updated json file");
+	      },
+	      error: function () {
+	          console.error(location + ': Bummer: there was an error!');
+	      },
+	  });
+	  return false;
+	}
+	var isShowing;
+
+	// switch between graph and gauge
+	$('#mPh-gauge').click(function() {
+		$( "#mGraphLabel" ).html( "Graph Data" );
+		$( "#mGraph" ).show();
+		$( "#mPh" ).hide();
+	});
+
+	$('#mGraph').click(function() {
+		$( "#mPh" ).show();
+		$( "#mGraph" ).hide();
+	});
+
+	// change time of data
+	document.addEventListener('keydown', function(event) {
+	    if(event.keyCode == 74) { // j - 6 months ago
+	        updateGauges("acmetonia", "halfYearAgo");
+			// updateGauges("elizabeth", "halfYearAgo");
+			updateGauges("ohioview", "halfYearAgo");
+	    }
+	    else if(event.keyCode == 75) { // k - 2 weeks ago
+	        updateGauges("acmetonia", "twoWeeksAgo");
+			// updateGauges("elizabeth", "twoWeeksAgo");
+			updateGauges("ohioview", "twoWeeksAgo");
+	    }
+		else if(event.keyCode == 76) { // l - current
+			updateGauges("acmetonia", "today");
+			// updateGauges("elizabeth", "today");
+			updateGauges("ohioview", "today");
+	    }
+	});
+}
+
+if ( !window.isLoaded ) {
+	window.addEventListener("load", function() {
+		onDocumentReady();
+	}, false);
+} else {
+	onDocumentReady();
+}
+
+
+</script>
+
+
+</body>
+</html>
