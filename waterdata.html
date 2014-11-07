@@ -20,7 +20,7 @@
 <div id="wrapper">
 	<!-- Allgheny River-->
 	<div id="allegheny">
-		<div id="heading">Allegheny River</div>
+		<div><h1>Allegheny</h1></div>
 
 		<div id="ph-gauge-average"></div>
 		<div id="ph-gauge"></div>
@@ -38,7 +38,7 @@
 
 	<!-- Monongahela River-->
 	<div id="monongahela">
-		<div id="heading">Monongahela River</div>
+		<div><h1>Monongahela</h1></div>
 		
 		<div id="mPh">
 			<div id="mPh-gauge-average"></div>
@@ -62,7 +62,7 @@
 
 	<!-- Ohio River-->
 	<div id="ohio">
-		<div id="heading">Ohio River</div>
+		<div><h1>Ohio</h1></div>
 
 		<div id="oPh-gauge-average"></div>
 		<div id="oPh-gauge"></div>
@@ -82,6 +82,7 @@
 <div id="textinput"></div>
 
 <script type="text/javascript" src="gauge.js"></script>
+<script type="text/javascript" src="temperatureGauge.js"></script>
 <script type="text/javascript" src="average.js"></script>
 
 <script>
@@ -125,6 +126,8 @@ function onDocumentReady() {
 		arcColorFn: d3.interpolateHsl(d3.rgb('#f9480a'), d3.rgb('#9e0cc3')),
 	});
 	aPhGauge.render();
+
+	
 	// temp
 	var aTempGaugeAverage = average('#temp-gauge-average', {
 		size: 180,
@@ -142,7 +145,7 @@ function onDocumentReady() {
 		maxValue: 90,
 		majorTicks: 6,
 		transitionMs: 4000,
-		arcColorFn: d3.interpolateHsl(d3.rgb('#d1f8f4'), d3.rgb('#f50404')),
+		arcColorFn: d3.interpolateHsl(d3.rgb('#97f7f7'), d3.rgb('#ed1c24')),
 	});
 	aTempGauge.render();
 	// height

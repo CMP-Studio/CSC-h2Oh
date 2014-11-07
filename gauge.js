@@ -20,6 +20,7 @@ var gauge = function(container, configuration) {
 		transitionMs				: 750,
 		
 		majorTicks					: 7,
+		minorTicks					: 4,
 		labelFormat					: d3.format(',g'),
 		labelInset					: 10,
 		
