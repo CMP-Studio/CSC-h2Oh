@@ -10,12 +10,56 @@ body {
 h1 {
 	text-align: center;
 	color: #1b75bb;
+	margin-bottom: 0px;
+}
+
+h2 {
+	text-align: center;
+	color: #1b75bb;
+	font-weight: normal;
 }
 
 #wrapper{
-	position: absolute;
-	left:100px;
+	
+
 }
+
+#day{
+	height: 100%;
+	vertical-align: center;
+}
+
+#gaugeWrapper{
+	vertical-align: center;
+	float: left;
+}
+
+#rightWrapper{
+	height: 100%;
+	width:5%;
+	float: left;
+	margin-top: 24%;
+}
+#leftWrapper{
+	height: 100%;
+	width:5%;
+	float: left;
+	margin-top: 24%;
+	margin-right: 50px;
+}
+
+#leftButton{
+	background: url("images/leftYesterday.png") center center no-repeat;
+	width: 100px;
+	height:100px;
+}
+
+#rightButton{
+	background: url("images/rightToday.png") center center no-repeat;
+	width: 100px;
+	height:100px;
+}
+
 
 #ph-gauge g.arc, #temp-gauge g.arc, #height-gauge g.arc, #mPh-gauge g.arc, #mTemp-gauge g.arc, #mHeight-gauge g.arc, #oPh-gauge g.arc, #oTemp-gauge g.arc, #oHeight-gauge g.arc  {
 	fill: steelblue;
@@ -34,84 +78,48 @@ h1 {
 }
 
 #allegheny, #monongahela, #ohio {
-	height: 100%;
-	position: absolute;
-	left:20px;
-	top:10px;
+	height: 80%;
+	width: 350px;
 	font-weight: bolder;
+	background-color: #e7f1f8;
+	border: 1px solid #e1f0fb;
+	float:left;
+	margin: 0 1.5em 0 1.5em;
 }
-#monongahela {
-	left:465px;
-}
-#ohio {
-	left:890px;
+
+#allegheny p, #monongahela p, #ohio p{
+	font-weight: normal;
+	color: #1b75bb;
+	text-align: center;
+	margin-top: 0px;
 }
 
 #heading{
 	font-size: 18px;
-/*	padding-left: 80px;*/
+	padding-left: 80px;
 	text-align: center;
-} 
-
-/* PH */
-
-#mGraph {
-	border: 1px solid blue;
-	width:270px;
-	height:210px;
-	margin-left: 15px;
-	margin-top: 50px;
 }
 
-#ph-gauge-average, #mPh-gauge-average, #oPh-gauge-average{
-	width:180px;
-	height:100px;
-	margin-left: 60px;
-	margin-top: 110px;
-}
-#ph-gauge, #mPh-gauge, #oPh-gauge{
-	width: 300px;
-	height: 150px;
-	margin-top: -160px;
-}
-#acmetoniaPh-gauge-label, #elizabethPh-gauge-label, #ohioviewPh-gauge-label, #mGraphLabel{
-	padding-left: 25px;
-	margin-top: 30px;
-	width: 275px;
-}
-
-/* temp */
-#temp-gauge-average, #mTemp-gauge-average, #oTemp-gauge-average{
-	width: 180px;
-	height: 100px;
-	margin-left: 60px;
-	margin-top: 110px;
-}
-#temp-gauge, #mTemp-gauge, #oTemp-gauge{
-	width: 300px;
-	height: 150px;
-	margin-top: -160px;
-}
-#acmetoniaTemp-gauge-label, #elizabethTemp-gauge-label, #ohioviewTemp-gauge-label{
-	padding-left: 25px;
-	margin-top: 30px;
-	width:275px;
-}
-
-/* height */
-#height-gauge-average, #mHeight-gauge-average, #oHeight-gauge-average{
-	width: 180px;
-	height: 100px;
-	margin-left: 60px;
-	margin-top: 110px;
-}
-#height-gauge, #mHeight-gauge, #oHeight-gauge{
-	width: 300px;
-	height: 150px;
-	margin-top: -160px;
-}
+#acmetoniaPh-gauge-label, #elizabethPh-gauge-label, #ohioviewPh-gauge-label, #mGraphLabel,
+#acmetoniaTemp-gauge-label, #elizabethTemp-gauge-label, #ohioviewTemp-gauge-label, 
 #acmetoniaHeight-gauge-label, #elizabethHeight-gauge-label, #ohioviewHeight-gauge-label{
 	padding-left: 25px;
-	margin-top: 30px;
-	width: 275px;
+	margin-top: 2px;
+	margin-bottom: 20px;
+	font-weight: normal;
+	font-size: .9em;
+}
+
+#alleghenyPhGauge,#monongahelaPhGauge,#ohioPhGauge,
+#alleghenyTempGauge,#monongahelaTempGauge,#ohioTempGauge,
+#alleghenyHeightGauge,#monongahelaHeightGauge,#ohioHeightGauge{
+	padding-left:38px;
+}
+
+#aGraph, #mGraph, #oGraph {
+	border: 1px solid blue;
+	width:240px;
+	height:244px;
+	margin-left: 30px;
+	margin-top: 50px;
 }

@@ -1,4 +1,4 @@
-function TempGauge(placeholderName, configuration)
+function HeightGauge(placeholderName, configuration)
 {
 	this.placeholderName = placeholderName;
 	
@@ -6,37 +6,35 @@ function TempGauge(placeholderName, configuration)
 
     //pctExotic = [20, 35 ,35, 75, 55, 2.5, 35, 35, 45, 65, 7.5, 75, 2.5],
     data = [
-        {value: 7000, pctFull: 0.50, name: "50"}
+        {value: 0, pctFull: 0.50, name: "50"}
     ],
     kVals = [],
     rVals = [],
     hVals = [],
-    margin = { top: 100, right: 10, bottom: 30, left: 100}
+    margin = { top: 138, right: 10, bottom: 30, left: 138}
 	
 	this.configure = function(configuration)
 	{
 		this.config = configuration;
+
+		this.config.max = configuration.max;
 		
+		this.config.radius = configuration.size * 43;
+		data[0].value = this.config.radius;
+		data[0].pctFull = data[0].pctFull/this.config.max;
 		this.config.size = this.config.size * 0.9;
 
 		this.config.transitionMs = configuration.transitionMs || 4000;
 		
-		this.config.radius = this.config.size * 0.97 / 2;
+		//this.config.radius = this.config.size * 0.97 / 2;
 		this.config.cx = this.config.size / 2;
-		this.config.cy = this.config.size / 2;
-		
-		this.config.min = undefined != configuration.min ? configuration.min : 0; 
-		this.config.max = undefined != configuration.max ? configuration.max : 100; 
-		this.config.range = this.config.max - this.config.min;
-		
-		this.config.majorTicks = configuration.majorTicks || 5;
-		this.config.minorTicks = configuration.minorTicks || 2;
+		this.config.cy = this.config.size / 2; 
+
+		this.config.floodLevel = configuration.floodLevel;
 
 		this.kCalculation();
 		this.rCalculation();
 		
-		
-		this.config.transitionDuration = configuration.transitionDuration || 500;
 	}
 
 	this.render = function()
@@ -60,14 +58,14 @@ function TempGauge(placeholderName, configuration)
 	        .style("stroke-width", "4px")         
 	        .style("stroke", "#2076b8");   
 	        
-	    // clip path for the brown circle
+	    // clip path for the blue circle
 	    node.append("clipPath")
 	        .attr('id', function(d) { return "clip" })
 	        .append('rect')
 	        .attr("x", function(d, i){ return rVals[i] * (-1);})
 	        .attr("width", function(d, i){ return rVals[i] * 2;})
 	        .attr("y", function(d, i) {return rVals[i] - (2  * rVals[i] * kVals[i]);})
-	        .attr("height", function(d, i) {return 2  * rVals[i] * kVals[i];})
+	        .attr("height", function(d, i) {return 2  * rVals[i] * kVals[i];});
 
 	    // blue circle
 	    node.append("circle")
@@ -83,23 +81,75 @@ function TempGauge(placeholderName, configuration)
 		var fontSize = Math.round(this.config.size / 8);
 
 		pointerContainer.selectAll("text")
-		.append("circle")
-		        .attr("r", function(d, i) {return rVals[i]/4;})
-		        .style("fill", "#ff0000")
-		        .style("stroke-width", "4px")         
-		        .style("stroke", "#2076b8") 
 							.data(data[0].name)
 							.enter()
 								.append("svg:text")
-									.attr("x", this.config.cx/1.8)
-									.attr("y", this.config.size / 2 -  ((2  * rVals[0] * kVals[0])/2)) // this.config.size / 2 - kVals) //this.config.size - this.config.cy / 2 - fontSize -40)
+									.attr("x", this.config.cx - 60)
+									.attr("y", this.config.size / 2.5 ) // -  ((2  * rVals[0] * kVals[0])/2)) // this.config.size / 2 - kVals) //this.config.size - this.config.cy / 2 - fontSize -40)
 									.attr("dy", fontSize / 2)
 									.attr("text-anchor", "middle")
 									.style("font-size", fontSize + "px")
-									.style("fill", "#2076b8");
+									.style("fill", "#c8bfbf");
 
 		pointerContainer.selectAll("text").text(data[0].name);
+ 
+	        
+	    // clip path for flood level line
+	    node.append("clipPath")
+	        .attr('id', function(d) { return "circleclip" })
+	        .append('circle')
+	        .attr("r", function(d, i) {return rVals[i]-2;})
 
+	    // flood level line
+		var line = node.append("svg:line")
+	    	.attr("clip-path", function(d) { return "url(#circleclip)"})
+			.attr("x1", -15)
+			.attr("y1", this.hCaluclation(this.config.floodLevel/this.config.max))
+			.attr("x2", 250)
+			.attr("y2", this.hCaluclation(this.config.floodLevel/this.config.max))
+			.style("stroke", "#ff0000")
+			.style("stroke-width", "1px");
+
+		node.selectAll("text")
+			.data(data)
+			.enter()
+				.append("svg:text")
+					.attr("x", 30)
+					.attr("y", this.hCaluclation(this.config.floodLevel/this.config.max)) // -  ((2  * rVals[0] * kVals[0])/2)) // this.config.size / 2 - kVals) //this.config.size - this.config.cy / 2 - fontSize -40)
+					.attr("dy", fontSize / 2)
+					.attr("text-anchor", "middle")
+					.style("font-size", fontSize/3 + "px")
+					.style("font-weight", "normal")
+					.style("fill", "#fbb122");
+		node.selectAll("text").text("Flood stage " + this.config.floodLevel + "\'");
+
+	}
+
+	this.hCaluclation = function(givenHeight){
+		var j,
+	        t0,
+	        t1,
+	        k,
+	        mappedFloodLevel,
+	        fl;
+	    
+	        k = givenHeight;
+	        t1 = givenHeight * 2 * Math.PI;
+
+	        if (givenHeight > 0 && givenHeight < 1) {
+	            t1 = Math.pow(12 * k * Math.PI, 1 / 3);                
+	            for (j = 0; j < 10; j += 1) {
+	                  t0 = t1;
+	                  t1 = (Math.sin(t0) - t0 * Math.cos(t0) + 2 * k * Math.PI) / (1 - Math.cos(t0));
+	            }
+	            k = (1 - Math.cos(t1 / 2)) / 2;
+	        
+	        	mappedFloodLevel = k;
+	    	}
+
+		fl = rVals[0] - (2  * rVals[0] * mappedFloodLevel)
+
+		return fl;
 	}
 
 	// calculate k for each data object as described: http://bl.ocks.org/3422480
@@ -115,6 +165,7 @@ function TempGauge(placeholderName, configuration)
 	    for (i = 0; i < data.length; i += 1) {
 	        k = data[i].pctFull
 	        t1= data[i].pctFull * 2 * Math.PI;
+
 	        if (data[i].pctFull > 0 && data[i].pctFull < 1) {
 	            t1 = Math.pow(12 * k * Math.PI, 1 / 3);                
 	            for (j = 0; j < 10; j += 1) {
@@ -142,10 +193,10 @@ function TempGauge(placeholderName, configuration)
 	this.redraw = function(value, transitionDuration)
 	{
 
-		var fillHeight = Math.round(value*100)/10;
+		var fillHeight = Math.round(value*100)/100;
 
 		data.length = 0;
-		data = [{value: 7000, pctFull: value, name:fillHeight}];
+		data = [{value: this.config.radius, pctFull: value/this.config.max, name:fillHeight}];
 		this.kCalculation();
 		//this.rCalculation();
 
@@ -153,10 +204,7 @@ function TempGauge(placeholderName, configuration)
 		var pointerContainer = this.body.select(".pointerContainer");
 		pointerContainer.selectAll("text")
 			.text(data[0].name)
-			.attr("y",  this.config.size / 2 -  ((2  * rVals[0] * kVals[0])/2));
-
-
-		//console.log( this.config.size / 4 -  ((2  * rVals[0] * kVals[0])/2) );
+			.attr("y",  this.config.size / 2.5 );// -  ((2  * rVals[0] * kVals[0])/2));
 
 		// update level in circle -> clip path
 		var node = this.body.select("#clip");
@@ -166,6 +214,8 @@ function TempGauge(placeholderName, configuration)
 			.ease('elastic')
 	        .attr("y", function(d, i) {return rVals[i] - (2  * rVals[i] * kVals[i]);})
 	        .attr("height", function(d, i) {return 2  * rVals[i] * kVals[i];})
+
+	    //console.log(rVals[0] - (2  * rVals[0] * kVals[0]));
 
 	}
 

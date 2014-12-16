@@ -9,6 +9,8 @@ function TemperatureGauge(placeholderName, configuration)
 		this.config = configuration;
 		
 		this.config.size = this.config.size * 0.9;
+
+		this.config.transitionMs = configuration.transitionMs || 4000;
 		
 		this.config.radius = this.config.size * 0.97 / 2;
 		this.config.cx = this.config.size / 2;
@@ -23,11 +25,18 @@ function TemperatureGauge(placeholderName, configuration)
 		
 		this.config.blueColor 	= configuration.blueColor || "#00f3ff";
 		this.config.greenColor 	= configuration.greenColor || "#8cc63f";
-		this.config.yellowColor = configuration.yellowColor || "#ffff00";
-		this.config.lightOrangeColor 	= configuration.lightOrangeColor || "#f7931e";
-		this.config.orangeColor 	= configuration.orangeColor || "#f15a24";
-		this.config.redColor 	= configuration.redColor || "#ff0000";
-		
+		this.config.yellowColor = configuration.yellowColor || "#f5d542";
+		this.config.lightOrangeColor 	= configuration.lightOrangeColor || "#f2880b";
+		this.config.orangeColor 	= configuration.orangeColor || "#e61217";
+		this.config.redColor 	= configuration.redColor || "#f542ab";
+
+		this.config.blueZones = this.config.blueZones || [{ from: this.config.min + this.config.range*0, to: this.config.min + this.config.range*0.165 }];
+		this.config.greenZones = this.config.greenZones || [{ from: this.config.min + this.config.range*0.165, to: this.config.min + this.config.range*0.335 }];
+		this.config.yellowZones = this.config.yellowZones || [{ from: this.config.min + this.config.range*0.335, to: this.config.min + this.config.range*0.5 }];
+		this.config.lightOrangeZones = this.config.lightOrangeZones || [{ from: this.config.min + this.config.range*0.5, to: this.config.min + this.config.range*0.665 }];
+		this.config.orangeZones = this.config.orangeZones || [{ from: this.config.min + this.config.range*0.665, to: this.config.min + this.config.range*0.833 }];
+		this.config.redZones = this.config.redZones || [{ from: this.config.min + this.config.range*0.833, to: this.config.max }];
+
 		this.config.transitionDuration = configuration.transitionDuration || 500;
 	}
 
@@ -50,10 +59,10 @@ function TemperatureGauge(placeholderName, configuration)
 		this.body.append("svg:circle")
 					.attr("cx", this.config.cx)
 					.attr("cy", this.config.cy)
-					.attr("r", 0.93 * this.config.radius)
+					.attr("r", 0.95 * this.config.radius)
 					.style("fill", "#fff")
-					.style("stroke", "#e0e0e0") 
-					.style("stroke-width", "2px");
+					.style("stroke", "#514d4d") 
+					.style("stroke-width", "3px");
 					
 		for (var index in this.config.blueZones)
 		{
@@ -224,8 +233,8 @@ function TemperatureGauge(placeholderName, configuration)
 					.attr("d", d3.svg.arc()
 						.startAngle(this.valueToRadians(start))
 						.endAngle(this.valueToRadians(end))
-						.innerRadius(0.85 * this.config.radius)
-						.outerRadius(0.9 * this.config.radius))
+						.innerRadius(0.87 * this.config.radius)
+						.outerRadius(0.92 * this.config.radius))
 					.attr("transform", function() { return "translate(" + self.config.cx + ", " + self.config.cy + ") rotate(270)" });
 	}
 	
@@ -237,7 +246,10 @@ function TemperatureGauge(placeholderName, configuration)
 		
 		var pointer = pointerContainer.selectAll("path");
 		pointer.transition()
-					.duration(undefined != transitionDuration ? transitionDuration : this.config.transitionDuration)
+					//.duration(undefined != transitionDuration ? transitionDuration : this.config.transitionDuration)
+					.duration(this.config.transitionMs)
+					.ease('elastic')
+					//.attr('transform', 'rotate(' +newAngle +')');
 					//.delay(0)
 					//.ease("linear")
 					//.attr("transform", function(d) 

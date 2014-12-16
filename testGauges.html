@@ -1,0 +1,83 @@
+<!-- file to test the temperature gauges class-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  	<head>
+    	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+    	<title>temperature gauge</title>
+		
+		<style>
+		
+			body
+			{
+			  	font: 10px arial;
+			}
+			.icon{
+				background-image: url("waterTemp.png") no-repeat;
+				margin-left:300px;
+			}
+			
+		</style>
+		
+		<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+		<!-- <script type="text/javascript" src="temperatureGauge.js"></script> -->
+		<!-- <script type="text/javascript" src="phGauge.js"></script> -->
+		<script type="text/javascript" src="heightGauge.js"></script>
+
+		<script>
+						
+				
+			var phGauges = [];
+			
+			function createPhGauge(name, label, fl)
+			{
+				var config = 
+				{
+					size: 300,
+					label: label,
+					max: 14,
+					floodLevel: 33
+				}
+								
+				phGauges[name] = new HeightGauge(name + "Ph", config);
+				phGauges[name].render();
+			}
+			
+			function createPhGauges()
+			{
+				createPhGauge("a");
+			}
+			
+			function updatePhGauges()
+			{
+				for (var key in phGauges)
+				{
+					var value = getRandomValue(33)
+					phGauges["a"].redraw(33);
+				}
+			}
+			
+			function getRandomValue(max)
+			{
+				 var overflow = 0; //10;
+				 var random = Math.random() * (max - 2) + 2;
+				 return random / 10;
+				 //return phGauges.config.min - overflow + (phGauges.config.max - phGauges.config.min + overflow*2) *  Math.random();
+			}
+			
+			function initialize()
+			{
+				createPhGauges();
+				//setInterval(updatePhGauges, 5000);
+			}
+			
+		</script>
+		
+		
+	</head>
+	
+	<body onload="initialize()">
+		<span id="aPh"><div class="icon"></div></span>
+	</body>
+	
+</html>
