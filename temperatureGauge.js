@@ -22,6 +22,8 @@ function TemperatureGauge(placeholderName, configuration)
 		
 		this.config.majorTicks = configuration.majorTicks || 5;
 		this.config.minorTicks = configuration.minorTicks || 2;
+
+		this.config.label = configuration.label || "F˚";
 		
 		this.config.blueColor 	= configuration.blueColor || "#00f3ff";
 		this.config.greenColor 	= configuration.greenColor || "#8cc63f";
@@ -89,20 +91,7 @@ function TemperatureGauge(placeholderName, configuration)
 			this.drawBand(this.config.redZones[index].from, this.config.redZones[index].to, self.config.redColor);
 		}
 
-		/* static label in gauge */
-		if (undefined != this.config.label)
-		{
-			var fontSize = Math.round(this.config.size / 9);
-			this.body.append("svg:text")
-						.attr("x", this.config.cx+22)
-						.attr("y", (this.config.cy / 2 + fontSize / 2)+126 )
-						.attr("dy", fontSize / 2)
-						.attr("text-anchor", "middle")
-						.text(this.config.label)
-						.style("font-size", fontSize-2 + "px")
-						.style("fill", "#666")
-						.style("stroke-width", "0px");
-		}
+		
 		
 		var fontSize = Math.round(this.config.size / 16);
 		var majorDelta = this.config.range / (this.config.majorTicks - 1);
@@ -129,30 +118,28 @@ function TemperatureGauge(placeholderName, configuration)
 			
 			// major ticks
 			this.body.append("svg:line")
-						.attr("x1", point1.x)
-						.attr("y1", point1.y)
-						.attr("x2", point2.x)
-						.attr("y2", point2.y)
-						.style("stroke", "#333")
-						.style("stroke-width", "2px");
+				.attr("x1", point1.x)
+				.attr("y1", point1.y)
+				.attr("x2", point2.x)
+				.attr("y2", point2.y)
+				.style("stroke", "#333")
+				.style("stroke-width", "2px");
 
 			/* tick labeling
 			 * use if{} to show only min and max
 			 */
-			//if (major == this.config.min || major == this.config.max)
-			//{
-				var point = this.valueToPoint(major, 0.615);
+			var point = this.valueToPoint(major, 0.615);
 				
-				this.body.append("svg:text")
-				 			.attr("x", point.x+8)
-				 			.attr("y", point.y)
-				 			.attr("dy", fontSize / 3)
-				 			.attr("text-anchor", major == this.config.min ? "start" : "end")
-				 			.text(major)
-				 			.style("font-size", fontSize-2 + "px")
-							.style("fill", "#333")
-							.style("stroke-width", "0px");
-			//}
+			this.body.append("svg:text")
+				.attr("x", point.x+8)
+				.attr("y", point.y)
+				.attr("dy", fontSize / 3)
+				.attr("text-anchor", major == this.config.min ? "start" : "end")
+				.text(major)
+				.style("font-size", fontSize-2 + "px")
+				.style("fill", "#333")
+				.style("stroke-width", "0px");
+
 		}
 		
 		var pointerContainer = this.body.append("svg:g").attr("class", "pointerContainer");
@@ -185,10 +172,10 @@ function TemperatureGauge(placeholderName, configuration)
 		//dynamic temp label
 		var fontSize = Math.round(this.config.size / 10);
 		pointerContainer.selectAll("text")
-							.data([midValue])
+							.data([midValue] + "F")
 							.enter()
 								.append("svg:text")
-									.attr("x", this.config.cx-10)
+									.attr("x", this.config.cx + 8)
 									.attr("y", this.config.size - this.config.cy / 4 - fontSize)
 									.attr("dy", fontSize / 2)
 									.attr("text-anchor", "middle")
@@ -242,7 +229,7 @@ function TemperatureGauge(placeholderName, configuration)
 	{
 		var pointerContainer = this.body.select(".pointerContainer");
 		
-		pointerContainer.selectAll("text").text(Math.round(value));
+		pointerContainer.selectAll("text").text(Math.round(value) + this.config.label);
 		
 		var pointer = pointerContainer.selectAll("path");
 		pointer.transition()
