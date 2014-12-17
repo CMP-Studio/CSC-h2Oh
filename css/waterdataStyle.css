@@ -20,8 +20,7 @@ h2 {
 }
 
 #wrapper{
-	
-
+	margin-left: 8em;
 }
 
 #day{
@@ -79,7 +78,7 @@ h2 {
 
 #allegheny, #monongahela, #ohio {
 	height: 80%;
-	width: 260px;
+	width: 270px;
 	font-weight: bolder;
 	background-color: #e7f1f8;
 	border: 1px solid #e1f0fb;
@@ -94,6 +93,10 @@ h2 {
 	margin-top: 0px;
 }
 
+#acmetoniaHeight-gauge-label p, #elizabethHeight-gauge-label p, #ohioviewHeight-gauge-label p{
+	margin-top: -15px !important;
+}
+
 #heading{
 	font-size: 18px;
 	padding-left: 80px;
@@ -103,11 +106,10 @@ h2 {
 #acmetoniaPh-gauge-label, #elizabethPh-gauge-label, #ohioviewPh-gauge-label, #mGraphLabel,
 #acmetoniaTemp-gauge-label, #elizabethTemp-gauge-label, #ohioviewTemp-gauge-label, 
 #acmetoniaHeight-gauge-label, #elizabethHeight-gauge-label, #ohioviewHeight-gauge-label{
-	padding-left: 25px;
 	margin-top: 2px;
 	margin-bottom: 20px;
 	font-weight: normal;
-	font-size: .9em;
+	font-size: .7em;
 }
 
 #alleghenyPhGauge,#monongahelaPhGauge,#ohioPhGauge,

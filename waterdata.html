@@ -12,14 +12,14 @@
 	<script type="text/javascript" src="lib/d3.min.js"></script>
 	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
 
-	<link rel='stylesheet' href='waterdataStyle.css' type='text/css'/>
+	<link rel='stylesheet' href='css/waterdataStyle.css' type='text/css'/>
 
 </head>
 <body>
 
-<div id="wrapper">
-
 <div id="day"><h2>today</h2></div>
+
+<div id="wrapper">
 
 <div id="leftWrapper">
 	<div id="leftButton"></div>
@@ -89,11 +89,9 @@
 </div>
 <div id="textinput"></div>
 
-<!-- <script type="text/javascript" src="gauge.js"></script> -->
-<script type="text/javascript" src="phGauge.js"></script>
-<script type="text/javascript" src="temperatureGauge.js"></script>
-<script type="text/javascript" src="heightGauge.js"></script>
-<script type="text/javascript" src="average.js"></script>
+<script type="text/javascript" src="js/phGauge.js"></script>
+<script type="text/javascript" src="js/temperatureGauge.js"></script>
+<script type="text/javascript" src="js/heightGauge.js"></script>
 
 <script>
 
@@ -123,11 +121,33 @@ var status = 2; // 0,1,2 indicates on what "page" we are 6 months ago, yesterday
 
 function onDocumentReady() {
 
+
+	var phGauges = [];
+
+	function createPhGauge(name, label, min, max) {
+		var config = {
+			size: 215,
+			label: label,
+			min: 0,
+			max: 14,
+			minorTicks: 1,
+			majorTicks: 15
+		}
+						
+		phGauges[name] = new PhGauge(name + "PhGauge", config);
+		phGauges[name].render();
+	}
+
+	createPhGauge("allegheny");
+	createPhGauge("monongahela");
+	createPhGauge("ohio");
+
+
 	var temperatureGauges = [];
 
 	function createTemperatureGauge(name){
 		var config = {
-			size: 200,
+			size: 210,
 			min: 30,
 			max: 90,
 			minorTicks: 10,
@@ -145,31 +165,11 @@ function onDocumentReady() {
 
 
 
-	var phGauges = [];
-
-	function createPhGauge(name, label, min, max) {
-		var config = {
-			size: 205,
-			label: label,
-			min: 0,
-			max: 14,
-			minorTicks: 1,
-			majorTicks: 15
-		}
-						
-		phGauges[name] = new PhGauge(name + "PhGauge", config);
-		phGauges[name].render();
-	}
-
-	createPhGauge("allegheny");
-	createPhGauge("monongahela");
-	createPhGauge("ohio");
-
 	var heightGauges = [];
 
 	function createheightGauge(name, label, fl) {
 		var config = {
-			size: 220,
+			size: 230,
 			label: label,
 			max: 34,
 			floodLevel: fl
@@ -265,9 +265,9 @@ function onDocumentReady() {
 		$('#'+location+'Ph-gauge-label p').remove();
 		$('#'+location+'Temp-gauge-label p').remove();
 		$('#'+location+'Height-gauge-label p').remove();
-		$('#'+location+'Ph-gauge-label').append('<p>Update on ' + formatDateToDisplay(phTime)+ ' at: ' + formatTimeToDisplay(phTime)+'</p>');
-		$('#'+location+'Temp-gauge-label').append('<p>Update on: ' + formatDateToDisplay(tempTime)+ ' at: ' + formatTimeToDisplay(tempTime)+'</p>');
-		$('#'+location+'Height-gauge-label').append('<p>Update on: ' + formatDateToDisplay(gageHeightTime)+ ' at: ' + formatTimeToDisplay(gageHeightTime)+'</p>');
+		$('#'+location+'Ph-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(phTime)+ ' at: ' + formatTimeToDisplay(phTime)+'</p>');
+		$('#'+location+'Temp-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(tempTime)+ ' at: ' + formatTimeToDisplay(tempTime)+'</p>');
+		$('#'+location+'Height-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(gageHeightTime)+ ' at: ' + formatTimeToDisplay(gageHeightTime)+'</p>');
 
 		// save values in case resonse is 0
 		storeData(temp, gageHeight, ph, tempTime, gageHeightTime, phTime, location);
@@ -367,7 +367,7 @@ function onDocumentReady() {
 
 	   $.ajax({
 	   	  type: "POST",
-	      url:'saveInstantValues.php',
+	      url:'php/saveInstantValues.php',
 	      data: {riverLocation:location},
 	      complete: function (response) {
 	          console.log(location + ": updated json file");
