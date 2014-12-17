@@ -97,7 +97,6 @@
 
 // hide graphs
 $('#mGraph').hide();
-$('#rightButton').hide();
 
 //rivers
 var river1 = "acmetonia";
@@ -117,12 +116,13 @@ var ohioGageHeight;
 var ohioTemp;
 var ohioPh;
 
+var phGauges = [];
+var temperatureGauges = [];
+var heightGauges = [];
+
 var status = 2; // 0,1,2 indicates on what "page" we are 6 months ago, yesterday or today
 
 function onDocumentReady() {
-
-
-	var phGauges = [];
 
 	function createPhGauge(name, label, min, max) {
 		var config = {
@@ -142,9 +142,6 @@ function onDocumentReady() {
 	createPhGauge("monongahela");
 	createPhGauge("ohio");
 
-
-	var temperatureGauges = [];
-
 	function createTemperatureGauge(name){
 		var config = {
 			size: 210,
@@ -163,9 +160,6 @@ function onDocumentReady() {
 	createTemperatureGauge("monongahela");
 	createTemperatureGauge("ohio");
 
-
-
-	var heightGauges = [];
 
 	function createheightGauge(name, label, fl) {
 		var config = {
@@ -188,7 +182,7 @@ function onDocumentReady() {
 	 */
 	function updateGauges(location, time){
 
-		console.log(location+" "+time);
+		//console.log(location+" "+time);
 		var riverData = "riverData/"+location+"PA-IV-"+time+".json";
 
 		$.getJSON( riverData, function( data ) { 
@@ -313,12 +307,6 @@ function onDocumentReady() {
 		}
 	}
 
-	//			
-	function setUpdateInterval(ui) {
-
-		updateInterval = ui;
-	}
-
 	// capitalizes the first Letter of the string
 	function capFirstLetter(string){
 
@@ -389,72 +377,72 @@ function onDocumentReady() {
 	$('#mGraph').click(function() {
 		$("#monongahelaPhGauge").show();
 		$( "#mGraph" ).hide();
-
-		
 	});
 
 	$('#leftButton').click(function() {
 		
 		status--;
 		if(status < 0) status = 0;
+		if(status > 2) status = 2;
 
 		$('#rightButton').show();
 
 		switch(parseInt(status)){
 			case 0: // 6 months ago
-				$('#rightButton').css("background", "url('images/rightYesterday.png') center center no-repeat");
 				$('#day').html("<h2>6 months ago</h2>");
-				$('#leftButton').hide();
+				$('#leftButton').css("opacity", .3);
 				break;
 			case 1: // yesterday
-				$('#leftButton').css("background", "url('images/left6.png') center center no-repeat");
 				$('#day').html("<h2>yesterday</h2>");
+				$('#leftButton').css("opacity", 1);
+				$('#rightButton').css("opacity", 1);
 				break;
 			case 2: // today
-				$('#leftButton').css("background", "url('images/leftYesterday.png') center center no-repeat");
 				$('#day').html("<h2>today</h2>");
+				$('#leftButton').css("opacity", 1);
 				break;
 			default:
 				console.error("problem updating gauges");
+				break;	
 		}
-
-		updateGauges(river1, status);
-		updateGauges(river2, status);
-		updateGauges(river3, status);
-				
+		if(status < 2){
+			updateGauges(river1, status);
+			updateGauges(river2, status);
+			updateGauges(river3, status);
+		}
 	});
 
 	$('#rightButton').click(function() {
 		
 		status++;
 		if(status < 0) status = 0;
+		//if(status > 2) status = 2;
 
 		$('#leftButton').show();
 
 		switch(parseInt(status)){
-			case 0:
-				$('#leftButton').css("background", "url('images/leftYesterday.png') center center no-repeat");
-				$('#rightButton').css('background: none;');
+			case 0: // 6 months ago
 				$('#day').html("<h2>6 months ago</h2>");
+				$('#rightButton').css("opacity", 1);
 				break;
-			case 1:
-				$('#rightButton').css("background", "url('images/rightToday.png') center center no-repeat");
+			case 1: // yesterday
 				$('#day').html("<h2>yesterday</h2>");
+				$('#leftButton').css("opacity", 1);
+				$('#rightButton').css("opacity", 1);
 				break;
-			case 2:
-				$('#rightButton').css("background", "url('images/rightToday.png') center center no-repeat");
-				$('#leftButton').css("background", "url('images/leftYesterday.png') center center no-repeat");
+			case 2: // today
 				$('#day').html("<h2>today</h2>");
-				$('#rightButton').hide();
+				$('#rightButton').css("opacity", .3);
 				break;
 			default:
-				alert("none of the above");
+				//alert("none of the above");
+				break;
 		}
-
-		updateGauges(river1, status);
-		updateGauges(river2, status);
-		updateGauges(river3, status);
-
+		if(status < 2){
+			updateGauges(river1, status);
+			updateGauges(river2, status);
+			updateGauges(river3, status);
+		}
 	});
 }
 
@@ -466,9 +454,7 @@ if ( !window.isLoaded ) {
 	onDocumentReady();
 }
 
-
 </script>
-
 
 </body>
 </html>

@@ -48,15 +48,17 @@ h2 {
 }
 
 #leftButton{
-	background: url("images/leftYesterday.png") center center no-repeat;
+	background: url("../images/left.png") center center no-repeat;
 	width: 100px;
 	height:100px;
+	opacity: 1;
 }
 
 #rightButton{
-	background: url("images/rightToday.png") center center no-repeat;
+	background: url("../images/right.png") center center no-repeat;
 	width: 100px;
 	height:100px;
+	opacity: .3;
 }
 
 
