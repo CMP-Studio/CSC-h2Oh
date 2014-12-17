@@ -45,26 +45,28 @@ function TemperatureGauge(placeholderName, configuration)
 	this.render = function()
 	{
 		this.body = d3.select("#" + this.placeholderName)
-							.append("svg:svg")
-							.attr("class", "temperatureGauge")
-							.attr("width", this.config.size)
-							.attr("height", this.config.size);
-		
+			.append("svg:svg")
+			.attr("class", "temperatureGauge")
+			.attr("width", this.config.size)
+			.attr("height", this.config.size);
+
+		var ow = .005 * this.config.radius;
 		this.body.append("svg:circle")
 					.attr("cx", this.config.cx)
 					.attr("cy", this.config.cy)
 					.attr("r", this.config.radius)
 					.style("fill", "#ccc") // rim inn circle
 					.style("stroke", "#000")
-					.style("stroke-width", "0.5px");
+					.style("stroke-width", ow +"px");
 					
+		var ow = .03 * this.config.radius;
 		this.body.append("svg:circle")
 					.attr("cx", this.config.cx)
 					.attr("cy", this.config.cy)
 					.attr("r", 0.95 * this.config.radius)
 					.style("fill", "#fff")
-					.style("stroke", "#514d4d") 
-					.style("stroke-width", "3px");
+					.style("stroke", "#a6a1a1") 
+					.style("stroke-width", ow + "px");
 					
 		for (var index in this.config.blueZones)
 		{
@@ -172,7 +174,7 @@ function TemperatureGauge(placeholderName, configuration)
 		//dynamic temp label
 		var fontSize = Math.round(this.config.size / 10);
 		pointerContainer.selectAll("text")
-							.data([midValue] + "F")
+							.data([midValue])
 							.enter()
 								.append("svg:text")
 									.attr("x", this.config.cx + 8)

@@ -125,10 +125,9 @@ function onDocumentReady() {
 
 	var temperatureGauges = [];
 
-	function createTemperatureGauge(name, label, min, max){
+	function createTemperatureGauge(name){
 		var config = {
-			size: 300,
-			label: label,
+			size: 200,
 			min: 30,
 			max: 90,
 			minorTicks: 10,
@@ -140,9 +139,9 @@ function onDocumentReady() {
 		temperatureGauges[name].render();
 	}
 
-	createTemperatureGauge("allegheny", "F˚");
-	createTemperatureGauge("monongahela", "F˚");
-	createTemperatureGauge("ohio", "F˚");
+	createTemperatureGauge("allegheny");
+	createTemperatureGauge("monongahela");
+	createTemperatureGauge("ohio");
 
 
 
@@ -150,7 +149,7 @@ function onDocumentReady() {
 
 	function createPhGauge(name, label, min, max) {
 		var config = {
-			size: 305,
+			size: 205,
 			label: label,
 			min: 0,
 			max: 14,
@@ -170,7 +169,7 @@ function onDocumentReady() {
 
 	function createheightGauge(name, label, fl) {
 		var config = {
-			size: 300,
+			size: 220,
 			label: label,
 			max: 34,
 			floodLevel: fl
@@ -240,18 +239,24 @@ function onDocumentReady() {
 		//update gauges
 		switch(location){
 			case "acmetonia":
+				phGauges["allegheny"].reset(1);
 				phGauges["allegheny"].redraw(ph);
 				temperatureGauges["allegheny"].redraw(temp);
+				heightGauges["allegheny"].reset(1);
 				heightGauges["allegheny"].redraw(gageHeight);
 				break;
 			case "elizabeth":
+				phGauges["monongahela"].reset(1);
 				phGauges["monongahela"].redraw(ph);
 				temperatureGauges["monongahela"].redraw(temp);
+				heightGauges["monongahela"].reset(1);
 				heightGauges["monongahela"].redraw(gageHeight);
 				break;
 			case "ohioview":
+				phGauges["ohio"].reset(1);
 				phGauges["ohio"].redraw(ph);
 				temperatureGauges["ohio"].redraw(temp);
+				heightGauges["ohio"].reset(1);
 				heightGauges["ohio"].redraw(gageHeight);
 				break;
 		}
@@ -260,9 +265,9 @@ function onDocumentReady() {
 		$('#'+location+'Ph-gauge-label p').remove();
 		$('#'+location+'Temp-gauge-label p').remove();
 		$('#'+location+'Height-gauge-label p').remove();
-		$('#'+location+'Ph-gauge-label').append('<p>Last update on ' + formatDateToDisplay(phTime)+ ' at: ' + formatTimeToDisplay(phTime)+'</p>');
-		$('#'+location+'Temp-gauge-label').append('<p>Last update on: ' + formatDateToDisplay(tempTime)+ ' at: ' + formatTimeToDisplay(tempTime)+'</p>');
-		$('#'+location+'Height-gauge-label').append('<p>Last update on: ' + formatDateToDisplay(gageHeightTime)+ ' at: ' + formatTimeToDisplay(gageHeightTime)+'</p>');
+		$('#'+location+'Ph-gauge-label').append('<p>Update on ' + formatDateToDisplay(phTime)+ ' at: ' + formatTimeToDisplay(phTime)+'</p>');
+		$('#'+location+'Temp-gauge-label').append('<p>Update on: ' + formatDateToDisplay(tempTime)+ ' at: ' + formatTimeToDisplay(tempTime)+'</p>');
+		$('#'+location+'Height-gauge-label').append('<p>Update on: ' + formatDateToDisplay(gageHeightTime)+ ' at: ' + formatTimeToDisplay(gageHeightTime)+'</p>');
 
 		// save values in case resonse is 0
 		storeData(temp, gageHeight, ph, tempTime, gageHeightTime, phTime, location);

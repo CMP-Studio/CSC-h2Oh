@@ -163,26 +163,23 @@ function PhGauge(placeholderName, configuration)
 						.attr("y2", point2.y)
 						.style("stroke", "#fff")
 						.style("stroke-width", "5px")
-						.attr("transform", function() { return "translate(36,-29) rotate(14)" }); //translate(25,-20) rotate(10)
+						.attr("transform", function() { return "translate(25,-19) rotate(14)" }); //translate(25,-20) rotate(10) //translate(36,-29) rotate(14)
 
 			/* tick labeling
 			 * use if{} to show only min and max
 			 */
-			//if (major == this.config.min || major == this.config.max)
-			//{
-				var point = this.valueToPoint(major, 0.710);
+			var point = this.valueToPoint(major, 0.710);
 
-				this.body.append("svg:text")
-				 			.attr("x", point.x+8)
-				 			.attr("y", point.y)
-				 			.attr("dy", fontSize / 3)
-				 			.attr("text-anchor", major == this.config.min ? "start" : "end")
-				 			.text(major)
-				 			.style("font-size", fontSize + "px")
-							.style("fill", "#fff")
-							.style("stroke-width", "0px");
+			this.body.append("svg:text")
+				.attr("x", point.x+4)
+				.attr("y", point.y)
+				.attr("dy", fontSize / 3)
+				.attr("text-anchor", major == this.config.min ? "start" : "end")
+				.text(major)
+				.style("font-size", fontSize + "px")
+				.style("fill", "#fff")
+				.style("stroke-width", "0px");
 
-			//}
 		}
 		
 		var pointerContainer = this.body.append("svg:g").attr("class", "pointerContainer");
@@ -222,7 +219,7 @@ function PhGauge(placeholderName, configuration)
 							.enter()
 								.append("svg:text")
 									.attr("x", this.config.cx)
-									.attr("y", this.config.size - this.config.cy / 4 - fontSize -40)
+									.attr("y", this.config.size - this.config.cy / 4 - fontSize -30)
 									.attr("dy", fontSize / 2)
 									.attr("text-anchor", "middle")
 									.style("font-size", fontSize + "px")
@@ -271,6 +268,30 @@ function PhGauge(placeholderName, configuration)
 					.attr("transform", function() { return "translate(" + self.config.cx + ", " + self.config.cy + ") rotate(283)" });
 	}
 	
+	this.reset = function(value, transitionDuration)
+	{
+		var pointerContainer = this.body.select(".pointerContainer");
+		
+		var pointer = pointerContainer.selectAll("path");
+		pointer.transition()
+					.duration(0)
+					.attrTween("transform", function()
+					{
+						var pointerValue = value;
+						if (value > self.config.max) pointerValue = self.config.max + 0.02*self.config.range;
+						else if (value < self.config.min) pointerValue = self.config.min - 0.02*self.config.range;
+						var targetRotation = (self.valueToDegrees(pointerValue) - 90);
+						var currentRotation = self._currentRotation || targetRotation;
+						self._currentRotation = targetRotation;
+						
+						return function(step) 
+						{
+							var rotation = currentRotation + (targetRotation-currentRotation)*step;
+							return "translate(" + self.config.cx + ", " + self.config.cy + ") rotate(" + rotation + ")";
+						}
+					});
+	}
+
 	this.redraw = function(value, transitionDuration)
 	{
 		var pointerContainer = this.body.select(".pointerContainer");
