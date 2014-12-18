@@ -120,10 +120,11 @@ h2 {
 	padding-left:38px;
 }
 
-#aGraph, #mGraph, #oGraph {
+#aGraph, #phmonongahelaGraph, #oGraph {
 	border: 1px solid blue;
-	width:240px;
-	height:244px;
+	width:205px;
+	height:146px;
 	margin-left: 30px;
 	margin-top: 50px;
+	margin-bottom: 15px;
 }

@@ -51,7 +51,7 @@
 		</div>
 		
 		<div id="mPh">
-			<div id="mGraph"></div>
+			<div id="phmonongahelaGraph"></div>
 			<div id="monongahelaPhGauge"></div>
 			<div id="elizabethPh-gauge-label"><p></p></div>
 		</div>
@@ -95,26 +95,8 @@
 
 <script>
 
-// hide graphs
-$('#mGraph').hide();
-
-//rivers
-var river1 = "acmetonia";
-var river2 = "elizabeth";
-var river3 = "ohioview";
-
-// variable to store data over time
-var alleghenyGageHeight;
-var alleghenyTemp;
-var alleghenyPh;
-
-var monongahelaGageHeight;
-var monongahelaTemp;
-var monongahelaPh;
-
-var ohioGageHeight;
-var ohioTemp;
-var ohioPh;
+var rivers = ["allegheny", "monongahela", "ohio"];
+var locations = ["acmetonia", "elizabeth", "ohioview"];
 
 var phGauges = [];
 var temperatureGauges = [];
@@ -122,9 +104,13 @@ var heightGauges = [];
 
 var status = 2; // 0,1,2 indicates on what "page" we are 6 months ago, yesterday or today
 
+// hide graphs
+$('#ph'+rivers[1]+'Graph').hide();
+
+
 function onDocumentReady() {
 
-	function createPhGauge(name, label, min, max) {
+	function createPhGauge(cssID, label) {
 		var config = {
 			size: 215,
 			label: label,
@@ -134,15 +120,15 @@ function onDocumentReady() {
 			majorTicks: 15
 		}
 						
-		phGauges[name] = new PhGauge(name + "PhGauge", config);
-		phGauges[name].render();
+		phGauges[cssID] = new PhGauge(cssID + "PhGauge", config);
+		phGauges[cssID].render();
 	}
 
 	createPhGauge("allegheny");
 	createPhGauge("monongahela");
 	createPhGauge("ohio");
 
-	function createTemperatureGauge(name){
+	function createTemperatureGauge(cssID){
 		var config = {
 			size: 210,
 			min: 30,
@@ -152,8 +138,8 @@ function onDocumentReady() {
 			transitionMs: 3000
 		}
 						
-		temperatureGauges[name] = new TemperatureGauge(name + "TempGauge", config);
-		temperatureGauges[name].render();
+		temperatureGauges[cssID] = new TemperatureGauge(cssID + "TempGauge", config);
+		temperatureGauges[cssID].render();
 	}
 
 	createTemperatureGauge("allegheny");
@@ -161,7 +147,7 @@ function onDocumentReady() {
 	createTemperatureGauge("ohio");
 
 
-	function createheightGauge(name, label, fl) {
+	function createheightGauge(cssID, label, fl) {
 		var config = {
 			size: 230,
 			label: label,
@@ -169,8 +155,8 @@ function onDocumentReady() {
 			floodLevel: fl
 		}
 						
-		heightGauges[name] = new HeightGauge(name + "HeightGauge", config);
-		heightGauges[name].render();
+		heightGauges[cssID] = new HeightGauge(cssID + "HeightGauge", config);
+		heightGauges[cssID].render();
 	}
 
 	createheightGauge("allegheny", "allegheny", 17);
@@ -180,13 +166,13 @@ function onDocumentReady() {
 	/*
 	 * updates gauges from locally saved json data
 	 */
-	function updateGauges(location, time){
-
-		//console.log(location+" "+time);
-		var riverData = "riverData/"+location+"PA-IV-"+time+".json";
-
+	function updateGauges(l, time){
+	
+		var riverData = "riverData/"+rivers[l]+"PA-IV-"+time+".json";
+	
 		$.getJSON( riverData, function( data ) { 
-			updateRiverGauges(data, location, time);
+			updateRiverGauges(data, l, time);
+				//console.log(data);
 				//console.log(location + ": json data UI:30sec (no internet connection)");
 		}).fail(function( jqxhr, textStatus, error ) {
 			var err = textStatus + ", " + error;
@@ -194,25 +180,25 @@ function onDocumentReady() {
 		});
 	}
 	
-	// initial reading values
-	// getIVdata("acmetonia");
-	// getIVdata("elizabeth");
-	// getIVdata("ohioview");
+	//initial reading values
+	getIVdata(rivers[0]);
+	getIVdata(rivers[1]);
+	getIVdata(rivers[2]);
 
-	updateGauges(river1, status);
-	updateGauges(river2, status);
-	updateGauges(river3, status);
+	updateGauges(0, status);
+	updateGauges(1, status);
+	updateGauges(2, status);
 
 	// every few minutes update reading values
 	setInterval(function() {
-		updateGauges(river1, status);
-		updateGauges(river2, status);
-		updateGauges(river3, status);
+		updateGauges(0, status);
+		updateGauges(1, status);
+		updateGauges(2, status);
 
 	}, 300000); // 30 minutes (1800000 millliseconds), updateInterval (300000 = 5 min)
 
 	// update the data for all gauges and labels
-	function updateRiverGauges(data, location, dateValue){
+	function updateRiverGauges(data, l, dateValue){
 
 		var dv = dateValue;
 		//console.log(location+": " + dv);
@@ -229,82 +215,18 @@ function onDocumentReady() {
 
 		temp = convertCtoF(temp);
 
-		
-		//update gauges
-		switch(location){
-			case "acmetonia":
-				phGauges["allegheny"].reset(1);
-				phGauges["allegheny"].redraw(ph);
-				temperatureGauges["allegheny"].redraw(temp);
-				heightGauges["allegheny"].reset(1);
-				heightGauges["allegheny"].redraw(gageHeight);
-				break;
-			case "elizabeth":
-				phGauges["monongahela"].reset(1);
-				phGauges["monongahela"].redraw(ph);
-				temperatureGauges["monongahela"].redraw(temp);
-				heightGauges["monongahela"].reset(1);
-				heightGauges["monongahela"].redraw(gageHeight);
-				break;
-			case "ohioview":
-				phGauges["ohio"].reset(1);
-				phGauges["ohio"].redraw(ph);
-				temperatureGauges["ohio"].redraw(temp);
-				heightGauges["ohio"].reset(1);
-				heightGauges["ohio"].redraw(gageHeight);
-				break;
-		}
-		//console.error(formatDateToDisplay(phTime));
+		phGauges[rivers[l]].reset(1);
+		phGauges[rivers[l]].redraw(ph);
+		temperatureGauges[rivers[l]].redraw(temp);
+		heightGauges[rivers[l]].reset(1);
+		heightGauges[rivers[l]].redraw(gageHeight);
 
-		$('#'+location+'Ph-gauge-label p').remove();
-		$('#'+location+'Temp-gauge-label p').remove();
-		$('#'+location+'Height-gauge-label p').remove();
-		$('#'+location+'Ph-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(phTime)+ ' at: ' + formatTimeToDisplay(phTime)+'</p>');
-		$('#'+location+'Temp-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(tempTime)+ ' at: ' + formatTimeToDisplay(tempTime)+'</p>');
-		$('#'+location+'Height-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(gageHeightTime)+ ' at: ' + formatTimeToDisplay(gageHeightTime)+'</p>');
-
-		// save values in case resonse is 0
-		storeData(temp, gageHeight, ph, tempTime, gageHeightTime, phTime, location);
-
-		updateInterval = 3000;//900000; // 15 min
-		//console.log(location + ": last updated PH at"+ phTime + ", " + gageHeight);
-	}
-
-	// stores the last retreived water data from the request in case it cannot be updated.
-	function storeData(temp, gageHeight, ph, ttime, htime, phtime, location){
-
-		switch(location){
-			case "acmetonia":
-				alleghenyPh = ph;
-				alleghenyTemp = temp;
-				alleghenyGageHeight = gageHeight;
-
-				aTempTime = ttime;
-				aGageHeightTime = htime;
-				aPhTime = phtime;
-
-				break;
-			case "elizabeth":
-				monongahelaPh = ph;
-				monongahelaTemp = temp;
-				monongahelaGageHeight = gageHeight;
-
-				mTempTime = ttime;
-				mGageHeightTime = htime;
-				mPhTime = phtime;
-
-				break;
-			case "ohioview":
-				ohioPh = ph;
-				ohioTemp = temp;
-				ohioGageHeight = gageHeight;
-
-				oTempTime = ttime;
-				oGageHeightTime = htime;
-				oPhTime = phtime;
-
-				break;
-		}
+		$('#'+locations[l]+'Ph-gauge-label p').remove();
+		$('#'+locations[l]+'Temp-gauge-label p').remove();
+		$('#'+locations[l]+'Height-gauge-label p').remove();
+		$('#'+locations[l]+'Ph-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(phTime)+ ' at: ' + formatTimeToDisplay(phTime)+'</p>');
+		$('#'+locations[l]+'Temp-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(tempTime)+ ' at: ' + formatTimeToDisplay(tempTime)+'</p>');
+		$('#'+locations[l]+'Height-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(gageHeightTime)+ ' at: ' + formatTimeToDisplay(gageHeightTime)+'</p>');
 	}
 
 	// capitalizes the first Letter of the string
@@ -369,27 +291,26 @@ function onDocumentReady() {
 	var isShowing;
 
 	// switch between graph and gauge
-	$('#monongahelaPhGauge').click(function() {
-		$( "#mGraph" ).show();
-		$("#monongahelaPhGauge").hide();
+	$('#'+rivers[1]+'PhGauge').click(function() {
+		$( "#ph"+rivers[1]+"Graph" ).show();
+		$('#'+rivers[1]+'PhGauge').hide();
 	});
 
-	$('#mGraph').click(function() {
-		$("#monongahelaPhGauge").show();
-		$( "#mGraph" ).hide();
+	$('#ph'+rivers[1]+'Graph').click(function() {
+		$('#'+rivers[1]+'PhGauge').show();
+		$( "#ph"+rivers[1]+"Graph" ).hide();
 	});
 
 	$('#leftButton').click(function() {
 		
-		status--;
-		if(status < 0) status = 0;
 		if(status > 2) status = 2;
+		status--;		
 
 		$('#rightButton').show();
 
 		switch(parseInt(status)){
 			case 0: // 6 months ago
-				$('#day').html("<h2>6 months ago</h2>");
+				$('#day').html("<h2>4 months ago</h2>");
 				$('#leftButton').css("opacity", .3);
 				break;
 			case 1: // yesterday
@@ -402,21 +323,25 @@ function onDocumentReady() {
 				$('#leftButton').css("opacity", 1);
 				break;
 			default:
-				console.error("problem updating gauges");
+				// console.error("problem updating gauges");
 				break;	
 		}
-		if(status < 2){
-			updateGauges(river1, status);
-			updateGauges(river2, status);
-			updateGauges(river3, status);
+
+		//console.log(status);
+		if(status >= 0){
+			updateGauges(0, status);
+			updateGauges(1, status);
+			updateGauges(2, status);
+
+			$('#'+rivers[1]+'PhGauge').show();
+			$( "#ph"+rivers[1]+"Graph" ).hide();
 		}
 	});
 
 	$('#rightButton').click(function() {
 		
-		status++;
 		if(status < 0) status = 0;
-		//if(status > 2) status = 2;
+		status++;
 
 		$('#leftButton').show();
 
@@ -438,10 +363,14 @@ function onDocumentReady() {
 				//alert("none of the above");
 				break;
 		}
-		if(status < 2){
-			updateGauges(river1, status);
-			updateGauges(river2, status);
-			updateGauges(river3, status);
+		//console.log(status);
+		if(status < 3){
+			updateGauges(0, status);
+			updateGauges(1, status);
+			updateGauges(2, status);
+
+			$('#'+rivers[1]+'PhGauge').show();
+			$( "#ph"+rivers[1]+"Graph" ).hide();
 		}
 	});
 }
