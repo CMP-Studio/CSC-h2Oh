@@ -5,6 +5,7 @@
     
     /* RIVERS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
     $locations = array("allegheny", "monongahela", "ohio");
+    $sites = array("03049640", "03075070", "03108490");
     //24 hrs in milliseconds: 86400000
 
     date_default_timezone_set('America/New_York');
@@ -152,7 +153,7 @@
         case "allegheny":
           $url = "http://nwis.waterservices.usgs.gov/nwis/iv/?format=json&sites=03049640&modifiedSince=PT2H&parameterCd=00010,00065,00400".$date;
           break;
-        case "monongahela":
+        case "monongahela": // 394337079544201 //03075070
           $url = "http://nwis.waterservices.usgs.gov/nwis/iv/?format=json&sites=03075070&modifiedSince=PT2H&parameterCd=00010,00065,00400".$date;
           break;
         case "ohio":

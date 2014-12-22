@@ -33,13 +33,13 @@
 		</div>
 
 		<div id="alleghenyPhGauge"></div>
-		<div id="acmetoniaPh-gauge-label"><p></p></div>
+		<div id="acmetoniaPh-gauge-label"><p>Readings from:</p></div>
 
 		<div id="alleghenyTempGauge"></div>
-		<div id="acmetoniaTemp-gauge-label"><p></p></div>
+		<div id="acmetoniaTemp-gauge-label"><p>Readings from:</p></div>
 
 		<div id="alleghenyHeightGauge"></div>
-		<div id="acmetoniaHeight-gauge-label"><p></p></div>
+		<div id="acmetoniaHeight-gauge-label"><p>Readings from:</p></div>
 	</div>
 
 
@@ -53,14 +53,14 @@
 		<div id="mPh">
 			<div id="phmonongahelaGraph"></div>
 			<div id="monongahelaPhGauge"></div>
-			<div id="elizabethPh-gauge-label"><p></p></div>
+			<div id="elizabethPh-gauge-label"><p>Readings from:</p></div>
 		</div>
 
 		<div id="monongahelaTempGauge"></div>
-		<div id="elizabethTemp-gauge-label"><p></p></div>
+		<div id="elizabethTemp-gauge-label"><p>Readings from:</p></div>
 
 		<div id="monongahelaHeightGauge"></div>
-		<div id="elizabethHeight-gauge-label"><p></p></div>
+		<div id="elizabethHeight-gauge-label"><p>Readings from:</p></div>
 	</div>
 
 
@@ -72,13 +72,13 @@
 		</div>
 
 		<div id="ohioPhGauge"></div>
-		<div id="ohioviewPh-gauge-label"><p></p></div>
+		<div id="ohioviewPh-gauge-label"><p>Readings from:Readings from:</p></div>
 
 		<div id="ohioTempGauge"></div>
-		<div id="ohioviewTemp-gauge-label"><p></p></div>
+		<div id="ohioviewTemp-gauge-label"><p>Readings from:</p></div>
 
 		<div id="ohioHeightGauge"></div>
-		<div id="ohioviewHeight-gauge-label"><p></p></div>
+		<div id="ohioviewHeight-gauge-label"><p>Readings from:</p></div>
 	</div>
 </div>
 
@@ -97,6 +97,9 @@
 
 var rivers = ["allegheny", "monongahela", "ohio"];
 var locations = ["acmetonia", "elizabeth", "ohioview"];
+var values = [{ph:'7', phTime:'15:00', temp:'7', tempTime: '15:00', height:'7', heightTime:'15:00'},
+			  {ph:'7', phTime:'15:00', temp:'7', tempTime: '15:00', height:'7', heightTime:'15:00'},
+			  {ph:'7', phTime:'15:00', temp:'7', tempTime: '15:00', height:'7', heightTime:'15:00'}];
 
 var phGauges = [];
 var temperatureGauges = [];
@@ -202,31 +205,45 @@ function onDocumentReady() {
 
 		var dv = dateValue;
 		//console.log(location+": " + dv);
+		var idTemperature, idPh, idHeight;
 
-		// get data from json response
-		temp = data.value.timeSeries[0].values[0].value[0].value;
-		tempTime = data.value.timeSeries[0].values[0].value[0].dateTime;
-		gageHeight = data.value.timeSeries[1].values[0].value[0].value;
-		gageHeightTime = data.value.timeSeries[1].values[0].value[0].dateTime;
-		ph = data.value.timeSeries[2].values[0].value[0].value;
-		phTime = data.value.timeSeries[2].values[0].value[0].dateTime;
-
-		//console.log("temp:"+temp+" tempTime:"+tempTime+" gageHeight:"+gageHeight+" gageHeightTime:"+gageHeightTime+" ph:"+ph+" phTime:"+phTime);
-
-		temp = convertCtoF(temp);
+		// check if all 3 values were received and set id to access the arrays and update values array with values from json file
+		for (var i=0; i < data.value.timeSeries.length; i++) {
+			switch(data.value.timeSeries[i].name.substr(data.value.timeSeries[0].name.length - 9).substr(0,3)){
+				case '400': // PH
+					idPh = i;
+					values[l].ph = data.value.timeSeries[idPh].values[0].value[0].value;
+					values[l].phTime = data.value.timeSeries[idPh].values[0].value[0].dateTime;
+					break;	
+				case '010': // temperature
+					idTemperature = i;
+					values[l].temp = data.value.timeSeries[idTemperature].values[0].value[0].value;
+					values[l].tempTime = data.value.timeSeries[idTemperature].values[0].value[0].dateTime;
+					break;
+				case '065': // Gauge Height
+					idHeight = i;
+					values[l].height = data.value.timeSeries[idHeight].values[0].value[0].value;
+					values[l].heightTime = data.value.timeSeries[idHeight].values[0].value[0].dateTime;
+					break;
+			}
+		};
 
 		phGauges[rivers[l]].reset(1);
-		phGauges[rivers[l]].redraw(ph);
-		temperatureGauges[rivers[l]].redraw(temp);
-		heightGauges[rivers[l]].reset(1);
-		heightGauges[rivers[l]].redraw(gageHeight);
-
+		phGauges[rivers[l]].redraw(values[l].ph);
 		$('#'+locations[l]+'Ph-gauge-label p').remove();
+		$('#'+locations[l]+'Ph-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(values[l].phTime)+ ' at: ' + formatTimeToDisplay(values[l].phTime)+'</p>');
+
+		temp = convertCtoF(values[l].temp);
+		temperatureGauges[rivers[l]].redraw(temp);
 		$('#'+locations[l]+'Temp-gauge-label p').remove();
+		$('#'+locations[l]+'Temp-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(values[l].tempTime)+ ' at: ' + formatTimeToDisplay(values[l].tempTime)+'</p>');
+
+		heightGauges[rivers[l]].reset(1);
+		heightGauges[rivers[l]].redraw(values[l].height);
 		$('#'+locations[l]+'Height-gauge-label p').remove();
-		$('#'+locations[l]+'Ph-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(phTime)+ ' at: ' + formatTimeToDisplay(phTime)+'</p>');
-		$('#'+locations[l]+'Temp-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(tempTime)+ ' at: ' + formatTimeToDisplay(tempTime)+'</p>');
-		$('#'+locations[l]+'Height-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(gageHeightTime)+ ' at: ' + formatTimeToDisplay(gageHeightTime)+'</p>');
+		$('#'+locations[l]+'Height-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(values[l].heightTime)+ ' at: ' + formatTimeToDisplay(values[l].heightTime)+'</p>');
+
+		//console.log("temp:"+temp+" tempTime:"+tempTime+" gageHeight:"+gageHeight+" gageHeightTime:"+gageHeightTime+" ph:"+ph+" phTime:"+phTime);
 	}
 
 	// capitalizes the first Letter of the string
