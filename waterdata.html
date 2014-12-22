@@ -32,11 +32,17 @@
 			<p>Acmetonia, PA<p>
 		</div>
 
-		<div id="alleghenyPhGauge"></div>
-		<div id="acmetoniaPh-gauge-label"><p>Readings from:</p></div>
+		<div class="aPh">
+			<div id="phalleghenyGraph"></div>
+			<div id="alleghenyPhGauge"></div>
+			<div id="acmetoniaPh-gauge-label"><p>Readings from:</p></div>
+		</div>
 
-		<div id="alleghenyTempGauge"></div>
-		<div id="acmetoniaTemp-gauge-label"><p>Readings from:</p></div>
+		<div class="aPh">
+			<div id="tempalleghenyGraph"></div>
+			<div id="alleghenyTempGauge"></div>
+			<div id="acmetoniaTemp-gauge-label"><p>Readings from:</p></div>
+		</div>
 
 		<div id="alleghenyHeightGauge"></div>
 		<div id="acmetoniaHeight-gauge-label"><p>Readings from:</p></div>
@@ -50,14 +56,17 @@
 			<p>Elizabeth, PA<p>
 		</div>
 		
-		<div id="mPh">
+		<div class="mPh">
 			<div id="phmonongahelaGraph"></div>
 			<div id="monongahelaPhGauge"></div>
 			<div id="elizabethPh-gauge-label"><p>Readings from:</p></div>
 		</div>
 
-		<div id="monongahelaTempGauge"></div>
-		<div id="elizabethTemp-gauge-label"><p>Readings from:</p></div>
+		<div class="mPh">
+			<div id="tempmonongahelaGraph"></div>
+			<div id="monongahelaTempGauge"></div>
+			<div id="elizabethTemp-gauge-label"><p>Readings from:</p></div>
+		</div>
 
 		<div id="monongahelaHeightGauge"></div>
 		<div id="elizabethHeight-gauge-label"><p>Readings from:</p></div>
@@ -71,11 +80,17 @@
 			<p>Ohioview, PA<p>
 		</div>
 
-		<div id="ohioPhGauge"></div>
-		<div id="ohioviewPh-gauge-label"><p>Readings from:Readings from:</p></div>
+		<div id="oPh">
+			<div id="phohioGraph"></div>
+			<div id="ohioPhGauge"></div>
+			<div id="ohioviewPh-gauge-label"><p>Readings from:</p></div>
+		</div>
 
-		<div id="ohioTempGauge"></div>
-		<div id="ohioviewTemp-gauge-label"><p>Readings from:</p></div>
+		<div id="oPh">
+			<div id="tempohioGraph"></div>
+			<div id="ohioTempGauge"></div>
+			<div id="ohioviewTemp-gauge-label"><p>Readings from:</p></div>
+		</div>
 
 		<div id="ohioHeightGauge"></div>
 		<div id="ohioviewHeight-gauge-label"><p>Readings from:</p></div>
@@ -93,13 +108,16 @@
 <script type="text/javascript" src="js/temperatureGauge.js"></script>
 <script type="text/javascript" src="js/heightGauge.js"></script>
 
+<script type="text/javascript" src="js/dailyGraph.js"></script>
+<!-- <script type="text/javascript" src="js/instantGraph.js"></script> -->
+
 <script>
 
 var rivers = ["allegheny", "monongahela", "ohio"];
 var locations = ["acmetonia", "elizabeth", "ohioview"];
-var values = [{ph:'7', phTime:'15:00', temp:'7', tempTime: '15:00', height:'7', heightTime:'15:00'},
-			  {ph:'7', phTime:'15:00', temp:'7', tempTime: '15:00', height:'7', heightTime:'15:00'},
-			  {ph:'7', phTime:'15:00', temp:'7', tempTime: '15:00', height:'7', heightTime:'15:00'}];
+var values = [{ph:'7.6', phTime:'15:00', temp:'4', tempTime: '15:00', height:'12.12', heightTime:'15:00'},
+			  {ph:'7.6', phTime:'15:00', temp:'7', tempTime: '15:00', height:'11.93', heightTime:'15:00'},
+			  {ph:'7.6', phTime:'15:00', temp:'6', tempTime: '15:00', height:'12.51', heightTime:'15:00'}];
 
 var phGauges = [];
 var temperatureGauges = [];
@@ -108,10 +126,17 @@ var heightGauges = [];
 var status = 2; // 0,1,2 indicates on what "page" we are 6 months ago, yesterday or today
 
 // hide graphs
+$('#ph'+rivers[0]+'Graph').hide();
 $('#ph'+rivers[1]+'Graph').hide();
+$('#ph'+rivers[2]+'Graph').hide();
 
+$('#temp'+rivers[0]+'Graph').hide();
+$('#temp'+rivers[1]+'Graph').hide();
+$('#temp'+rivers[2]+'Graph').hide();
 
 function onDocumentReady() {
+
+	/* ------------ GAUGES ------------- GAUGES ------------- GAUGES ------------- */
 
 	function createPhGauge(cssID, label) {
 		var config = {
@@ -150,7 +175,7 @@ function onDocumentReady() {
 	createTemperatureGauge("ohio");
 
 
-	function createheightGauge(cssID, label, fl) {
+	function createHeightGauge(cssID, label, fl) {
 		var config = {
 			size: 230,
 			label: label,
@@ -162,13 +187,21 @@ function onDocumentReady() {
 		heightGauges[cssID].render();
 	}
 
-	createheightGauge("allegheny", "allegheny", 17);
-	createheightGauge("monongahela", "monongahela", 20);
-	createheightGauge("ohio", "ohio", 33);
+	createHeightGauge("allegheny", "allegheny", 17);
+	createHeightGauge("monongahela", "monongahela", 20);
+	createHeightGauge("ohio", "ohio", 33);
 
-	/*
-	 * updates gauges from locally saved json data
-	 */
+
+	//initial reading values
+	// getIVdata(rivers[0]);
+	// getIVdata(rivers[1]);
+	// getIVdata(rivers[2]);
+
+	updateGauges(0, status);
+	updateGauges(1, status);
+	updateGauges(2, status);
+
+	//updates gauges from locally saved json data
 	function updateGauges(l, time){
 	
 		var riverData = "riverData/"+rivers[l]+"PA-IV-"+time+".json";
@@ -182,23 +215,6 @@ function onDocumentReady() {
 			console.error( "Problem with local data: " + err);
 		});
 	}
-	
-	//initial reading values
-	getIVdata(rivers[0]);
-	getIVdata(rivers[1]);
-	getIVdata(rivers[2]);
-
-	updateGauges(0, status);
-	updateGauges(1, status);
-	updateGauges(2, status);
-
-	// every few minutes update reading values
-	setInterval(function() {
-		updateGauges(0, status);
-		updateGauges(1, status);
-		updateGauges(2, status);
-
-	}, 300000); // 30 minutes (1800000 millliseconds), updateInterval (300000 = 5 min)
 
 	// update the data for all gauges and labels
 	function updateRiverGauges(data, l, dateValue){
@@ -305,18 +321,6 @@ function onDocumentReady() {
 	  });
 	  return false;
 	}
-	var isShowing;
-
-	// switch between graph and gauge
-	$('#'+rivers[1]+'PhGauge').click(function() {
-		$( "#ph"+rivers[1]+"Graph" ).show();
-		$('#'+rivers[1]+'PhGauge').hide();
-	});
-
-	$('#ph'+rivers[1]+'Graph').click(function() {
-		$('#'+rivers[1]+'PhGauge').show();
-		$( "#ph"+rivers[1]+"Graph" ).hide();
-	});
 
 	$('#leftButton').click(function() {
 		
@@ -350,8 +354,7 @@ function onDocumentReady() {
 			updateGauges(1, status);
 			updateGauges(2, status);
 
-			$('#'+rivers[1]+'PhGauge').show();
-			$( "#ph"+rivers[1]+"Graph" ).hide();
+			resetGraphToGauge();
 		}
 	});
 
@@ -386,10 +389,145 @@ function onDocumentReady() {
 			updateGauges(1, status);
 			updateGauges(2, status);
 
-			$('#'+rivers[1]+'PhGauge').show();
-			$( "#ph"+rivers[1]+"Graph" ).hide();
+			resetGraphToGauge();
 		}
 	});
+
+	// every few minutes update reading values
+	setInterval(function() {
+		updateGauges(0, status);
+		updateGauges(1, status);
+		updateGauges(2, status);
+	}, 300000); // 30 minutes (1800000 millliseconds), updateInterval (300000 = 5 min)
+
+
+	/* ----------- GRAPHS -------------- GRAPHS ------------- GRAPHS ------------- */
+
+	function createDailyGraph(cssID, type, location, min, max) {
+
+		var newData = [];
+		var parseDate = d3.time.format("%Y-%m-%d").parse;
+
+		d3.json("riverData/"+location+"PA-DV.json", function(error, data) {
+
+            var graphData = data.value.timeSeries[type].values[0].value;            
+
+            if(graphData.length > 70){
+	            for (var i = 0; i < graphData.length; i += 5){
+	                var dateString = graphData[i].dateTime;
+	                var newDataObject = {};
+	                dateString = dateString.substring(0,10);
+	                newData.push({date:parseDate(dateString), value:graphData[i].value});
+	            }
+	            newData.push({date:parseDate(dateString), value:graphData[graphData.length-1].value});
+	        } else {
+	        	graphData.forEach(function(d) {
+	                var dateString = d.dateTime;
+	                var newDataObject = {};
+	                dateString = dateString.substring(0,10);
+	                newData.push({date:parseDate(dateString), value:d.value});
+            	});
+	        }
+
+            var config = {
+	        	min: min,
+	        	max: max,
+				data: newData
+			}
+						
+			phGauges[cssID] = new DailyGraph(cssID, config);
+			phGauges[cssID].render();
+
+        });
+	}
+
+	function resetGraphToGauge(){
+		for(var i=0; i<rivers.length; i++){
+			$('#'+rivers[i]+'PhGauge').show();
+			$( "#ph"+rivers[i]+"Graph" ).hide();
+
+			$('#'+rivers[i]+'TempGauge').show();
+			$( "#temp"+rivers[i]+"Graph" ).hide();
+		}
+	}
+
+	createDailyGraph("phalleghenyGraph", 5, rivers[0], 6.8, 9);
+	createDailyGraph("phmonongahelaGraph", 5, rivers[1], 6.8, 9);
+	createDailyGraph("phohioGraph", 3, rivers[2], 6.8, 9);
+
+	createDailyGraph("tempalleghenyGraph", 2, rivers[0], -1, 33);
+	createDailyGraph("tempmonongahelaGraph", 2, rivers[1], -1, 33);
+	createDailyGraph("tempohioGraph", 2, rivers[2], -1, 33);
+
+	// PH
+	$('#'+rivers[0]+'PhGauge').click(function() {
+		$( "#ph"+rivers[0]+"Graph" ).show();
+		$('#'+rivers[0]+'PhGauge').hide();
+		$('#'+locations[0]+'Ph-gauge-label p').hide();
+	});
+	$('#ph'+rivers[0]+'Graph').click(function() {
+		$('#'+rivers[0]+'PhGauge').show();
+		$( "#ph"+rivers[0]+"Graph" ).hide();
+		$('#'+locations[0]+'Ph-gauge-label p').show();
+	});
+
+	$('#'+rivers[1]+'PhGauge').click(function() {
+		$( "#ph"+rivers[1]+"Graph" ).show();
+		$('#'+rivers[1]+'PhGauge').hide();
+		$('#'+locations[1]+'Ph-gauge-label p').hide();
+	});
+	$('#ph'+rivers[1]+'Graph').click(function() {
+		$('#'+rivers[1]+'PhGauge').show();
+		$( "#ph"+rivers[1]+"Graph" ).hide();
+		$('#'+locations[1]+'Ph-gauge-label p').show();
+	});
+
+	$('#'+rivers[2]+'PhGauge').click(function() {
+		$( "#ph"+rivers[2]+"Graph" ).show();
+		$('#'+rivers[2]+'PhGauge').hide();
+		$('#'+locations[2]+'Ph-gauge-label p').hide();
+	});
+	$('#ph'+rivers[2]+'Graph').click(function() {
+		$('#'+rivers[2]+'PhGauge').show();
+		$( "#ph"+rivers[2]+"Graph" ).hide();
+		$('#'+locations[2]+'Ph-gauge-label p').show();
+	});
+
+	// TEMPERATURES
+	$('#'+rivers[0]+'TempGauge').click(function() {
+		$( "#temp"+rivers[0]+"Graph" ).show();
+		$('#'+rivers[0]+'TempGauge').hide();
+		$('#'+locations[0]+'Temp-gauge-label p').hide();
+	});
+	$('#temp'+rivers[0]+'Graph').click(function() {
+		$('#'+rivers[0]+'TempGauge').show();
+		$( "#temp"+rivers[0]+"Graph" ).hide();
+		$('#'+locations[0]+'Temp-gauge-label p').show();
+	});
+
+	$('#'+rivers[1]+'TempGauge').click(function() {
+		$( "#temp"+rivers[1]+"Graph" ).show();
+		$('#'+rivers[1]+'TempGauge').hide();
+		$('#'+locations[1]+'Temp-gauge-label p').hide();
+	});
+	$('#temp'+rivers[1]+'Graph').click(function() {
+		$('#'+rivers[1]+'TempGauge').show();
+		$( "#temp"+rivers[1]+"Graph" ).hide();
+		$('#'+locations[1]+'Temp-gauge-label p').show();
+	});
+
+	$('#'+rivers[2]+'TempGauge').click(function() {
+		$( "#temp"+rivers[2]+"Graph" ).show();
+		$('#'+rivers[2]+'TempGauge').hide();
+		$('#'+locations[2]+'Temp-gauge-label p').hide();
+	});
+	$('#temp'+rivers[2]+'Graph').click(function() {
+		$('#'+rivers[2]+'TempGauge').show();
+		$( "#temp"+rivers[2]+"Graph" ).hide();
+		$('#'+locations[2]+'Temp-gauge-label p').show();
+	});
+
+	
 }
 
 if ( !window.isLoaded ) {

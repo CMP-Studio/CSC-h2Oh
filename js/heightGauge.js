@@ -39,7 +39,7 @@ function HeightGauge(placeholderName, configuration)
 	{
 		this.body = d3.select("#" + this.placeholderName)
 							.append("svg:svg")
-							.attr("class", "temperatureGauge")
+							.attr("class", "heightGauge")
 							.attr("width", this.config.size)
 							.attr("height", this.config.size);
 
@@ -191,7 +191,6 @@ function HeightGauge(placeholderName, configuration)
 		pointerContainer.selectAll("text")
 			.text(fillHeight)
 			.attr("y",  this.config.size / 2.5 );
-
 	}
 
 	// initialization

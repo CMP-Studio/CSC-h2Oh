@@ -120,11 +120,32 @@ h2 {
 	padding-left:38px;
 }
 
-#aGraph, #phmonongahelaGraph, #oGraph {
-	border: 1px solid blue;
-	width:205px;
-	height:146px;
-	margin-left: 30px;
-	margin-top: 50px;
-	margin-bottom: 15px;
+#phalleghenyGraph, #phmonongahelaGraph, #phohioGraph {
+	margin-left: -5px;
+	margin-bottom: 51px;
+}
+
+#tempalleghenyGraph, #tempmonongahelaGraph, #tempohioGraph {
+	margin-left: -5px;
+	margin-bottom: 47px;
+}
+
+svg { font: 0.6em Arial;}
+
+path.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+path.area {
+  fill: #e7e7e7;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #d3d3d3;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
 }
