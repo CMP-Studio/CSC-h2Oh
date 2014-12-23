@@ -120,8 +120,9 @@
           echo 'Error retrieving: ' . $url;
           exit;
         } else {
-          echo("fetching river data ".$l." <br /> ");
+          echo("fetching river data ".$l." for: ".$i."<br /> ");
           saveJson($riverData, $l, $i);
+          // if($i == 2) saveGaugeHeight($riverData, $l);
         }
       }
     }
@@ -183,6 +184,12 @@
         break;
     }
   }
+
+  // function saveGaugeHeight($data, $location){
+  //   $heightValue = json_decode($data);
+  //   var_dump($heightValue);
+  //   echo("--------- <br /> <br />");
+  // }
 
 ?>
 

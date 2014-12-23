@@ -44,8 +44,11 @@
 			<div id="acmetoniaTemp-gauge-label"><p>Readings from:</p></div>
 		</div>
 
-		<div id="alleghenyHeightGauge"></div>
-		<div id="acmetoniaHeight-gauge-label"><p>Readings from:</p></div>
+		<div class="aPh">
+			<div id="heightalleghenyGraph"></div>
+			<div id="alleghenyHeightGauge"></div>
+			<div id="acmetoniaHeight-gauge-label"><p>Readings from:</p></div>
+		</div>
 	</div>
 
 
@@ -68,8 +71,11 @@
 			<div id="elizabethTemp-gauge-label"><p>Readings from:</p></div>
 		</div>
 
-		<div id="monongahelaHeightGauge"></div>
-		<div id="elizabethHeight-gauge-label"><p>Readings from:</p></div>
+		<div class="mPh">
+			<div id="heightmonongahelaGraph"></div>
+			<div id="monongahelaHeightGauge"></div>
+			<div id="elizabethHeight-gauge-label"><p>Readings from:</p></div>
+		</div>
 	</div>
 
 
@@ -92,8 +98,11 @@
 			<div id="ohioviewTemp-gauge-label"><p>Readings from:</p></div>
 		</div>
 
-		<div id="ohioHeightGauge"></div>
-		<div id="ohioviewHeight-gauge-label"><p>Readings from:</p></div>
+		<div id="oPh">
+			<div id="heightohioGraph"></div>
+			<div id="ohioHeightGauge"></div>
+			<div id="ohioviewHeight-gauge-label"><p>Readings from:</p></div>
+		</div>
 	</div>
 </div>
 
@@ -133,6 +142,10 @@ $('#ph'+rivers[2]+'Graph').hide();
 $('#temp'+rivers[0]+'Graph').hide();
 $('#temp'+rivers[1]+'Graph').hide();
 $('#temp'+rivers[2]+'Graph').hide();
+
+$('#height'+rivers[0]+'Graph').hide();
+$('#height'+rivers[1]+'Graph').hide();
+$('#height'+rivers[2]+'Graph').hide();
 
 function onDocumentReady() {
 
@@ -192,22 +205,23 @@ function onDocumentReady() {
 	createHeightGauge("ohio", "ohio", 33);
 
 
+
 	//initial reading values
 	// getIVdata(rivers[0]);
 	// getIVdata(rivers[1]);
 	// getIVdata(rivers[2]);
 
-	updateGauges(0, status);
-	updateGauges(1, status);
-	updateGauges(2, status);
+	updateGauges(0, status, "auto");
+	updateGauges(1, status, "auto");
+	updateGauges(2, status, "auto");
 
 	//updates gauges from locally saved json data
-	function updateGauges(l, time){
+	function updateGauges(l, time, refreshType){
 	
 		var riverData = "riverData/"+rivers[l]+"PA-IV-"+time+".json";
 	
 		$.getJSON( riverData, function( data ) { 
-			updateRiverGauges(data, l, time);
+			updateRiverGauges(data, l, time, refreshType);
 				//console.log(data);
 				//console.log(location + ": json data UI:30sec (no internet connection)");
 		}).fail(function( jqxhr, textStatus, error ) {
@@ -217,11 +231,14 @@ function onDocumentReady() {
 	}
 
 	// update the data for all gauges and labels
-	function updateRiverGauges(data, l, dateValue){
+	function updateRiverGauges(data, l, dateValue, refreshType){
 
 		var dv = dateValue;
 		//console.log(location+": " + dv);
 		var idTemperature, idPh, idHeight;
+		var refreshType = refreshType;
+		var parseDate = d3.time.format("%Y-%m-%d").parse;
+
 
 		// check if all 3 values were received and set id to access the arrays and update values array with values from json file
 		for (var i=0; i < data.value.timeSeries.length; i++) {
@@ -240,6 +257,13 @@ function onDocumentReady() {
 					idHeight = i;
 					values[l].height = data.value.timeSeries[idHeight].values[0].value[0].value;
 					values[l].heightTime = data.value.timeSeries[idHeight].values[0].value[0].dateTime;
+					if(refreshType.localeCompare("auto") == 0){
+						dateString = values[l].heightTime;
+						dateString = dateString.substring(0,10);
+						//console.log("update gauges: "+dateString);
+						var ghData = dateString + "," + values[l].height;
+						saveGaugeHeight(rivers[l], ghData);
+					}
 					break;
 			}
 		};
@@ -322,6 +346,23 @@ function onDocumentReady() {
 	  return false;
 	}
 
+	// handles the click event, sends the query
+	function saveGaugeHeight(location, gaugeHeightData) {
+
+	   $.ajax({
+	   	  type: "POST",
+	      url:'php/saveGaugeHeight.php',
+	      data: {ghData: gaugeHeightData, loc:location},
+	      complete: function (response) {
+	          console.log(location + ": added gauge height and saved file");
+	      },
+	      error: function () {
+	          console.error(location + ': Bummer: there was an error!');
+	      },
+	  });
+	  return false;
+	}
+
 	$('#leftButton').click(function() {
 		
 		if(status > 2) status = 2;
@@ -350,9 +391,9 @@ function onDocumentReady() {
 
 		//console.log(status);
 		if(status >= 0){
-			updateGauges(0, status);
-			updateGauges(1, status);
-			updateGauges(2, status);
+			updateGauges(0, status, "button");
+			updateGauges(1, status, "button");
+			updateGauges(2, status, "button");
 
 			resetGraphToGauge();
 		}
@@ -385,9 +426,9 @@ function onDocumentReady() {
 		}
 		//console.log(status);
 		if(status < 3){
-			updateGauges(0, status);
-			updateGauges(1, status);
-			updateGauges(2, status);
+			updateGauges(0, status, "button");
+			updateGauges(1, status, "button");
+			updateGauges(2, status, "button");
 
 			resetGraphToGauge();
 		}
@@ -395,50 +436,84 @@ function onDocumentReady() {
 
 	// every few minutes update reading values
 	setInterval(function() {
-		updateGauges(0, status);
-		updateGauges(1, status);
-		updateGauges(2, status);
-	}, 300000); // 30 minutes (1800000 millliseconds), updateInterval (300000 = 5 min)
+		updateGauges(0, status, "auto");
+		updateGauges(1, status, "auto");
+		updateGauges(2, status, "auto");
+		resetGraphToGauge();
+	}, 3600000); // 24hrs = 86400000, 1hrs = 3600000, 30 minutes (1800000 millliseconds), updateInterval (300000 = 5 min)
 
 
 	/* ----------- GRAPHS -------------- GRAPHS ------------- GRAPHS ------------- */
 
-	function createDailyGraph(cssID, type, location, min, max) {
+	/* creates a grpah for each gauge, either from a json or a csv file */
+
+	function createDailyGraph(cssID, type, location, min, max, dataFileType) {
 
 		var newData = [];
 		var parseDate = d3.time.format("%Y-%m-%d").parse;
+		var fileType = "json";
+		var graphs = [];
+		if(dataFileType == "Gen") fileType = "csv";
+		var file = "riverData/"+location+"PA-"+dataFileType+"."+fileType;
 
-		d3.json("riverData/"+location+"PA-DV.json", function(error, data) {
+		if(fileType == "json"){
 
-            var graphData = data.value.timeSeries[type].values[0].value;            
+			d3.json(file, function(error, data) {
 
-            if(graphData.length > 70){
-	            for (var i = 0; i < graphData.length; i += 5){
-	                var dateString = graphData[i].dateTime;
-	                var newDataObject = {};
-	                dateString = dateString.substring(0,10);
-	                newData.push({date:parseDate(dateString), value:graphData[i].value});
-	            }
-	            newData.push({date:parseDate(dateString), value:graphData[graphData.length-1].value});
-	        } else {
-	        	graphData.forEach(function(d) {
-	                var dateString = d.dateTime;
-	                var newDataObject = {};
-	                dateString = dateString.substring(0,10);
-	                newData.push({date:parseDate(dateString), value:d.value});
-            	});
-	        }
+		            var graphData = data.value.timeSeries[type].values[0].value;
 
-            var config = {
-	        	min: min,
-	        	max: max,
-				data: newData
-			}
-						
-			phGauges[cssID] = new DailyGraph(cssID, config);
-			phGauges[cssID].render();
+		            if(graphData.length > 70){
+			            for (var i = 0; i < graphData.length; i += 5){
+			                var dateString = graphData[i].dateTime;
+			                var newDataObject = {};
+			                dateString = dateString.substring(0,10);
+			                newData.push({date:parseDate(dateString), value:graphData[i].value});
+			            }
+			            var dateString = graphData[graphData.length-1].dateTime;
+			            dateString = dateString.substring(0,10);
+			            newData.push({date:parseDate(dateString), value:graphData[graphData.length-1].value});
+			        } else {
+			        	graphData.forEach(function(d) {
+			                var dateString = d.dateTime;
+			                var newDataObject = {};
+			                dateString = dateString.substring(0,10);
+			                newData.push({date:parseDate(dateString), value:d.value});
+		            	});
+			        }
 
-        });
+			        //console.log(newData);
+
+		            var config = {
+			        	min: min,
+			        	max: max,
+						data: newData
+					}
+								
+					graphs[cssID] = new DailyGraph(cssID, config);
+					graphs[cssID].render();
+
+	        });
+
+		} else if(fileType == "csv") {
+
+			d3.csv(file, function(error, data) {
+
+				data.forEach(function(d) {
+		            newData.push({date:parseDate(d.date), value:d.value});
+	            });
+
+	            // console.log(newData);
+
+	            var config = {
+		        	min: min,
+		        	max: max,
+					data: newData
+				}
+
+				graphs[cssID] = new DailyGraph(cssID, config);
+				graphs[cssID].render();
+			});
+		}
 	}
 
 	function resetGraphToGauge(){
@@ -448,16 +523,23 @@ function onDocumentReady() {
 
 			$('#'+rivers[i]+'TempGauge').show();
 			$( "#temp"+rivers[i]+"Graph" ).hide();
+
+			$('#'+rivers[i]+'HeightGauge').show();
+			$( "#height"+rivers[i]+"Graph" ).hide();
 		}
 	}
+					//cssID, type, location, min, max, dataFileType)
+	createDailyGraph("phalleghenyGraph", 5, rivers[0], 6.8, 9, "DV"); // DV or Gen
+	createDailyGraph("phmonongahelaGraph", 5, rivers[1], 6.8, 9, "DV"); // DV or Gen
+	createDailyGraph("phohioGraph", 3, rivers[2], 6.8, 9, "DV"); // DV or Gen
 
-	createDailyGraph("phalleghenyGraph", 5, rivers[0], 6.8, 9);
-	createDailyGraph("phmonongahelaGraph", 5, rivers[1], 6.8, 9);
-	createDailyGraph("phohioGraph", 3, rivers[2], 6.8, 9);
+	createDailyGraph("tempalleghenyGraph", 2, rivers[0], -1, 33, "DV"); // DV or Gen
+	createDailyGraph("tempmonongahelaGraph", 2, rivers[1], -1, 33, "DV"); // DV or Gen
+	createDailyGraph("tempohioGraph", 2, rivers[2], -1, 33, "DV"); // DV or Gen
 
-	createDailyGraph("tempalleghenyGraph", 2, rivers[0], -1, 33);
-	createDailyGraph("tempmonongahelaGraph", 2, rivers[1], -1, 33);
-	createDailyGraph("tempohioGraph", 2, rivers[2], -1, 33);
+	createDailyGraph("heightalleghenyGraph", 10, rivers[0], 10, 33, "Gen"); // DV or Gen
+	createDailyGraph("heightmonongahelaGraph", 10, rivers[1], 10, 33, "Gen"); // DV or Gen
+	createDailyGraph("heightohioGraph", 10, rivers[2], 10, 33, "Gen"); // DV or Gen
 
 	// PH
 	$('#'+rivers[0]+'PhGauge').click(function() {
@@ -525,6 +607,40 @@ function onDocumentReady() {
 		$('#'+rivers[2]+'TempGauge').show();
 		$( "#temp"+rivers[2]+"Graph" ).hide();
 		$('#'+locations[2]+'Temp-gauge-label p').show();
+	});
+
+	// HEIGHT
+	$('#'+rivers[0]+'HeightGauge').click(function() {
+		$( "#height"+rivers[0]+"Graph" ).show();
+		$('#'+rivers[0]+'HeightGauge').hide();
+		$('#'+locations[0]+'Height-gauge-label p').hide();
+	});
+	$('#height'+rivers[0]+'Graph').click(function() {
+		$('#'+rivers[0]+'HeightGauge').show();
+		$( "#height"+rivers[0]+"Graph" ).hide();
+		$('#'+locations[0]+'Height-gauge-label p').show();
+	});
+
+	$('#'+rivers[1]+'HeightGauge').click(function() {
+		$( "#height"+rivers[1]+"Graph" ).show();
+		$('#'+rivers[1]+'HeightGauge').hide();
+		$('#'+locations[1]+'Height-gauge-label p').hide();
+	});
+	$('#height'+rivers[1]+'Graph').click(function() {
+		$('#'+rivers[1]+'HeightGauge').show();
+		$( "#height"+rivers[1]+"Graph" ).hide();
+		$('#'+locations[1]+'Height-gauge-label p').show();
+	});
+
+	$('#'+rivers[2]+'HeightGauge').click(function() {
+		$( "#height"+rivers[2]+"Graph" ).show();
+		$('#'+rivers[2]+'HeightGauge').hide();
+		$('#'+locations[2]+'Height-gauge-label p').hide();
+	});
+	$('#height'+rivers[2]+'Graph').click(function() {
+		$('#'+rivers[2]+'HeightGauge').show();
+		$( "#height"+rivers[2]+"Graph" ).hide();
+		$('#'+locations[2]+'Height-gauge-label p').show();
 	});
 
 	

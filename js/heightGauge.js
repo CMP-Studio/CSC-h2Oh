@@ -38,10 +38,10 @@ function HeightGauge(placeholderName, configuration)
 	this.render = function()
 	{
 		this.body = d3.select("#" + this.placeholderName)
-							.append("svg:svg")
-							.attr("class", "heightGauge")
-							.attr("width", this.config.size)
-							.attr("height", this.config.size);
+			.append("svg:svg")
+			.attr("class", "GaugeHeightGauge")
+			.attr("width", this.config.size)
+			.attr("height", this.config.size);
 
 		var node = this.body.selectAll(".node")
 	        .data(data)

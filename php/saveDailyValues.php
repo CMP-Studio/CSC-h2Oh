@@ -40,7 +40,7 @@
           break;
       }
 
-        /*results:
+      /*results:
        * temperature delivers 3 results, the third is the median ..003
        * gage height currently delivers no results !!!!!!
        * ph delivers 4 results, the fourth is the median ..008

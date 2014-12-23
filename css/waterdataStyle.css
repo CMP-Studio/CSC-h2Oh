@@ -130,6 +130,11 @@ h2 {
 	margin-bottom: 47px;
 }
 
+#heightalleghenyGraph, #heightmonongahelaGraph, #heightohioGraph {
+	margin-left: -5px;
+	margin-bottom: 47px;
+}
+
 svg { font: 0.6em Arial;}
 
 path.line {
