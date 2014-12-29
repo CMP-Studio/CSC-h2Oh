@@ -25,7 +25,9 @@ h3 {
 	margin-top: -15px;
 }
 
-#wrapper{}
+#wrapper{
+	margin-top: 40px;
+}
 
 
 /* -------------------------------------------------------------------------- graph */
@@ -34,7 +36,54 @@ h3 {
 	height:100px;
 	background-image: url("../images/elevation.png");
 	background-repeat: no-repeat;
+	/*position: relative;
+	float: left;*/
 }
+
+.elevation{
+	position: absolute;
+	width:20px;
+	height:20px;
+	border-radius: 10px;
+	background-color: #ff0000;
+	text-align: center;
+	color: #fff;
+	margin-top: 0px;
+}
+
+.elevation.eight{
+	margin-left: 152px;
+	margin-top: 52px;
+}
+.elevation.seven{
+	margin-left: 238px;
+	margin-top: 33px;
+}
+.elevation.six{
+	margin-left: 362px;
+	margin-top: 40px;
+}
+.elevation.five{
+	margin-left: 482px;
+	margin-top: 51px;
+}
+.elevation.four{
+	margin-left: 563px;
+	margin-top: 32px;
+}
+.elevation.three{
+	margin-left: 730px;
+	margin-top: 32px;
+}
+.elevation.two{
+	margin-left: 792px;
+	margin-top: 11px;
+}
+.elevation.one{
+	margin-left: 900px;
+	margin-top: 32px;
+}
+
 
 
 
@@ -42,9 +91,57 @@ h3 {
 #map{
 /*	border: 1px solid yellow;*/
 	height:500px;
+	width:1024px;
 	background-image: url("../images/map.png");
 	background-repeat: no-repeat;
+	position: relative;
+	float:left;
 }
+
+.riverdot{
+	position: absolute;
+	width:20px;
+	height:20px;
+	border-radius: 10px;
+	background-color: #1b75bb;
+	text-align: center;
+	color: #fff;
+	margin-top: 0px;
+}
+
+.riverdot.eight{
+	margin-left: 158px;
+	margin-top: 325px;
+}
+.riverdot.seven{
+	margin-left: 245px;
+	margin-top: 306px;
+}
+.riverdot.six{
+	margin-left: 386px;
+	margin-top: 191px;
+}
+.riverdot.five{
+	margin-left: 494px;
+	margin-top: 24px;
+}
+.riverdot.four{
+	margin-left: 572px;
+	margin-top: 67px;
+}
+.riverdot.three{
+	margin-left: 731px;
+	margin-top: 141px;
+}
+.riverdot.two{
+	margin-left: 802px;
+	margin-top: 185px;
+}
+.riverdot.one{
+	margin-left: 909px;
+	margin-top: 184px;
+}
+
 
 
 
@@ -55,7 +152,8 @@ h3 {
 	width:1024px;
 /*	background-image: url("../images/dials.png");
 	background-repeat: no-repeat;*/
-    float:left;
+/*    float:left;*/
+margin-top: 350px;
     position: relative;
 }
 
@@ -156,6 +254,7 @@ h3 {
 .one{
 	margin-left: 880px;
 }
+
 #instructions{
 	position: absolute;
 	text-align: center;
@@ -212,18 +311,18 @@ h3 {
 /* --------------------------------------------------------------------------  gauges */
 #alleghenyTempGauge, #alleghenyHeightGauge, #alleghenyPhGauge {
 	position: absolute;
-	top:410px;
-	right:500px;
+	top:440px;
+	right:495px;
 }
 
 #monongahelaTempGauge, #monongahelaPhGauge, #monongahelaHeightGauge {
 	position: absolute;
-	top:190px;
-	right:480px;
+	top:225px;
+	right:525px;
 }
 
 #ohioTempGauge, #ohioPhGauge, #ohioHeightGauge {
 	position: absolute;
-	top:280px;
-	right:660px;
+	top:300px;
+	right:670px;
 }
