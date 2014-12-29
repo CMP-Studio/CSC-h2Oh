@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=320" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<title>clock test</title>
+
+	<script type="text/javascript" src="../lib/d3.min.js"></script>
+	<script type="text/javascript" src="../lib/jquery-1.11.1.min.js"></script>
+
+</head>
+<body>
+
+	<div class="clock"></div>
+
+<script>
+
+
+function onDocumentReady() {
+
+
+var width, height, offSetX, offSetY, pi, scaleHours, configMinute, configHour;
+width = 50;
+height = width;
+offSetX = width/2.5;
+offSetY = width/2.5;
+configHour = 15;
+configMinute = 20;
+
+pi = Math.PI;
+scaleSecs = d3.scale.linear().domain([0, 59 + 999/1000]).range([0, 2 * pi]);
+scaleMins = d3.scale.linear().domain([0, 59 + 59/60]).range([0, 2 * pi]);
+scaleHours = d3.scale.linear().domain([0, 11 + 59/60]).range([0, 2 * pi]);
+
+var vis, clockGroup;
+
+vis = d3.selectAll(".clock")
+  .append("svg:svg")
+  .attr("width", width)
+  .attr("height", height);
+
+clockGroup = vis.append("svg:g")
+  .attr("transform", "translate(" + offSetX + "," + offSetY + ")");
+
+clockGroup.append("svg:circle")
+  .attr("r", width/3).attr("fill", "none")
+  .attr("class", "clock outercircle")
+  .attr("stroke", "#1b75bb")
+  .attr("stroke-width", width/100*3);
+
+clockGroup.append("svg:circle")
+  .attr("r", width/100*3)
+  .attr("fill", "#1b75bb")
+  .attr("class", "clock innercircle");
+
+var clockGroup, fields, formatHour, formatMinute, height, offSetX, offSetY, pi, render, scaleHours, scaleSecsMins, vis, width;
+
+  formatMinute = d3.time.format("%M");
+
+  formatHour = d3.time.format("%H");
+
+  fields = function() {
+    var d, data, hour, minute;
+    d = new Date();
+    minute = configMinute;//d.getMinutes();
+    hour = configHour;//d.getHours() + minute / 60;
+
+    return data = [
+      {
+        "unit": "minutes",
+        "text": formatMinute(d),
+        "numeric": minute
+      }, {
+        "unit": "hours",
+        "text": formatHour(d),
+        "numeric": hour
+      }
+    ];
+  };
+
+  scaleSecsMins = d3.scale.linear().domain([0, 59 + 59 / 60]).range([0, 2 * pi]);
+  scaleHours = d3.scale.linear().domain([0, 11 + 59 / 60]).range([0, 2 * pi]);
+
+  render = function(data) {
+    var hourArc, minuteArc;
+    clockGroup.selectAll(".clockhand").remove();
+    minuteArc = d3.svg.arc().innerRadius(0).outerRadius(width/3.7).startAngle(function(d) {
+      return scaleSecsMins(d.numeric);
+    }).endAngle(function(d) {
+      return scaleSecsMins(d.numeric);
+    });
+    hourArc = d3.svg.arc().innerRadius(0).outerRadius(width/5).startAngle(function(d) {
+      return scaleHours(d.numeric % 12);
+    }).endAngle(function(d) {
+      return scaleHours(d.numeric % 12);
+    });
+    clockGroup.selectAll(".clockhand").data(data).enter().append("svg:path").attr("d", function(d) {
+      if (d.unit === "minutes") {
+        return minuteArc(d);
+      } else if (d.unit === "hours") {
+        return hourArc(d);
+      }
+    }).attr("class", "clockhand").attr("stroke", "#1b75bb").attr("stroke-width", width/100*2).attr("fill", "none");
+  };
+
+  var data;
+  data = fields();
+  render(data);
+
+}
+
+if ( !window.isLoaded ) {
+	window.addEventListener("load", function() {
+		onDocumentReady();
+	}, false);
+} else {
+	onDocumentReady();
+}
+
+</script>
+
+</body>
+</html>

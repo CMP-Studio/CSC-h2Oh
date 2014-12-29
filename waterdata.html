@@ -207,9 +207,9 @@ function onDocumentReady() {
 
 
 	//initial reading values
-	// getIVdata(rivers[0]);
-	// getIVdata(rivers[1]);
-	// getIVdata(rivers[2]);
+	getIVdata(rivers[0]);
+	getIVdata(rivers[1]);
+	getIVdata(rivers[2]);
 
 	updateGauges(0, status, "auto");
 	updateGauges(1, status, "auto");
@@ -440,7 +440,7 @@ function onDocumentReady() {
 		updateGauges(1, status, "auto");
 		updateGauges(2, status, "auto");
 		resetGraphToGauge();
-	}, 3600000); // 24hrs = 86400000, 1hrs = 3600000, 30 minutes (1800000 millliseconds), updateInterval (300000 = 5 min)
+	}, 1800000); // 24hrs = 86400000, 1hrs = 3600000, 30 minutes (1800000 millliseconds), updateInterval (300000 = 5 min)
 
 
 	/* ----------- GRAPHS -------------- GRAPHS ------------- GRAPHS ------------- */
@@ -499,11 +499,9 @@ function onDocumentReady() {
 			d3.csv(file, function(error, data) {
 
 				data.forEach(function(d) {
-		            newData.push({date:parseDate(d.date), value:d.value});
+					newData.push({date:parseDate(d.date), value:d.value});
 	            });
-
-	            // console.log(newData);
-
+	            
 	            var config = {
 		        	min: min,
 		        	max: max,
@@ -642,8 +640,6 @@ function onDocumentReady() {
 		$( "#height"+rivers[2]+"Graph" ).hide();
 		$('#'+locations[2]+'Height-gauge-label p').show();
 	});
-
-	
 }
 
 if ( !window.isLoaded ) {

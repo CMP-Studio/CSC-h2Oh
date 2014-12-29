@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=320" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<title>data dashboard</title>
+	<!--
+	<script type="text/javascript" src="http://d3js.org/d3.v2.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	-->
+	<script type="text/javascript" src="lib/d3.min.js"></script>
+	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+
+	<link rel='stylesheet' href='css/riverEventStyle.css' type='text/css'/>
+
+</head>
+<body>
+<div id="wrapper"></div>
+	
+	<div id="elevation"></div>
+	</div>
+
+	<div id="map"></div>
+		<div id="alleghenyTempGauge"></div>
+		<div id="monongahelaTempGauge"></div>
+		<div id="ohioTempGauge"></div>
+
+		<div id="monongahelaPhGauge"></div>
+		<div id="alleghenyPhGauge"></div>
+		<div id="ohioPhGauge"></div>
+			
+		<div id="monongahelaHeightGauge"></div>
+		<div id="alleghenyHeightGauge"></div>
+		<div id="ohioHeightGauge"></div>
+	</div> <!-- map -->
+
+	<div id="dials"></div>
+		<div id="temp"> TEMP</div>
+		<div id="ph">PH</div>
+		<div id="height">GAUGE<br/>HEIGHT</div>
+		<div id="timeline"></div>
+		<div class='arrow'></div>
+		<div id="clock-eight"></div>
+		<div id="clock-seven"></div>
+		<div id="clock-six"></div>
+		<div id="clock-five"></div>
+		<div id="clock-four"></div>
+		<div id="clock-three"></div>
+		<div id="clock-two"></div>
+		<div id="clock-one"></div>
+		<div class="circleButton eight"></div>
+		<div class="circleButton seven"></div>
+		<div class="circleButton six"></div>
+		<div class="circleButton five"></div>
+		<div class="circleButton four"></div>
+		<div class="circleButton three"></div>
+		<div class="circleButton two"></div>
+		<div class="circleButton one"></div>
+		<div id="instructions">
+			<h2>Touch a dot above to track a &#145;rain event&#146; from the Laurel Highlands to Pittsburgh!</h2>
+			<h3>How does the clean rainwater affect the river - and how does the river affect the fresh water?</h3>
+		</div>
+	</div><!-- dials -->
+</div><!-- wrapper -->
+
+<script type="text/javascript" src="js/phGauge.js"></script>
+<script type="text/javascript" src="js/temperatureGauge.js"></script>
+<script type="text/javascript" src="js/heightGauge.js"></script>
+
+<script type="text/javascript" src="js/clock.js"></script>
+<!-- <script type="text/javascript" src="js/instantGraph.js"></script> -->
+
+<script>
+
+var rivers = ["allegheny", "monongahela", "ohio"];
+var locations = ["acmetonia", "elizabeth", "ohioview"];
+var values = [{ph:'7.6', phTime:'15:00', temp:'4', tempTime: '15:00', height:'12.12', heightTime:'15:00'},
+			  {ph:'7.6', phTime:'15:00', temp:'7', tempTime: '15:00', height:'11.93', heightTime:'15:00'},
+			  {ph:'7.6', phTime:'15:00', temp:'6', tempTime: '15:00', height:'12.51', heightTime:'15:00'}];
+
+var phGauges = [];
+var temperatureGauges = [];
+var heightGauges = [];
+var clocks = [];
+
+var status = 2;
+
+
+$("#monongahelaPhGauge").hide();
+$("#alleghenyPhGauge").hide();
+$("#ohioPhGauge").hide();
+			
+$("#monongahelaHeightGauge").hide();
+$("#alleghenyHeightGauge").hide();
+$("#ohioHeightGauge").hide();
+
+function onDocumentReady() {
+
+	/* ------------ GAUGES ------------- GAUGES ------------- GAUGES ------------- */
+
+	function createPhGauge(cssID, label) {
+		var config = {
+			size: 115,
+			label: label,
+			min: 0,
+			max: 14,
+			minorTicks: 1,
+			majorTicks: 15
+		}
+						
+		phGauges[cssID] = new PhGauge(cssID + "PhGauge", config);
+		phGauges[cssID].render();
+	}
+
+	createPhGauge("allegheny");
+	createPhGauge("monongahela");
+	createPhGauge("ohio");
+
+	function createTemperatureGauge(cssID){
+		var config = {
+			size: 110,
+			min: 30,
+			max: 90,
+			minorTicks: 10,
+			majorTicks: 7,
+			transitionMs: 3000
+		}
+						
+		temperatureGauges[cssID] = new TemperatureGauge(cssID + "TempGauge", config);
+		temperatureGauges[cssID].render();
+	}
+
+	createTemperatureGauge("allegheny");
+	createTemperatureGauge("monongahela");
+	createTemperatureGauge("ohio");
+
+
+	function createHeightGauge(cssID, label, fl) {
+		var config = {
+			size: 150,
+			label: label,
+			max: 34,
+			floodLevel: fl
+		}
+						
+		heightGauges[cssID] = new HeightGauge(cssID + "HeightGauge", config);
+		heightGauges[cssID].render();
+	}
+
+	createHeightGauge("allegheny", "allegheny", 17);
+	createHeightGauge("monongahela", "monongahela", 20);
+	createHeightGauge("ohio", "ohio", 33);
+
+
+	updateGauges(0, status);
+	updateGauges(1, status);
+	updateGauges(2, status);
+
+	//updates gauges from locally saved json data
+	function updateGauges(l, time, refreshType){
+	
+		var riverData = "riverData/"+rivers[l]+"PA-IV-"+time+".json";
+	
+		$.getJSON( riverData, function( data ) { 
+			updateRiverGauges(data, l, time);
+				//console.log(data);
+				//console.log(location + ": json data UI:30sec (no internet connection)");
+		}).fail(function( jqxhr, textStatus, error ) {
+			var err = textStatus + ", " + error;
+			console.error( "Problem with local data: " + err);
+		});
+	}
+
+	// update the data for all gauges and labels
+	function updateRiverGauges(data, l, dateValue){
+
+		var dv = dateValue;
+		//console.log(location+": " + dv);
+		var idTemperature, idPh, idHeight;
+		var refreshType = refreshType;
+		var parseDate = d3.time.format("%Y-%m-%d").parse;
+
+
+		// check if all 3 values were received and set id to access the arrays and update values array with values from json file
+		for (var i=0; i < data.value.timeSeries.length; i++) {
+			switch(data.value.timeSeries[i].name.substr(data.value.timeSeries[0].name.length - 9).substr(0,3)){
+				case '400': // PH
+					idPh = i;
+					values[l].ph = data.value.timeSeries[idPh].values[0].value[0].value;
+					values[l].phTime = data.value.timeSeries[idPh].values[0].value[0].dateTime;
+					break;	
+				case '010': // temperature
+					idTemperature = i;
+					values[l].temp = data.value.timeSeries[idTemperature].values[0].value[0].value;
+					values[l].tempTime = data.value.timeSeries[idTemperature].values[0].value[0].dateTime;
+					break;
+				case '065': // Gauge Height
+					idHeight = i;
+					values[l].height = data.value.timeSeries[idHeight].values[0].value[0].value;
+					values[l].heightTime = data.value.timeSeries[idHeight].values[0].value[0].dateTime;
+					break;
+			}
+		};
+
+		phGauges[rivers[l]].reset(1);
+		phGauges[rivers[l]].redraw(values[l].ph);
+
+		temp = convertCtoF(values[l].temp);
+		temperatureGauges[rivers[l]].redraw(temp);
+
+		heightGauges[rivers[l]].reset(1);
+		heightGauges[rivers[l]].redraw(values[l].height);
+
+		//console.log("temp:"+temp+" tempTime:"+tempTime+" gageHeight:"+gageHeight+" gageHeightTime:"+gageHeightTime+" ph:"+ph+" phTime:"+phTime);
+	}
+
+	// capitalizes the first Letter of the string
+	function capFirstLetter(string){
+
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+
+	// extract date to display
+	function formatDateToDisplay(string){
+		var date = string.substr(0, 10);
+
+		var year = date.substr(0, 4);
+		var month = date.substr(5,2);
+		var day = date.substr(8, 5);
+
+		date = month+"/"+day+"/"+year;
+
+		return date;
+	}
+
+	// extract time to display
+	function formatTimeToDisplay(string){
+		
+		var time = string.substr(11,5);
+		var hour = time.substr(0,2);
+		var minutes = time.substr(3,4);
+		
+		if(parseInt(hour) > 12){
+			hour = hour - 12;
+			time = hour+":"+minutes+" pm";
+		} else {
+			time = time + "am";
+		}
+		return time;
+	}
+
+	// convert C to F
+	function convertCtoF(c){
+		// (°C × 9/5) + 32
+		var f = c * 1.8 + 32;
+		f = Math.round(f*100)/100;
+		return f;
+	}
+
+	function createClocks(cssID, h, m) {
+		var config = {
+			width: 40,
+			hour:h,
+			minute:m
+		}
+						
+		clocks[cssID] = new Clock("clock-" + cssID, config);
+	}
+
+	createClocks("one", 12, 55);
+	createClocks("two", 12, 55);
+	createClocks("three", 12, 55);
+	createClocks("four", 12, 55);
+	createClocks("five", 12, 55);
+	createClocks("six", 12, 55);
+	createClocks("seven", 12, 55);
+	createClocks("eight", 12, 55);
+
+
+	$('#temp').click(function() {
+
+		$("#monongahelaTempGauge").show();
+		$("#alleghenyTempGauge").show();
+		$("#ohioTempGauge").show();
+
+		$("#monongahelaPhGauge").hide();
+		$("#alleghenyPhGauge").hide();
+		$("#ohioPhGauge").hide();
+					
+		$("#monongahelaHeightGauge").hide();
+		$("#alleghenyHeightGauge").hide();
+		$("#ohioHeightGauge").hide();
+	});
+
+	$('#ph').click(function() {
+
+		$("#monongahelaPhGauge").show();
+		$("#alleghenyPhGauge").show();
+		$("#ohioPhGauge").show();
+					
+		$("#monongahelaHeightGauge").hide();
+		$("#alleghenyHeightGauge").hide();
+		$("#ohioHeightGauge").hide();
+
+		$("#monongahelaTempGauge").hide();
+		$("#alleghenyTempGauge").hide();
+		$("#ohioTempGauge").hide();
+	});
+
+	$('#height').click(function() {
+		
+		$("#monongahelaHeightGauge").show();
+		$("#alleghenyHeightGauge").show();
+		$("#ohioHeightGauge").show();
+
+		$("#monongahelaPhGauge").hide();
+		$("#alleghenyPhGauge").hide();
+		$("#ohioPhGauge").hide();
+			
+		$("#monongahelaTempGauge").hide();
+		$("#alleghenyTempGauge").hide();
+		$("#ohioTempGauge").hide();
+	});
+
+	$('.one').click(function() {
+		$('.one').css('background', '#fcf537');
+		resetEventTrigger('one');
+	});
+	$('.two').click(function() {
+		$('.two').css('background', '#fcf537');
+		resetEventTrigger('two');
+	});
+	$('.three').click(function() {
+		$('.three').css('background', '#fcf537');
+		resetEventTrigger('three');
+	});
+	$('.four').click(function() {
+		$('.four').css('background', '#fcf537');
+		resetEventTrigger('four');
+	});
+	$('.five').click(function() {
+		$('.five').css('background', '#fcf537');
+		resetEventTrigger('five');
+	});
+	$('.six').click(function() {
+		$('.six').css('background', '#fcf537');
+		resetEventTrigger('six');
+	});
+	$('.seven').click(function() {
+		$('.seven').css('background', '#fcf537');
+		resetEventTrigger('seven');
+	});
+	$('.eight').click(function() {
+		$('.eight').css('background', '#fcf537');
+		resetEventTrigger('eight');
+	});
+
+	function resetEventTrigger(id){
+		if(id != 'one') $('.one').css('background', '#1b75bb');
+		if(id != 'two')$('.two').css('background', '#1b75bb');
+		if(id != 'three')$('.three').css('background', '#1b75bb');
+		if(id != 'four')$('.four').css('background', '#1b75bb');
+		if(id != 'five')$('.five').css('background', '#1b75bb');
+		if(id != 'six')$('.six').css('background', '#1b75bb');
+		if(id != 'seven')$('.seven').css('background', '#1b75bb');
+		if(id != 'eight')$('.eight').css('background', '#1b75bb');
+	}
+
+}
+
+if ( !window.isLoaded ) {
+	window.addEventListener("load", function() {
+		onDocumentReady();
+	}, false);
+} else {
+	onDocumentReady();
+}
+
+</script>
+
+</body>
+</html>
