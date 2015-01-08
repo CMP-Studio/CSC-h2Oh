@@ -60,20 +60,57 @@ function PhGauge(placeholderName, configuration)
 
 	this.render = function()
 	{
-		this.body = d3.select("#" + this.placeholderName)
+		var svg = this.body = d3.select("#" + this.placeholderName)
 							.append("svg:svg")
 							.attr("class", "temperatureGauge")
 							.attr("width", this.config.size)
-							.attr("height", this.config.size);
+							.attr("height", this.config.size+25);
+
+		// var svg = d3.select("#" + this.placeholderName).append("svg"),
+		var pi = Math.PI;
+
+		var arc = d3.svg.arc()
+		    .innerRadius(0.95 * this.config.radius)
+		    .outerRadius(0.95 * this.config.radius)
+		    .startAngle(0)
+		    .endAngle(pi)
+
+		var path = svg.append("path")
+		    .attr("d", arc)
+		    .attr("id", "path1")
+		    .attr("transform", "translate(103,105)")
+		    .attr("fill","#1b75bb")
+
+		// Add a text label.
+		var text = svg.append("text")
+		    .attr("x", 0) // text start at the beginning of the arc
+		    .attr("dy", 0); // places text on the outside of the arc
+
+		text.append("textPath")
+			.attr("font-family", "Century Gothic")
+		    .attr("font-size", "9px")
+		    .attr("font-weight", "bolder")
+		    .attr("fill", "#1b75bb")
+		    .attr("xlink:href","#path1")
+		    .text("pH (power of hydrogen)");
 		
+
+		// gauge container
+		var gaugeContainer = this.body.append("svg:g")
+			.attr("class", "gaugeContainer")
+			.attr("transform", "translate(0,15)");
+
 		// outline		
-		this.body.append("svg:circle")
+		var circle = gaugeContainer.append("svg:circle")
 					.attr("cx", this.config.cx)
 					.attr("cy", this.config.cy)
 					.attr("r", 0.95 * this.config.radius)
+					// .attr("transform", "translate(0,5)")
 					.style("fill", "#fff")
 					.style("stroke", "#e0e0e0") 
 					.style("stroke-width", "5px");
+
+		
 					
 		for (var index in this.config.dRedZones)
 		{
@@ -137,26 +174,12 @@ function PhGauge(placeholderName, configuration)
 		for (var major = this.config.min+1; major <= this.config.max; major += majorDelta)
 		{
 			var minorDelta = majorDelta / this.config.minorTicks;
-			// for (var minor = major + minorDelta; minor < Math.min(major + majorDelta, this.config.max); minor += minorDelta)
-			// {
-			// 	var point1 = this.valueToPoint(minor, 0.75);
-			// 	var point2 = this.valueToPoint(minor, 0.85);
-				
-			// 	// minor ticks
-			// 	this.body.append("svg:line")
-			// 				.attr("x1", point1.x)
-			// 				.attr("y1", point1.y)
-			// 				.attr("x2", point2.x)
-			// 				.attr("y2", point2.y)
-			// 				.style("stroke", "#666")
-			// 				.style("stroke-width", "1px");
-			// }
-			
+
 			var point1 = this.valueToPoint(major, 0.29);
 			var point2 = this.valueToPoint(major, 0.91);	
 			
 			// major ticks
-			this.body.append("svg:line")
+			gaugeContainer.append("svg:line")
 						.attr("x1", point1.x)
 						.attr("y1", point1.y)
 						.attr("x2", point2.x)
@@ -170,7 +193,7 @@ function PhGauge(placeholderName, configuration)
 			 */
 			var point = this.valueToPoint(major, 0.710);
 
-			this.body.append("svg:text")
+			gaugeContainer.append("svg:text")
 				.attr("x", point.x+4)
 				.attr("y", point.y)
 				.attr("dy", fontSize / 3)
@@ -180,9 +203,12 @@ function PhGauge(placeholderName, configuration)
 				.style("fill", "#fff")
 				.style("stroke-width", "0px");
 
+
+
+
 		}
 		
-		var pointerContainer = this.body.append("svg:g").attr("class", "pointerContainer");
+		var pointerContainer = gaugeContainer.append("svg:g").attr("class", "pointerContainer");
 		
 		var midValue = (this.config.min + this.config.max) / 2;
 		
@@ -225,6 +251,10 @@ function PhGauge(placeholderName, configuration)
 									.style("font-size", fontSize + "px")
 									.style("fill", "#666666")
 									.style("stroke-width", "0px");
+
+
+		// date
+		var dateContainer = gaugeContainer.append("svg:g").attr("class", "dateContainer");
 		
 		this.redraw(this.config.min, 0);
 	}
@@ -257,8 +287,10 @@ function PhGauge(placeholderName, configuration)
 	this.drawBand = function(start, end, color)
 	{
 		if (0 >= end - start) return;
+
+		var gaugeContainer = this.body.select(".gaugeContainer");
 		
-		this.body.append("svg:path")
+		gaugeContainer.append("svg:path")
 					.style("fill", color)
 					.attr("d", d3.svg.arc()
 						.startAngle(this.valueToRadians(start))
@@ -292,7 +324,7 @@ function PhGauge(placeholderName, configuration)
 					});
 	}
 
-	this.redraw = function(value, transitionDuration)
+	this.redraw = function(value, dateValue)
 	{
 		var pointerContainer = this.body.select(".pointerContainer");
 		

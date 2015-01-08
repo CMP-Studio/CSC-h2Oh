@@ -20,23 +20,23 @@
     $endMonth = $todayMonth;
     $endYear = $todayYear;
 
-    if($beginMonth < 10) $beginMonth = "0".$beginMonth;
-    if($endMonth < 10) $endMonth = "0".$endMonth;
-
     $newDate = "&startDT=".$beginYear."-".$beginMonth."-01&endDT=".$endYear."-".$endMonth."-01";
 
-    // echo("new date: ".$newDate."<br />");
+    echo("new date: ".$newDate."<br />");
 
     foreach ($locations as $l) {
       switch($l){
         case "allegheny":
-          $url = "http://waterservices.usgs.gov/nwis/dv/?format=json&sites=03049640&modifiedSince=PT2H&parameterCd=00010,00065,00400".$newDate;
+        // &modifiedSince=PT2H&
+          $url = "http://waterservices.usgs.gov/nwis/dv/?format=json&sites=03049640&parameterCd=00010,00065,00400".$newDate;
           break;
         case "monongahela":
-          $url = "http://waterservices.usgs.gov/nwis/dv/?format=json&sites=394337079544201&modifiedSince=PT2H&parameterCd=00010,00065,00400".$newDate;
+        // &modifiedSince=PT2H
+          $url = "http://waterservices.usgs.gov/nwis/dv/?format=json&sites=394337079544201&parameterCd=00010,00065,00400".$newDate;
           break;
         case "ohio":
-          $url = "http://waterservices.usgs.gov/nwis/dv/?format=json&sites=03108490&modifiedSince=PT2H&parameterCd=00010,00065,00400".$newDate;
+        //&modifiedSince=PT2H
+          $url = "http://waterservices.usgs.gov/nwis/dv/?format=json&sites=03108490&parameterCd=00010,00065,00400".$newDate;
           break;
       }
 

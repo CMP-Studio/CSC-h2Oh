@@ -152,13 +152,19 @@
 
       switch($location){
         case "allegheny":
-          $url = "http://nwis.waterservices.usgs.gov/nwis/iv/?format=json&sites=03049640&modifiedSince=PT2H&parameterCd=00010,00065,00400".$date;
+          //&modifiedSince=PT2H
+          $url = "http://nwis.waterservices.usgs.gov/nwis/iv/?format=json&sites=03049640&parameterCd=00010,00065,00400".$date;
+          echo($url."<br />");
           break;
         case "monongahela": // 394337079544201 //03075070
-          $url = "http://nwis.waterservices.usgs.gov/nwis/iv/?format=json&sites=03075070&modifiedSince=PT2H&parameterCd=00010,00065,00400".$date;
+          //&modifiedSince=PT2H
+          $url = "http://nwis.waterservices.usgs.gov/nwis/iv/?format=json&sites=03075070&parameterCd=00010,00065,00400".$date;
+          echo($url."<br />");
           break;
         case "ohio":
-          $url = "http://nwis.waterservices.usgs.gov/nwis/iv/?format=json&sites=03108490&modifiedSince=PT2H&parameterCd=00010,00065,00400".$date;
+          //&modifiedSince=PT2H
+          $url = "http://nwis.waterservices.usgs.gov/nwis/iv/?format=json&sites=03108490&parameterCd=00010,00065,00400".$date;
+          echo($url."<br />");
           break;
       }
       //echo("<br />".$url);

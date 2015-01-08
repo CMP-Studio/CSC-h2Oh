@@ -42,26 +42,34 @@
 		<div class="riverdot seven"></div>
 		<div class="riverdot eight"></div>
 
+		<div id="ligonierTempGauge"></div>
+		<div id="loyalhannaTempGauge"></div>
+		<div id="threeTempGauge"></div>
 
-		<div id="alleghenyTempGauge"></div>
-		<div id="monongahelaTempGauge"></div>
-		<div id="ohioTempGauge"></div>
-
-		<div id="monongahelaPhGauge"></div>
-		<div id="alleghenyPhGauge"></div>
-		<div id="ohioPhGauge"></div>
+		<div id="ligonierPhGauge"></div>
+		<div id="loyalhannaPhGauge"></div>
+		<div id="threePhGauge"></div>
 			
-		<div id="monongahelaHeightGauge"></div>
-		<div id="alleghenyHeightGauge"></div>
-		<div id="ohioHeightGauge"></div>
+		<div id="ligonierHeightGauge"></div>
+		<div id="loyalhannaHeightGauge"></div>
+		<div id="threeHeightGauge"></div>
 	</div> <!-- map -->
 
 	<div id="dials"></div>
-		<div id="temp"> TEMP</div>
+		<div id="picker">
+			<select id="riverDataType" name="riverDataType">
+				<option value="0"></option>
+				<option value="1">PH</option>
+				<option selected="selected" value="2">Temperature</option>
+				<option value="3">Gauge Height</option>
+				<option value="4">jn</option>
+				<option value="5">knsdljnt</option>
+			</select>
+		</div>
+<!-- 		<div id="temp"> TEMP</div>
 		<div id="ph">PH</div>
-		<div id="height">GAUGE<br/>HEIGHT</div>
+		<div id="height">GAUGE<br/>HEIGHT</div> -->
 		<div id="timeline"></div>
-		<div class='arrow'></div>
 		<div id="clock-eight"></div>
 		<div id="clock-seven"></div>
 		<div id="clock-six"></div>
@@ -90,12 +98,15 @@
 <script type="text/javascript" src="js/heightGauge.js"></script>
 
 <script type="text/javascript" src="js/clock.js"></script>
-<!-- <script type="text/javascript" src="js/instantGraph.js"></script> -->
+
+<script type="text/javascript" src="js/jquery.iphonepicker.js"></script>
 
 <script>
 
-var rivers = ["allegheny", "monongahela", "ohio"];
-var locations = ["acmetonia", "elizabeth", "ohioview"];
+$('#riverDataType').iPhonePicker({ width: '90px', imgRoot: 'images/UIPickerView' });
+
+// var rivers = ["allegheny", "monongahela", "ohio"];
+var locations = ["ligonier", "loyalhanna", "three", "four", "five", "penn-hills", "pgh", "eight"];
 var values = [{ph:'7.6', phTime:'15:00', temp:'4', tempTime: '15:00', height:'12.12', heightTime:'15:00'},
 			  {ph:'7.6', phTime:'15:00', temp:'7', tempTime: '15:00', height:'11.93', heightTime:'15:00'},
 			  {ph:'7.6', phTime:'15:00', temp:'6', tempTime: '15:00', height:'12.51', heightTime:'15:00'}];
@@ -107,18 +118,17 @@ var clocks = [];
 
 var status = 2;
 
-
-$("#monongahelaPhGauge").hide();
-$("#alleghenyPhGauge").hide();
-$("#ohioPhGauge").hide();
+$("#loyalhannaPhGauge").hide();
+$("#ligonierPhGauge").hide();
+$("#threePhGauge").hide();
 			
-$("#monongahelaHeightGauge").hide();
-$("#alleghenyHeightGauge").hide();
-$("#ohioHeightGauge").hide();
+$("#loyalhannaHeightGauge").hide();
+$("#ligonierHeightGauge").hide();
+$("#threeHeightGauge").hide();
 
 function onDocumentReady() {
 
-	/* ------------ GAUGES ------------- GAUGES ------------- GAUGES ------------- */
+		/* ---------------------------------------------------------- GAUGES ---- */
 
 	function createPhGauge(cssID, label) {
 		var config = {
@@ -134,9 +144,10 @@ function onDocumentReady() {
 		phGauges[cssID].render();
 	}
 
-	createPhGauge("allegheny");
-	createPhGauge("monongahela");
-	createPhGauge("ohio");
+	createPhGauge(locations[0]);
+	createPhGauge(locations[1]);
+	createPhGauge(locations[2]);
+
 
 	function createTemperatureGauge(cssID){
 		var config = {
@@ -152,9 +163,9 @@ function onDocumentReady() {
 		temperatureGauges[cssID].render();
 	}
 
-	createTemperatureGauge("allegheny");
-	createTemperatureGauge("monongahela");
-	createTemperatureGauge("ohio");
+	createTemperatureGauge(locations[0]);
+	createTemperatureGauge(locations[1]);
+	createTemperatureGauge(locations[2]);
 
 
 	function createHeightGauge(cssID, label, fl) {
@@ -169,10 +180,9 @@ function onDocumentReady() {
 		heightGauges[cssID].render();
 	}
 
-	createHeightGauge("allegheny", "allegheny", 17);
-	createHeightGauge("monongahela", "monongahela", 20);
-	createHeightGauge("ohio", "ohio", 33);
-
+	createHeightGauge(locations[0], locations[0], 17);
+	createHeightGauge(locations[1], locations[1], 20);
+	createHeightGauge(locations[2], locations[2], 33);
 
 	updateGauges(0, status);
 	updateGauges(1, status);
@@ -181,7 +191,7 @@ function onDocumentReady() {
 	//updates gauges from locally saved json data
 	function updateGauges(l, time, refreshType){
 	
-		var riverData = "riverData/"+rivers[l]+"PA-IV-"+time+".json";
+		var riverData = "riverData/rainEventData/"+locations[l]+"PA-IV-"+time+".json";
 	
 		$.getJSON( riverData, function( data ) { 
 			updateRiverGauges(data, l, time);
@@ -224,14 +234,14 @@ function onDocumentReady() {
 			}
 		};
 
-		phGauges[rivers[l]].reset(1);
-		phGauges[rivers[l]].redraw(values[l].ph);
+		phGauges[locations[l]].reset(1);
+		phGauges[locations[l]].redraw(values[l].ph);
 
 		temp = convertCtoF(values[l].temp);
-		temperatureGauges[rivers[l]].redraw(temp);
+		temperatureGauges[locations[l]].redraw(temp);
 
-		heightGauges[rivers[l]].reset(1);
-		heightGauges[rivers[l]].redraw(values[l].height);
+		heightGauges[locations[l]].reset(1);
+		heightGauges[locations[l]].redraw(values[l].height);
 
 		//console.log("temp:"+temp+" tempTime:"+tempTime+" gageHeight:"+gageHeight+" gageHeightTime:"+gageHeightTime+" ph:"+ph+" phTime:"+phTime);
 	}
@@ -279,6 +289,7 @@ function onDocumentReady() {
 		return f;
 	}
 
+	/* ---------------------------------------------------------- CONTROL PANEL ---- */
 	function createClocks(cssID, h, m) {
 		var config = {
 			width: 40,
@@ -298,50 +309,53 @@ function onDocumentReady() {
 	createClocks("seven", 12, 55);
 	createClocks("eight", 12, 55);
 
+	$('#riverDataType').click(function() {
+		console.log($('#riverDataType').val());
 
-	$('#temp').click(function() {
+			//alert($('#riverDataType').val());
 
-		$("#monongahelaTempGauge").show();
-		$("#alleghenyTempGauge").show();
-		$("#ohioTempGauge").show();
+			$("#ligonierTempGauge").show();
+			$("#loyalhannaTempGauge").show();
+			$("#threeTempGauge").show();
 
-		$("#monongahelaPhGauge").hide();
-		$("#alleghenyPhGauge").hide();
-		$("#ohioPhGauge").hide();
-					
-		$("#monongahelaHeightGauge").hide();
-		$("#alleghenyHeightGauge").hide();
-		$("#ohioHeightGauge").hide();
+			$("#ligonerPhGauge").hide();
+			$("#loyalhannaPhGauge").hide();
+			$("#threePhGauge").hide();
+						
+			$("#ligonierHeightGauge").hide();
+			$("#loyalhannaHeightGauge").hide();
+			$("#threeHeightGauge").hide();
+
 	});
 
 	$('#ph').click(function() {
 
-		$("#monongahelaPhGauge").show();
-		$("#alleghenyPhGauge").show();
-		$("#ohioPhGauge").show();
+		$("#ligonierPhGauge").show();
+		$("#loyalhannaPhGauge").show();
+		$("#threePhGauge").show();
 					
-		$("#monongahelaHeightGauge").hide();
-		$("#alleghenyHeightGauge").hide();
-		$("#ohioHeightGauge").hide();
+		$("#ligonierHeightGauge").hide();
+		$("#loyalhannaHeightGauge").hide();
+		$("#threeHeightGauge").hide();
 
-		$("#monongahelaTempGauge").hide();
-		$("#alleghenyTempGauge").hide();
-		$("#ohioTempGauge").hide();
+		$("#ligonierTempGauge").hide();
+		$("#loyalhannaTempGauge").hide();
+		$("#threeTempGauge").hide();
 	});
 
 	$('#height').click(function() {
 		
-		$("#monongahelaHeightGauge").show();
-		$("#alleghenyHeightGauge").show();
-		$("#ohioHeightGauge").show();
+		$("#ligonierHeightGauge").show();
+		$("#loyalhannaHeightGauge").show();
+		$("#threeHeightGauge").show();
 
-		$("#monongahelaPhGauge").hide();
-		$("#alleghenyPhGauge").hide();
-		$("#ohioPhGauge").hide();
+		$("#ligonierPhGauge").hide();
+		$("#loyalhannaPhGauge").hide();
+		$("#threePhGauge").hide();
 			
-		$("#monongahelaTempGauge").hide();
-		$("#alleghenyTempGauge").hide();
-		$("#ohioTempGauge").hide();
+		$("#ligonierTempGauge").hide();
+		$("#loyalhannaTempGauge").hide();
+		$("#threeTempGauge").hide();
 	});
 
 	$('.one').click(function() {

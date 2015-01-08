@@ -12,7 +12,7 @@ function TemperatureGauge(placeholderName, configuration)
 
 		this.config.transitionMs = configuration.transitionMs || 4000;
 		
-		this.config.radius = this.config.size * 0.97 / 2;
+		this.config.radius = this.config.size * 0.95 / 2;
 		this.config.cx = this.config.size / 2;
 		this.config.cy = this.config.size / 2;
 		
@@ -48,10 +48,45 @@ function TemperatureGauge(placeholderName, configuration)
 			.append("svg:svg")
 			.attr("class", "temperatureGauge")
 			.attr("width", this.config.size)
-			.attr("height", this.config.size);
+			.attr("height", this.config.size+10);
+
+		var gauge = this.body.append("svg:g")
+			.attr("class", "gauge")
+			.attr("transform", "translate(0,10)");
+
+		var label = this.body.append("svg:g")
+			.attr("class", "label");
+		
+		var pi = Math.PI;
+
+		var arc = d3.svg.arc()
+		    .innerRadius(0.95 * this.config.radius)
+		    .outerRadius(0.95 * this.config.radius)
+		    .startAngle(0)
+		    .endAngle(pi)
+
+		var path = label.append("path")
+		    .attr("d", arc)
+		    .attr("id", "path3")
+		    .attr("transform", "translate(101,96)")
+		    .attr("fill","#1b75bb")
+
+		// Add a text label.
+		var text = label.append("text")
+		    .attr("x", 0) // text start at the beginning of the arc
+		    .attr("dy", 0); // places text on the outside of the arc
+
+		text.append("textPath")
+			.attr("font-family", "Century Gothic")
+		    .attr("font-size", "9px")
+		    .attr("font-weight", "bolder")
+		    .attr("fill", "#1b75bb")
+		    .attr("xlink:href","#path3")
+		    .text("Temperature Gauge");
+
 
 		var ow = .005 * this.config.radius;
-		this.body.append("svg:circle")
+		gauge.append("svg:circle")
 					.attr("cx", this.config.cx)
 					.attr("cy", this.config.cy)
 					.attr("r", this.config.radius)
@@ -60,13 +95,14 @@ function TemperatureGauge(placeholderName, configuration)
 					.style("stroke-width", ow +"px");
 					
 		var ow = .03 * this.config.radius;
-		this.body.append("svg:circle")
+		gauge.append("svg:circle")
 					.attr("cx", this.config.cx)
 					.attr("cy", this.config.cy)
 					.attr("r", 0.95 * this.config.radius)
 					.style("fill", "#fff")
 					.style("stroke", "#a6a1a1") 
 					.style("stroke-width", ow + "px");
+
 					
 		for (var index in this.config.blueZones)
 		{
@@ -106,7 +142,7 @@ function TemperatureGauge(placeholderName, configuration)
 				var point2 = this.valueToPoint(minor, 0.85);
 				
 				// minor ticks
-				this.body.append("svg:line")
+				gauge.append("svg:line")
 							.attr("x1", point1.x)
 							.attr("y1", point1.y)
 							.attr("x2", point2.x)
@@ -119,7 +155,7 @@ function TemperatureGauge(placeholderName, configuration)
 			var point2 = this.valueToPoint(major, 0.85);	
 			
 			// major ticks
-			this.body.append("svg:line")
+			gauge.append("svg:line")
 				.attr("x1", point1.x)
 				.attr("y1", point1.y)
 				.attr("x2", point2.x)
@@ -132,7 +168,7 @@ function TemperatureGauge(placeholderName, configuration)
 			 */
 			var point = this.valueToPoint(major, 0.615);
 				
-			this.body.append("svg:text")
+			gauge.append("svg:text")
 				.attr("x", point.x+8)
 				.attr("y", point.y)
 				.attr("dy", fontSize / 3)
@@ -144,7 +180,7 @@ function TemperatureGauge(placeholderName, configuration)
 
 		}
 		
-		var pointerContainer = this.body.append("svg:g").attr("class", "pointerContainer");
+		var pointerContainer = gauge.append("svg:g").attr("class", "pointerContainer");
 		
 		var midValue = (this.config.min + this.config.max) / 2;
 		
@@ -217,7 +253,9 @@ function TemperatureGauge(placeholderName, configuration)
 	{
 		if (0 >= end - start) return;
 		
-		this.body.append("svg:path")
+		var gauge = this.body.select(".gauge");
+
+		gauge.append("svg:path")
 					.style("fill", color)
 					.attr("d", d3.svg.arc()
 						.startAngle(this.valueToRadians(start))

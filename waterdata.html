@@ -11,6 +11,7 @@
 	-->
 	<script type="text/javascript" src="lib/d3.min.js"></script>
 	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="lib/jquery.lettering-0.6.1.min.js"></script>
 
 	<link rel='stylesheet' href='css/waterdataStyle.css' type='text/css'/>
 
@@ -32,22 +33,23 @@
 			<p>Acmetonia, PA<p>
 		</div>
 
-		<div class="aPh">
+		<div class="aPh" >
 			<div id="phalleghenyGraph"></div>
-			<div id="alleghenyPhGauge"></div>
-			<div id="acmetoniaPh-gauge-label"><p>Readings from:</p></div>
+			<div id="acmetoniaPh-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
+			<div id="alleghenyPhGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
+			
 		</div>
 
 		<div class="aPh">
 			<div id="tempalleghenyGraph"></div>
-			<div id="alleghenyTempGauge"></div>
-			<div id="acmetoniaTemp-gauge-label"><p>Readings from:</p></div>
+			<div id="acmetoniaTemp-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
+			<div id="alleghenyTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
 
 		<div class="aPh">
 			<div id="heightalleghenyGraph"></div>
-			<div id="alleghenyHeightGauge"></div>
-			<div id="acmetoniaHeight-gauge-label"><p>Readings from:</p></div>
+			<div id="acmetoniaHeight-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
+			<div id="alleghenyHeightGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
 	</div>
 
@@ -61,20 +63,20 @@
 		
 		<div class="mPh">
 			<div id="phmonongahelaGraph"></div>
-			<div id="monongahelaPhGauge"></div>
-			<div id="elizabethPh-gauge-label"><p>Readings from:</p></div>
+			<div id="elizabethPh-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</div>
+			<div id="monongahelaPhGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
 
 		<div class="mPh">
 			<div id="tempmonongahelaGraph"></div>
-			<div id="monongahelaTempGauge"></div>
-			<div id="elizabethTemp-gauge-label"><p>Readings from:</p></div>
+			<div id="elizabethTemp-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
+			<div id="monongahelaTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
 
 		<div class="mPh">
 			<div id="heightmonongahelaGraph"></div>
-			<div id="monongahelaHeightGauge"></div>
-			<div id="elizabethHeight-gauge-label"><p>Readings from:</p></div>
+			<div id="elizabethHeight-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
+			<div id="monongahelaHeightGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
 	</div>
 
@@ -88,20 +90,20 @@
 
 		<div id="oPh">
 			<div id="phohioGraph"></div>
-			<div id="ohioPhGauge"></div>
-			<div id="ohioviewPh-gauge-label"><p>Readings from:</p></div>
+			<div id="ohioviewPh-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
+			<div id="ohioPhGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
 
 		<div id="oPh">
 			<div id="tempohioGraph"></div>
-			<div id="ohioTempGauge"></div>
-			<div id="ohioviewTemp-gauge-label"><p>Readings from:</p></div>
+			<div id="ohioviewTemp-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
+			<div id="ohioTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
 
 		<div id="oPh">
 			<div id="heightohioGraph"></div>
-			<div id="ohioHeightGauge"></div>
-			<div id="ohioviewHeight-gauge-label"><p>Readings from:</p></div>
+			<div id="ohioviewHeight-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
+			<div id="ohioHeightGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
 	</div>
 </div>
@@ -121,6 +123,30 @@
 <!-- <script type="text/javascript" src="js/instantGraph.js"></script> -->
 
 <script>
+
+var NS = "http://www.w3.org/2000/svg";
+var svg = document.createElementNS(NS,"svg");
+
+svg.width = 300;
+svg.height = 500;
+
+document.body.appendChild(svg);
+
+var SVG = function(h,w){
+	var NS = "http://www.w3.org/2000/svg";
+	var svg = document.createElementNS(NS,"svg");
+	svg.width = w;
+	svg.height = h;
+	return svg;
+}
+
+var svg=SVG(200,500);
+document.body.appendChild(svg);
+
+var SVGObj=document.createElementNS(NS,"rect");
+SVGObj.setAttributeNS(null,"height",50);
+
+
 
 var rivers = ["allegheny", "monongahela", "ohio"];
 var locations = ["acmetonia", "elizabeth", "ohioview"];
@@ -268,20 +294,23 @@ function onDocumentReady() {
 			}
 		};
 
+		var date = formatDateToDisplay(values[l].phTime).split('');
+		var time = formatTimeToDisplay(values[l].phTime).split('');
+
 		phGauges[rivers[l]].reset(1);
-		phGauges[rivers[l]].redraw(values[l].ph);
+		phGauges[rivers[l]].redraw(values[l].ph, 'Last updated: ' + formatDateToDisplay(values[l].phTime)+ ' at: ' + formatTimeToDisplay(values[l].phTime));
 		$('#'+locations[l]+'Ph-gauge-label p').remove();
-		$('#'+locations[l]+'Ph-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(values[l].phTime)+ ' at: ' + formatTimeToDisplay(values[l].phTime)+'</p>');
+		$('#'+locations[l]+'Ph-gauge-label').append('<p>Last update:<br /> '+formatDateToDisplay(values[l].phTime)+' <br /> at: '+formatTimeToDisplay(values[l].phTime)+'</p></div>');
 
 		temp = convertCtoF(values[l].temp);
 		temperatureGauges[rivers[l]].redraw(temp);
 		$('#'+locations[l]+'Temp-gauge-label p').remove();
-		$('#'+locations[l]+'Temp-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(values[l].tempTime)+ ' at: ' + formatTimeToDisplay(values[l].tempTime)+'</p>');
+		$('#'+locations[l]+'Temp-gauge-label').append('<p>Last update:<br /> '+formatDateToDisplay(values[l].tempTime)+' <br /> at: '+ formatTimeToDisplay(values[l].tempTime)+'</p></div>');
 
 		heightGauges[rivers[l]].reset(1);
 		heightGauges[rivers[l]].redraw(values[l].height);
 		$('#'+locations[l]+'Height-gauge-label p').remove();
-		$('#'+locations[l]+'Height-gauge-label').append('<p>Readings from: ' + formatDateToDisplay(values[l].heightTime)+ ' at: ' + formatTimeToDisplay(values[l].heightTime)+'</p>');
+		$('#'+locations[l]+'Height-gauge-label').append('<p>Last update:<br /> '+formatDateToDisplay(values[l].heightTime)+' <br /> at: '+ formatTimeToDisplay(values[l].heightTime)+'</p></div>');
 
 		//console.log("temp:"+temp+" tempTime:"+tempTime+" gageHeight:"+gageHeight+" gageHeightTime:"+gageHeightTime+" ph:"+ph+" phTime:"+phTime);
 	}
@@ -436,6 +465,10 @@ function onDocumentReady() {
 
 	// every few minutes update reading values
 	setInterval(function() {
+		getIVdata(rivers[0]);
+		getIVdata(rivers[1]);
+		getIVdata(rivers[2]);
+
 		updateGauges(0, status, "auto");
 		updateGauges(1, status, "auto");
 		updateGauges(2, status, "auto");
@@ -651,6 +684,7 @@ if ( !window.isLoaded ) {
 }
 
 </script>
+
 
 </body>
 </html>

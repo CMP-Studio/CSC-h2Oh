@@ -43,6 +43,41 @@ function HeightGauge(placeholderName, configuration)
 			.attr("width", this.config.size)
 			.attr("height", this.config.size);
 
+		var gauge = this.body.append("svg:g")
+			.attr("class", "gauge")
+			.attr("transform", "translate(0,10)");
+
+		var label = this.body.append("svg:g")
+			.attr("class", "label");
+		
+		var pi = Math.PI;
+
+		var arc = d3.svg.arc()
+		    .innerRadius(0.95 * this.config.radius)
+		    .outerRadius(0.95 * this.config.radius)
+		    .startAngle(0)
+		    .endAngle(pi)
+
+		var path = label.append("path")
+		    .attr("d", arc)
+		    .attr("id", "path4")
+		    .attr("transform", "translate(95,102)")
+		    .attr("fill","#1b75bb")
+
+		// Add a text label.
+		var text = label.append("text")
+		    .attr("x", 4) // text start at the beginning of the arc
+		    .attr("dy", 0); // places text on the outside of the arc
+
+		text.append("textPath")
+			.attr("font-family", "Century Gothic")
+		    .attr("font-size", "9px")
+		    .attr("font-weight", "bolder")
+		    .attr("fill", "#1b75bb")
+		    .attr("xlink:href","#path4")
+            .text("Gauge Height");         
+
+
 		var node = this.body.selectAll(".node")
 	        .data(data)
 	        .attr("class", "node")

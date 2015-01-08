@@ -57,7 +57,7 @@ var vis, clockGroup;
 
 	this.render = function(data)
 	{
-		console.log("rendering clocks");
+
 		vis = d3.selectAll("#" + this.placeholderName)
 		  .append("svg:svg")
 		  .attr("width", this.config.width)
