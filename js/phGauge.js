@@ -41,7 +41,7 @@ function PhGauge(placeholderName, configuration)
 
 
 		this.config.dRedZones = configuration.dRedZones || [{ from: this.config.min + this.config.range*0, to: this.config.min + this.config.range*0.078 }];
-		this.config.redZones = configuration.redZones || [{ from: this.config.min + this.config.range*0.08, to: this.config.min + this.config.range*0.150 }];
+		this.config.redZones = configuration.redZones || [{ from: this.config.min + this.config.range*0.078, to: this.config.min + this.config.range*0.151 }];
 		this.config.orangeZones = configuration.orangeZones || [{ from: this.config.min + this.config.range*0.150, to: this.config.min + this.config.range*0.221 }];
 		this.config.lOrangeZones = configuration.lOrangeZones || [{ from: this.config.min + this.config.range*0.221, to: this.config.min + this.config.range*0.29}];
 		this.config.yellowZones = configuration.yellowZones || [{ from: this.config.min + this.config.range*0.29, to: this.config.min + this.config.range*0.36 }];
@@ -78,7 +78,7 @@ function PhGauge(placeholderName, configuration)
 		var path = svg.append("path")
 		    .attr("d", arc)
 		    .attr("id", "path1")
-		    .attr("transform", "translate(103,105)")
+		    .attr("transform", "translate(135,135)")
 		    .attr("fill","#1b75bb")
 
 		// Add a text label.
@@ -179,14 +179,14 @@ function PhGauge(placeholderName, configuration)
 			var point2 = this.valueToPoint(major, 0.91);	
 			
 			// major ticks
-			gaugeContainer.append("svg:line")
-						.attr("x1", point1.x)
-						.attr("y1", point1.y)
-						.attr("x2", point2.x)
-						.attr("y2", point2.y)
-						.style("stroke", "#fff")
-						.style("stroke-width", "5px")
-						.attr("transform", function() { return "translate(25,-19) rotate(14)" }); //translate(25,-20) rotate(10) //translate(36,-29) rotate(14)
+			// gaugeContainer.append("svg:line")
+			// 			.attr("x1", point1.x)
+			// 			.attr("y1", point1.y)
+			// 			.attr("x2", point2.x)
+			// 			.attr("y2", point2.y)
+			// 			.style("stroke", "#fff")
+			// 			.style("stroke-width", "5px")
+			// 			.attr("transform", function() { return "translate(25,-19) rotate(14)" }); //translate(25,-20) rotate(10) //translate(36,-29) rotate(14)
 
 			/* tick labeling
 			 * use if{} to show only min and max
@@ -245,7 +245,7 @@ function PhGauge(placeholderName, configuration)
 							.enter()
 								.append("svg:text")
 									.attr("x", this.config.cx)
-									.attr("y", this.config.size - this.config.cy / 4 - fontSize -30)
+									.attr("y", this.config.size - this.config.cy / 4 - fontSize -40)
 									.attr("dy", fontSize / 2)
 									.attr("text-anchor", "middle")
 									.style("font-size", fontSize + "px")

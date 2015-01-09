@@ -68,7 +68,7 @@ function TemperatureGauge(placeholderName, configuration)
 		var path = label.append("path")
 		    .attr("d", arc)
 		    .attr("id", "path3")
-		    .attr("transform", "translate(101,96)")
+		    .attr("transform", "translate(136,126)")
 		    .attr("fill","#1b75bb")
 
 		// Add a text label.
@@ -82,7 +82,7 @@ function TemperatureGauge(placeholderName, configuration)
 		    .attr("font-weight", "bolder")
 		    .attr("fill", "#1b75bb")
 		    .attr("xlink:href","#path3")
-		    .text("Temperature Gauge");
+		    .text("Water Temperature");
 
 
 		var ow = .005 * this.config.radius;

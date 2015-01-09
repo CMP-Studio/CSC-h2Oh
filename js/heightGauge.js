@@ -10,7 +10,7 @@ function HeightGauge(placeholderName, configuration)
     pctFull = 0,
     rVals = 0,
     hVals = [],
-    margin = { top: 0, right: 10, bottom: 30, left: -5};
+    margin = { top: 10, right: 10, bottom: 30, left: 5};
 	
 	this.configure = function(configuration)
 	{
@@ -61,7 +61,7 @@ function HeightGauge(placeholderName, configuration)
 		var path = label.append("path")
 		    .attr("d", arc)
 		    .attr("id", "path4")
-		    .attr("transform", "translate(95,102)")
+		    .attr("transform", "translate(135,125)")
 		    .attr("fill","#1b75bb")
 
 		// Add a text label.

@@ -7,7 +7,7 @@ function DailyGraph(placeholderName, configuration)
     // Parse the date / time
     var parseDate = d3.time.format("%Y-%m-%d").parse;
 
-    var scaleFactor = 0.44,
+    var scaleFactor = 0.60,
         margin = {top: 30, right: 20, bottom: 30, left: 50},
         width = 600 * scaleFactor - margin.left - margin.right,
         height = 400 * scaleFactor - margin.top - margin.bottom,
@@ -55,7 +55,7 @@ function DailyGraph(placeholderName, configuration)
         // Adds the svg canvas
         var svg = d3.select("#" + this.placeholderName)
             .append("svg")
-                .attr("class", "phGraph")
+                .attr("class", "graph")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
             .append("g")
