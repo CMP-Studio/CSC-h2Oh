@@ -78,7 +78,7 @@ function TemperatureGauge(placeholderName, configuration)
 
 		text.append("textPath")
 			.attr("font-family", "Century Gothic")
-		    .attr("font-size", "9px")
+		    .attr("font-size", "13px")
 		    .attr("font-weight", "bolder")
 		    .attr("fill", "#1b75bb")
 		    .attr("xlink:href","#path3")

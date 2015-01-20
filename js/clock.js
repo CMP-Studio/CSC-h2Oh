@@ -26,12 +26,12 @@ var vis, clockGroup;
 		this.config.hour = this.config.hour;//15;
 		this.config.minute = this.config.minute;//20;
 
-		var data;
-		data = this.fields();
-		this.render(data);
+		// var data;
+		// data = this.fields();
+		this.render(this.fields(this.config.hour, this.config.minute));
 	}
 
-	this.fields = function() {
+	this.fields = function(hour, minute) {
 
 		formatMinute = d3.time.format("%M");
 
@@ -39,8 +39,8 @@ var vis, clockGroup;
 
 		    var d, data, hour, minute;
 		    d = new Date();
-		    minute = this.config.minute;//d.getMinutes();
-		    hour = this.config.hour;//d.getHours() + minute / 60;
+		    // minute = this.config.minute;//d.getMinutes();
+		    // hour = this.config.hour;//d.getHours() + minute / 60;
 
 		    return data = [
 		      {
@@ -101,6 +101,16 @@ var vis, clockGroup;
 		      }
 		    }).attr("class", "clockhand").attr("stroke", "#1b75bb").attr("stroke-width", this.config.width/100*2).attr("fill", "none");
 
+	}
+
+	this.redraw = function(data){
+		clockGroup.selectAll(".clockhand").data(data).enter().append("svg:path").attr("d", function(d) {
+		      if (d.unit === "minutes") {
+		        return minuteArc(d);
+		      } else if (d.unit === "hours") {
+		        return hourArc(d);
+		      }
+		}).attr("class", "clockhand").attr("stroke", "#1b75bb").attr("stroke-width", this.config.width/100*2).attr("fill", "none");
 	}
 
 	// initialization

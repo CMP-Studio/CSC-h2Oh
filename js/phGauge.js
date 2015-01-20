@@ -62,7 +62,7 @@ function PhGauge(placeholderName, configuration)
 	{
 		var svg = this.body = d3.select("#" + this.placeholderName)
 							.append("svg:svg")
-							.attr("class", "temperatureGauge")
+							.attr("class", "phGauge")
 							.attr("width", this.config.size)
 							.attr("height", this.config.size+25);
 
@@ -88,7 +88,7 @@ function PhGauge(placeholderName, configuration)
 
 		text.append("textPath")
 			.attr("font-family", "Century Gothic")
-		    .attr("font-size", "9px")
+		    .attr("font-size", "13px")
 		    .attr("font-weight", "bolder")
 		    .attr("fill", "#1b75bb")
 		    .attr("xlink:href","#path1")

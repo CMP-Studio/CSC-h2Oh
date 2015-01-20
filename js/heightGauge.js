@@ -10,7 +10,7 @@ function HeightGauge(placeholderName, configuration)
     pctFull = 0,
     rVals = 0,
     hVals = [],
-    margin = { top: 10, right: 10, bottom: 30, left: 5};
+    margin = { top: 13, right: 10, bottom: 0, left: 5};
 	
 	this.configure = function(configuration)
 	{
@@ -41,14 +41,15 @@ function HeightGauge(placeholderName, configuration)
 			.append("svg:svg")
 			.attr("class", "GaugeHeightGauge")
 			.attr("width", this.config.size)
-			.attr("height", this.config.size);
+			.attr("height", this.config.size+4);
 
 		var gauge = this.body.append("svg:g")
 			.attr("class", "gauge")
 			.attr("transform", "translate(0,10)");
 
 		var label = this.body.append("svg:g")
-			.attr("class", "label");
+			.attr("class", "label")
+			.attr('transform', 'translate(0,3)');
 		
 		var pi = Math.PI;
 
@@ -71,7 +72,7 @@ function HeightGauge(placeholderName, configuration)
 
 		text.append("textPath")
 			.attr("font-family", "Century Gothic")
-		    .attr("font-size", "9px")
+		    .attr("font-size", "13px")
 		    .attr("font-weight", "bolder")
 		    .attr("fill", "#1b75bb")
 		    .attr("xlink:href","#path4")
