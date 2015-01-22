@@ -26,11 +26,11 @@ function TemperatureGauge(placeholderName, configuration)
 		this.config.label = configuration.label || "F˚";
 		
 		this.config.blueColor 	= configuration.blueColor || "#00f3ff";
-		this.config.greenColor 	= configuration.greenColor || "#8cc63f";
-		this.config.yellowColor = configuration.yellowColor || "#f5d542";
-		this.config.lightOrangeColor 	= configuration.lightOrangeColor || "#f2880b";
-		this.config.orangeColor 	= configuration.orangeColor || "#e61217";
-		this.config.redColor 	= configuration.redColor || "#f542ab";
+		this.config.greenColor 	= configuration.greenColor || "#f9fcb0";
+		this.config.yellowColor = configuration.yellowColor || "#ffe400";
+		this.config.lightOrangeColor 	= configuration.lightOrangeColor || "#ffa800";
+		this.config.orangeColor 	= configuration.orangeColor || "#e64e12";
+		this.config.redColor 	= configuration.redColor || "#c70553";
 
 		this.config.blueZones = this.config.blueZones || [{ from: this.config.min + this.config.range*0, to: this.config.min + this.config.range*0.165 }];
 		this.config.greenZones = this.config.greenZones || [{ from: this.config.min + this.config.range*0.165, to: this.config.min + this.config.range*0.335 }];
@@ -48,7 +48,7 @@ function TemperatureGauge(placeholderName, configuration)
 			.append("svg:svg")
 			.attr("class", "temperatureGauge")
 			.attr("width", this.config.size)
-			.attr("height", this.config.size+10);
+			.attr("height", this.config.size+13);
 
 		var gauge = this.body.append("svg:g")
 			.attr("class", "gauge")
@@ -68,7 +68,7 @@ function TemperatureGauge(placeholderName, configuration)
 		var path = label.append("path")
 		    .attr("d", arc)
 		    .attr("id", "path3")
-		    .attr("transform", "translate(136,126)")
+		    .attr("transform", "translate(140,129)")
 		    .attr("fill","#1b75bb")
 
 		// Add a text label.
@@ -78,7 +78,7 @@ function TemperatureGauge(placeholderName, configuration)
 
 		text.append("textPath")
 			.attr("font-family", "Century Gothic")
-		    .attr("font-size", "13px")
+		    .attr("font-size", "15px")
 		    .attr("font-weight", "bolder")
 		    .attr("fill", "#1b75bb")
 		    .attr("xlink:href","#path3")
@@ -198,7 +198,7 @@ function TemperatureGauge(placeholderName, configuration)
 									.attr("d", pointerLine)
 									.style("fill", "#999999")
 									.style("stroke", "#666666")
-									.style("fill-opacity", 0.7)
+									.style("fill-opacity", 1)
 		// circle on needle			
 		pointerContainer.append("svg:circle")
 							.attr("cx", this.config.cx)
@@ -218,6 +218,7 @@ function TemperatureGauge(placeholderName, configuration)
 									.attr("dy", fontSize / 2)
 									.attr("text-anchor", "middle")
 									.style("font-size", fontSize + "px")
+									.style("font-weight", "bold")
 									.style("fill", "#666666")
 									.style("stroke-width", "0px");
 		

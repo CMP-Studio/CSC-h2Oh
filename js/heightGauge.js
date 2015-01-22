@@ -10,7 +10,7 @@ function HeightGauge(placeholderName, configuration)
     pctFull = 0,
     rVals = 0,
     hVals = [],
-    margin = { top: 13, right: 10, bottom: 0, left: 5};
+    margin = { top: 20, right: 10, bottom: 0, left: 5};
 	
 	this.configure = function(configuration)
 	{
@@ -41,7 +41,7 @@ function HeightGauge(placeholderName, configuration)
 			.append("svg:svg")
 			.attr("class", "GaugeHeightGauge")
 			.attr("width", this.config.size)
-			.attr("height", this.config.size+4);
+			.attr("height", this.config.size+12);
 
 		var gauge = this.body.append("svg:g")
 			.attr("class", "gauge")
@@ -62,7 +62,7 @@ function HeightGauge(placeholderName, configuration)
 		var path = label.append("path")
 		    .attr("d", arc)
 		    .attr("id", "path4")
-		    .attr("transform", "translate(135,125)")
+		    .attr("transform", "translate(134,130)")
 		    .attr("fill","#1b75bb")
 
 		// Add a text label.
@@ -72,7 +72,7 @@ function HeightGauge(placeholderName, configuration)
 
 		text.append("textPath")
 			.attr("font-family", "Century Gothic")
-		    .attr("font-size", "13px")
+		    .attr("font-size", "15px")
 		    .attr("font-weight", "bolder")
 		    .attr("fill", "#1b75bb")
 		    .attr("xlink:href","#path4")
@@ -95,7 +95,7 @@ function HeightGauge(placeholderName, configuration)
 	     //console.log(rVals);
 	    // clip path for the blue circle
 	    node.append("clipPath")
-	        .attr('id', function(d) { return "clip" })
+	        .attr('id', function(d) { return "clip"+placeholderName })
 	        .append('rect')
 	        .attr("x", rVals * (-1))
 	        .attr("width", rVals * 2)
@@ -104,7 +104,7 @@ function HeightGauge(placeholderName, configuration)
 
 	    // blue circle
 	    node.append("circle")
-	        .attr("clip-path", function(d) { return "url(#clip)"})
+	        .attr("clip-path", function(d) { return "url(#clip"+placeholderName+")"})
 	        .attr("r", rVals)
 	        .style("fill", "#2076b8")                
 	        .style("stroke", "#2076b8");
@@ -120,11 +120,12 @@ function HeightGauge(placeholderName, configuration)
 								.append("svg:text")
 									// .attr("x", this.config.cx - 60)
 									// .attr("y", this.config.size / 2.5 ) // -  ((2  * rVals[0] * kVals[0])/2)) // this.config.size / 2 - kVals) //this.config.size - this.config.cy / 2 - fontSize -40)
-									.attr("x", this.config.cx - (this.config.size * 0.3))
+									.attr("x", this.config.cx - (this.config.size * 0.26))
 									.attr("y", this.config.size - this.config.cy / 4 - fontSize)
 									.attr("dy", fontSize)
 									.attr("text-anchor", "middle")
-									.style("font-size", fontSize + "px")
+									.style("font-size", fontSize+3 + "px")
+									.style("font-weight", "bold")
 									.style("fill", "#c8bfbf");
 
 		pointerContainer.selectAll("text").text(fillHeight);
@@ -132,7 +133,7 @@ function HeightGauge(placeholderName, configuration)
 	        
 	    // clip path for flood level line
 	    node.append("clipPath")
-	        .attr('id', function(d) { return "circleclip" })
+	        .attr('id', function(d) { return "circleclip"+placeholderName })
 	        .append('circle')
 	        .attr("r", function(d, i) {return rVals-2;})
 
@@ -141,7 +142,7 @@ function HeightGauge(placeholderName, configuration)
 
 	    // flood level line
 		var line = node.append("svg:line")
-	    	.attr("clip-path", function(d) { return "url(#circleclip)"})
+	    	.attr("clip-path", function(d) { return "url(#circleclip"+placeholderName+")"})
 			.attr("x1", -25)
 			.attr("y1", fl)
 			.attr("x2", 250)
@@ -197,7 +198,7 @@ function HeightGauge(placeholderName, configuration)
 		kVals = this.kCalculation(pctFull);
 
 		//update level in circle -> clip path
-		var node = this.body.select("#clip");
+		var node = this.body.select("#clip"+placeholderName);
 		node.select("rect")   // change the line
 	        .attr("y", rVals - (2  * rVals * kVals))
 	        .attr("height", 2  * rVals * kVals);
@@ -214,7 +215,7 @@ function HeightGauge(placeholderName, configuration)
 		kVals = this.kCalculation(pctFull);
 
 		//update level in circle -> clip path
-		var node = this.body.select("#clip");
+		var node = this.body.select("#clip"+placeholderName);
 		node.select("rect")   // change the line
 			.transition()
 			.duration(this.config.transitionMs)

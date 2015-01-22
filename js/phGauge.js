@@ -63,22 +63,22 @@ function PhGauge(placeholderName, configuration)
 		var svg = this.body = d3.select("#" + this.placeholderName)
 							.append("svg:svg")
 							.attr("class", "phGauge")
-							.attr("width", this.config.size)
+							.attr("width", this.config.size+7)
 							.attr("height", this.config.size+25);
 
 		// var svg = d3.select("#" + this.placeholderName).append("svg"),
 		var pi = Math.PI;
 
 		var arc = d3.svg.arc()
-		    .innerRadius(0.95 * this.config.radius)
-		    .outerRadius(0.95 * this.config.radius)
+		    .innerRadius(0.98 * this.config.radius)
+		    .outerRadius(0.98 * this.config.radius)
 		    .startAngle(0)
 		    .endAngle(pi)
 
 		var path = svg.append("path")
 		    .attr("d", arc)
 		    .attr("id", "path1")
-		    .attr("transform", "translate(135,135)")
+		    .attr("transform", "translate(135,140)")
 		    .attr("fill","#1b75bb")
 
 		// Add a text label.
@@ -88,7 +88,7 @@ function PhGauge(placeholderName, configuration)
 
 		text.append("textPath")
 			.attr("font-family", "Century Gothic")
-		    .attr("font-size", "13px")
+		    .attr("font-size", "15px")
 		    .attr("font-weight", "bolder")
 		    .attr("fill", "#1b75bb")
 		    .attr("xlink:href","#path1")
@@ -98,7 +98,7 @@ function PhGauge(placeholderName, configuration)
 		// gauge container
 		var gaugeContainer = this.body.append("svg:g")
 			.attr("class", "gaugeContainer")
-			.attr("transform", "translate(0,15)");
+			.attr("transform", "translate(0,16)");
 
 		// outline		
 		var circle = gaugeContainer.append("svg:circle")
@@ -249,6 +249,7 @@ function PhGauge(placeholderName, configuration)
 									.attr("dy", fontSize / 2)
 									.attr("text-anchor", "middle")
 									.style("font-size", fontSize + "px")
+									.style("font-weight", "bold")
 									.style("fill", "#666666")
 									.style("stroke-width", "0px");
 

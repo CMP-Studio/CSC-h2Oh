@@ -18,12 +18,15 @@
 </head>
 <body>
 
-<div id="day"><h2>today</h2></div>
+<div class="space"></div>
 
 <div id="wrapper">
 
 <div id="leftWrapper">
-	<div id="leftButton"></div>
+	<div id="leftButton">
+		<div id="left"><h2>Yesterday</h2>
+	</div>
+</div>
 </div>
 <div id="gaugeWrapper">
 	<!-- Allgheny River-->
@@ -33,22 +36,24 @@
 		</div>
 
 		<div class="aPh" >
-			<div id="phalleghenyGraph"></div>
+			<div id="phalleghenyGraph"><div class="iconAP"><img src="images/ph.png" width="28px"/></div></div>
 			<div id="acmetoniaPh-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="alleghenyPhGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 			
 		</div>
 
 		<div class="aPh">
-			<div id="tempalleghenyGraph"></div>
+			<div id="tempalleghenyGraph"><div class="iconAT"><img src="images/waterTempY.png" width="50px"/></div></div>
 			<div id="acmetoniaTemp-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
-			<div id="alleghenyTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
+			<div id="alleghenyTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/>
+				<div id="wtIconA"><img src="images/waterTemp.png" width="40px"/></div>
+			</div>
 		</div>
 
 		<div class="aPh">
-			<div id="heightalleghenyGraph"></div>
+			<div id="heightalleghenyGraph"><div class="iconAH"><img src="images/gaugeHeight.png" width="35px"/></div></div>
 			<div id="acmetoniaHeight-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
-			<div id="alleghenyHeightGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
+			<div id="alleghenyHeightGauge"><img class="graphButton" src="images/graph.png" width="35px"/></div>
 		</div>
 	</div>
 
@@ -60,19 +65,21 @@
 		</div>
 		
 		<div class="mPh">
-			<div id="phmonongahelaGraph"></div>
+			<div id="phmonongahelaGraph"><div class="iconMP"><img src="images/ph.png" width="28px"/></div></div>
 			<div id="elizabethPh-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</div>
 			<div id="monongahelaPhGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
 
 		<div class="mPh">
-			<div id="tempmonongahelaGraph"></div>
+			<div id="tempmonongahelaGraph"><div class="iconMT"><img src="images/waterTempY.png" width="50px"/></div></div>
 			<div id="elizabethTemp-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
-			<div id="monongahelaTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
+			<div id="monongahelaTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/>
+				<div id="wtIconM"><img src="images/waterTemp.png" width="40px"/></div>
+			</div>
 		</div>
 
 		<div class="mPh">
-			<div id="heightmonongahelaGraph"></div>
+			<div id="heightmonongahelaGraph"><div class="iconMH"><img src="images/gaugeHeight.png" width="35px"/></div></div>
 			<div id="elizabethHeight-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="monongahelaHeightGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
@@ -86,19 +93,21 @@
 		</div>
 
 		<div id="oPh">
-			<div id="phohioGraph"></div>
+			<div id="phohioGraph"><div class="iconOP"><img src="images/ph.png" width="28px"/></div></div>
 			<div id="ohioviewPh-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="ohioPhGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
 
 		<div id="oPh">
-			<div id="tempohioGraph"></div>
+			<div id="tempohioGraph"><div class="iconOT"><img src="images/waterTempY.png" width="50px"/></div></div>
 			<div id="ohioviewTemp-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
-			<div id="ohioTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
+			<div id="ohioTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/>
+				<div id="wtIconO"><img src="images/waterTemp.png" width="40px"/></div>
+			</div>
 		</div>
 
 		<div id="oPh">
-			<div id="heightohioGraph"></div>
+			<div id="heightohioGraph"><div class="iconOH"><img src="images/gaugeHeight.png" width="35px"/></div></div>
 			<div id="ohioviewHeight-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="ohioHeightGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
 		</div>
@@ -106,7 +115,9 @@
 </div>
 
 <div id="rightWrapper">
-	<div id="rightButton"></div>
+	<div id="rightButton">
+		<div id="right"><h2></h2></div>
+	</div>
 </div>
 
 </div>
@@ -398,16 +409,18 @@ function onDocumentReady() {
 
 		switch(parseInt(status)){
 			case 0: // 6 months ago
-				$('#day').html("<h2>4 months ago</h2>");
+				$('#left').html("<h2></h2>");
+				$('#right').html("<h2>Yesterday</h2>");
 				$('#leftButton').css("opacity", .3);
 				break;
 			case 1: // yesterday
-				$('#day').html("<h2>yesterday</h2>");
+				$('#left').html("<h2>4 Months Ago</h2>");
+				$('#right').html("<h2>Today</h2>");
 				$('#leftButton').css("opacity", 1);
 				$('#rightButton').css("opacity", 1);
 				break;
 			case 2: // today
-				$('#day').html("<h2>today</h2>");
+				$('#left').html("<h2>Yesterday</h2>");
 				$('#leftButton').css("opacity", 1);
 				break;
 			default:
@@ -434,16 +447,18 @@ function onDocumentReady() {
 
 		switch(parseInt(status)){
 			case 0: // 6 months ago
-				$('#day').html("<h2>6 months ago</h2>");
+				$('#right').html("<h2>Yesterday</h2>");
 				$('#rightButton').css("opacity", 1);
 				break;
 			case 1: // yesterday
-				$('#day').html("<h2>yesterday</h2>");
+				$('#right').html("<h2>Today</h2>");
+				$('#left').html("<h2>4 Months Ago</h2>");
 				$('#leftButton').css("opacity", 1);
 				$('#rightButton').css("opacity", 1);
 				break;
 			case 2: // today
-				$('#day').html("<h2>today</h2>");
+				$('#right').html("<h2></h2>");
+				$('#left').html("<h2>Yesterday</h2>");
 				$('#rightButton').css("opacity", .3);
 				break;
 			default:

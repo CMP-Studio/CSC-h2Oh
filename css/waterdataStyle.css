@@ -23,9 +23,14 @@ h2 {
 	margin-left: 1.5em;
 }
 
-#day{
-/*	height: 80%;
-*/	vertical-align: center;
+.space{
+	height: 40px;
+	width:1024;
+	border:1px solid white;
+}
+
+#left, #right{
+	padding-top: 80px;
 }
 
 #gaugeWrapper{
@@ -82,7 +87,7 @@ h2 {
 
 #allegheny, #monongahela, #ohio {
 	width: 370px;
-	height:960px;
+	height:1000px;
 	font-weight: bolder;
 	background-color: #e7f1f8;
 	border: 1px solid #e1f0fb;
@@ -161,7 +166,7 @@ h2 {
 }
 
 .GaugeHeightGauge{
-	margin-top:30px;
+	margin-top:20px;
 }
 
 .phGauge, .temperatureGauge{
@@ -186,4 +191,69 @@ path.area {
     stroke: #d3d3d3;
     stroke-width: 1;
     shape-rendering: crispEdges;
+}
+
+.iconAP{
+	position:absolute;
+	top: 170px;
+	left:650px;
+}
+.iconAT{
+	position:absolute;
+	top: 480px;
+	left:640px;
+}
+.iconAH{
+	position:absolute;
+	top: 770px;
+	left:650px;
+}
+
+.iconMP{
+	position:absolute;
+	top: 170px;
+	left:1115px;
+}
+.iconMT{
+	position:absolute;
+	top: 480px;
+	left:1100px;
+}
+.iconMH{
+	position:absolute;
+	top: 770px;
+	left:1110px;
+}
+
+.iconOP{
+	position:absolute;
+	top: 170px;
+	left:1570px;
+}
+.iconOT{
+	position:absolute;
+	top: 480px;
+	left:1555px;
+}
+.iconOH{
+	position:absolute;
+	top: 778px;
+	left:1560px;
+}
+
+#wtIconA{
+	position:absolute;
+	top: 555px;
+	left:510px;
+}
+
+#wtIconM{
+	position:absolute;
+	top: 555px;
+	left:970px;
+}
+#wtIconO{
+	position:absolute;
+	top: 555px;
+	left:1430px;
 }
