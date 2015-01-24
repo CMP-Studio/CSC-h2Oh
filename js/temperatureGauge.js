@@ -15,6 +15,9 @@ function TemperatureGauge(placeholderName, configuration)
 		this.config.radius = this.config.size * 0.95 / 2;
 		this.config.cx = this.config.size / 2;
 		this.config.cy = this.config.size / 2;
+
+		this.config.labelX = configuration.labelMarginX || 0;
+		this.config.labelY = configuration.labelMarginY || 0;
 		
 		this.config.min = undefined != configuration.min ? configuration.min : 0; 
 		this.config.max = undefined != configuration.max ? configuration.max : 100; 
@@ -169,8 +172,8 @@ function TemperatureGauge(placeholderName, configuration)
 			var point = this.valueToPoint(major, 0.615);
 				
 			gauge.append("svg:text")
-				.attr("x", point.x+8)
-				.attr("y", point.y)
+				.attr("x", point.x+8+this.config.labelX)
+				.attr("y", point.y+this.config.labelY)
 				.attr("dy", fontSize / 3)
 				.attr("text-anchor", major == this.config.min ? "start" : "end")
 				.text(major)
@@ -213,8 +216,8 @@ function TemperatureGauge(placeholderName, configuration)
 							.data([midValue])
 							.enter()
 								.append("svg:text")
-									.attr("x", this.config.cx + 8)
-									.attr("y", this.config.size - this.config.cy / 4 - fontSize)
+									.attr("x", this.config.cx + 8 + this.config.labelX)
+									.attr("y", this.config.size - this.config.cy / 4 - fontSize + this.config.labelY)
 									.attr("dy", fontSize / 2)
 									.attr("text-anchor", "middle")
 									.style("font-size", fontSize + "px")

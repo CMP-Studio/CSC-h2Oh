@@ -16,6 +16,9 @@ function PhGauge(placeholderName, configuration)
 		this.config.cx = this.config.size / 2;
 		this.config.cy = this.config.size / 2;
 		
+		this.config.labelX = configuration.labelX || 0;
+		this.config.labelY = configuration.labelY || 0;
+
 		this.config.min = undefined != configuration.min ? configuration.min : 0; 
 		this.config.max = undefined != configuration.max ? configuration.max : 100; 
 		this.config.range = this.config.max - this.config.min;
@@ -241,17 +244,17 @@ function PhGauge(placeholderName, configuration)
 		//dynamic temp label
 		var fontSize = Math.round(this.config.size / 10);
 		pointerContainer.selectAll("text")
-							.data([midValue])
-							.enter()
-								.append("svg:text")
-									.attr("x", this.config.cx)
-									.attr("y", this.config.size - this.config.cy / 4 - fontSize -40)
-									.attr("dy", fontSize / 2)
-									.attr("text-anchor", "middle")
-									.style("font-size", fontSize + "px")
-									.style("font-weight", "bold")
-									.style("fill", "#666666")
-									.style("stroke-width", "0px");
+			.data([midValue])
+			.enter()
+			.append("svg:text")
+				.attr("x", this.config.cx + this.config.labelX)
+				.attr("y", this.config.size - this.config.cy / 4 - fontSize -40 + this.config.labelY)
+				.attr("dy", fontSize / 2)
+				.attr("text-anchor", "middle")
+				.style("font-size", fontSize + "px")
+				.style("font-weight", "bold")
+				.style("fill", "#666666")
+				.style("stroke-width", "0px");
 
 
 		// date
