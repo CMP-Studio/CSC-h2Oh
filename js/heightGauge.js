@@ -23,8 +23,11 @@ function HeightGauge(placeholderName, configuration)
 
 		this.config.transitionMs = configuration.transitionMs || 4000;
 		
-		this.config.cx = this.config.size / 2;
-		this.config.cy = this.config.size / 2;
+		this.config.cx = configuration.cx || this.config.size / 2;
+		this.config.cy = configuration.cy || this.config.size / 2;
+
+		console.log("cy: "+this.config.cy+ "  size/2: "+this.config.size / 2);
+
 
 		margin.left = margin.left + this.config.radius;
 		margin.top = margin.top + this.config.radius;
@@ -115,18 +118,15 @@ function HeightGauge(placeholderName, configuration)
 	    //dynamic temp label
 		var fontSize = Math.round(this.config.size / 12);
 		pointerContainer.selectAll("text")
-							.data(data)
-							.enter()
-								.append("svg:text")
-									// .attr("x", this.config.cx - 60)
-									// .attr("y", this.config.size / 2.5 ) // -  ((2  * rVals[0] * kVals[0])/2)) // this.config.size / 2 - kVals) //this.config.size - this.config.cy / 2 - fontSize -40)
-									.attr("x", this.config.cx - (this.config.size * 0.26))
-									.attr("y", this.config.size - this.config.cy / 4 - fontSize)
-									.attr("dy", fontSize)
-									.attr("text-anchor", "middle")
-									.style("font-size", fontSize+3 + "px")
-									.style("font-weight", "bold")
-									.style("fill", "#c8bfbf");
+			.data(data)
+			.enter()
+			.append("svg:text")
+			.attr("x", this.config.cx - 65)//(this.config.size * 0.26))
+			.attr("dy", this.config.cy / 6 )//fontSize)
+			.attr("text-anchor", "middle")
+			.style("font-size", fontSize+3 + "px")
+			.style("font-weight", "bold")
+			.style("fill", "#c8bfbf");
 
 		pointerContainer.selectAll("text").text(fillHeight);
  
@@ -150,18 +150,20 @@ function HeightGauge(placeholderName, configuration)
 			.style("stroke", "#ff0000")
 			.style("stroke-width", "1px");
 
-		node.selectAll("text")
-			.data(data)
-			.enter()
-				.append("svg:text")
-					.attr("x", 1 * this.config.radius/10)
-					.attr("y", fl+3) // -  ((2  * rVals[0] * kVals[0])/2)) // this.config.size / 2 - kVals) //this.config.size - this.config.cy / 2 - fontSize -40)
-					.attr("dy", fontSize / 2)
-					.attr("text-anchor", "middle")
-					.style("font-size", fontSize/1.8 + "px")
-					.style("font-weight", "normal")
-					.style("fill", "#fbb122");
-		node.selectAll("text").text("Flood stage " + this.config.floodLevel + "\'");
+		if(this.config.floodLevel > 0) {
+			node.selectAll("text")
+				.data(data)
+				.enter()
+					.append("svg:text")
+						.attr("x", 1 * this.config.radius/10)
+						.attr("y", fl+3) // -  ((2  * rVals[0] * kVals[0])/2)) // this.config.size / 2 - kVals) //this.config.size - this.config.cy / 2 - fontSize -40)
+						.attr("dy", fontSize / 2)
+						.attr("text-anchor", "middle")
+						.style("font-size", fontSize/1.8 + "px")
+						.style("font-weight", "normal")
+						.style("fill", "#fbb122");
+			node.selectAll("text").text("Flood stage " + this.config.floodLevel + "\'");
+		}
 
 	}
 
@@ -186,8 +188,7 @@ function HeightGauge(placeholderName, configuration)
 	    return k;
 	}
 
-	this.reset = function(value, transitionDuration)
-	{
+	this.reset = function(value, transitionDuration){
 
 
 		fillHeight = Math.round(value*100)/100;
@@ -204,8 +205,7 @@ function HeightGauge(placeholderName, configuration)
 	        .attr("height", 2  * rVals * kVals);
 	}
 
-	this.redraw = function(value, transitionDuration)
-	{
+	this.redraw = function(value, transitionDuration){
 
 		fillHeight = Math.round(value*100)/100;
 		data.length = 0;

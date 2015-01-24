@@ -71,12 +71,12 @@ var vis, clockGroup;
 		clockGroup.append("svg:circle")
 		  .attr("r", this.config.width/3).attr("fill", "none")
 		  .attr("class", "clock outercircle")
-		  .attr("stroke", "#1b75bb")
-		  .attr("stroke-width", this.config.width/100*3);
+		  .attr("stroke", "#b3b3b3")
+		  .attr("stroke-width", this.config.width/100);
 
 		clockGroup.append("svg:circle")
-		  .attr("r", this.config.width/100*3)
-		  .attr("fill", "#1b75bb")
+		  .attr("r", this.config.width/100*1.5)
+		  .attr("fill", "#b3b3b3")
 		  .attr("class", "clock innercircle");
 
 		  scaleSecsMins = d3.scale.linear().domain([0, 59 + 59 / 60]).range([0, 2 * pi]);
@@ -108,7 +108,7 @@ var vis, clockGroup;
 		      } else if (d.unit === "hours") {
 		        return hourArc(d);
 		      }
-		    }).attr("class", "clockhand").attr("stroke", "#1b75bb").attr("stroke-width", this.config.width/100*2).attr("fill", "none");
+		    }).attr("class", "clockhand").attr("stroke", "#b3b3b3").attr("stroke-width", this.config.width/100).attr("fill", "none");
 
 	}
 

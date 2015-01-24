@@ -238,12 +238,11 @@ function onDocumentReady() {
 	createHeightGauge("monongahela", "monongahela", 20);
 	createHeightGauge("ohio", "ohio", 33);
 
-
-
+	// now in cron or task scheduler this is only for debug
 	//initial reading values
-	getIVdata(rivers[0]);
-	getIVdata(rivers[1]);
-	getIVdata(rivers[2]);
+	saveIVdata(rivers[0]);
+	saveIVdata(rivers[1]);
+	saveIVdata(rivers[2]);
 
 	updateGauges(0, status, "auto");
 	updateGauges(1, status, "auto");
@@ -367,7 +366,7 @@ function onDocumentReady() {
 	}
 
 	// handles the click event, sends the query
-	function getIVdata(location) {
+	function saveIVdata(location) {
 
 	   $.ajax({
 	   	  type: "POST",
@@ -477,9 +476,9 @@ function onDocumentReady() {
 
 	// every few minutes update reading values
 	setInterval(function() {
-		getIVdata(rivers[0]);
-		getIVdata(rivers[1]);
-		getIVdata(rivers[2]);
+		saveIVdata(rivers[0]);
+		saveIVdata(rivers[1]);
+		saveIVdata(rivers[2]);
 
 		updateGauges(0, status, "auto");
 		updateGauges(1, status, "auto");

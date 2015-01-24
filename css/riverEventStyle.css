@@ -2,8 +2,8 @@ body {
 	font-family:  Century Gothic, Helvetica, Arial, sans-serif;
 	font-size: 13px;
 	color: #666666;
-/*	background-image: url("../images/riverevent-background.png");
-	background-repeat: no-repeat; */
+	background-image: url("../images/mapNoLabel4r.png");
+	background-repeat: no-repeat;
 }
 
 h1 {
@@ -26,74 +26,160 @@ h3 {
 }
 
 #wrapper{
-	margin-top: 40px;
+	margin-top: 0px;
+	margin-left: 300px;
+/*	margin-top: -9px;
+	margin-left: 218px;
+	width:1920px;
+	height:1080px;
+	background-image: url("../images/riverPath.svg");
+	background-repeat: no-repeat;*/
 }
 
 
 /* -------------------------------------------------------------------------- graph */
-#elevation{
-/*	border: 1px solid green;*/
-	height:100px;
-	background-image: url("../images/elevation.png");
-	background-repeat: no-repeat;
-}
-
 .elevation{
 	position: absolute;
 	width:20px;
 	height:20px;
 	border-radius: 10px;
-	background-color: #1b75bb;
+	background-color: #4799c6;
 	text-align: center;
 	color: #fff;
 	margin-top: 0px;
 }
-
-.elevation.eight{
-	margin-left: 152px;
-	margin-top: 52px;
-}
 .elevation.seven{
-	margin-left: 238px;
-	margin-top: 33px;
+	margin-left: 43px;
+	margin-top: 222px;
 }
 .elevation.six{
-	margin-left: 362px;
-	margin-top: 40px;
+	margin-left: 415px;
+	margin-top: 215px;
 }
 .elevation.five{
-	margin-left: 482px;
-	margin-top: 51px;
+	margin-left: 465px;
+	margin-top: 213px;
 }
 .elevation.four{
-	margin-left: 563px;
-	margin-top: 32px;
+	margin-left: 655px;
+	margin-top: 200px;
 }
 .elevation.three{
-	margin-left: 730px;
-	margin-top: 32px;
+	margin-left: 840px;
+	margin-top: 165px;
 }
 .elevation.two{
-	margin-left: 792px;
-	margin-top: 11px;
+	margin-left: 930px;
+	margin-top: 138px;
 }
 .elevation.one{
-	margin-left: 900px;
-	margin-top: 32px;
+	margin-left: 960px;
+	margin-top: 40px;
+}
+
+svg { font: 0.6em Century Gothic;}
+
+path.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 4px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+}
+
+.y.axis line {
+  stroke: #777;
+  stroke-dasharray: 2,2;
+}
+
+.elevline{
+	width:80px;
+	height: 1px;
+	background-color: #4799c6;
+	position: absolute;
+}
+
+.elevline.o{
+	top: 250px;
+	right:1040px;
+}
+.elevline.n{
+	top: 234px;
+	right:1040px;
+}
+.elevline.m{
+	top: 220px;
+	right:1040px;
+}
+.elevline.k{
+	top: 190px;
+	right:1040px;
+}
+.elevline.i{
+	top: 160px;
+	right:1040px;
+}
+.elevline.g{
+	top: 130px;
+	right:1040px;
+}
+.elevline.e{
+	top: 100px;
+	right:1040px;
+}
+.elevline.c{
+	top: 70px;
+	right:1040px;
+}
+.elevline.a{
+	top: 40px;
+	right:1040px;
 }
 
 
+.elevline.l{
+	top: 204px;
+	right:1040px;
+}
+.elevline.j{
+	top: 174px;
+	right:1040px;
+}
+.elevline.h{
+	top: 144px;
+	right:1040px;
+}
+.elevline.f{
+	top: 114px;
+	right:1040px;
+}
+.elevline.d{
+	top: 84px;
+	right:1040px;
+}
+.elevline.b{
+	top: 54px;
+	right:1040px;
+}
+
+#bar{
+	width:120px;
+	height: 15px;
+	background-color: #ecc82e;
+	position: absolute;
+	top: 230px;
+	right:1020px;
+	border-radius: 3px;
+}
 
 
 /* -------------------------------------------------------------------------- map */
+
 #map{
-/*	border: 1px solid yellow;*/
-	height:500px;
-	width:1024px;
-	background-image: url("../images/map.png");
-	background-repeat: no-repeat;
-	position: relative;
-	float:left;
+
 }
 
 .riverdot{
@@ -101,43 +187,87 @@ h3 {
 	width:20px;
 	height:20px;
 	border-radius: 10px;
-	background-color: #1b75bb;
+	background-color: #4799c6;
 	text-align: center;
 	color: #fff;
 	margin-top: 0px;
 }
+.riverdot p{
+	color: #1b75bb;
+	width: 200px;
+}
 
-.riverdot.eight{
-	margin-left: 158px;
-	margin-top: 325px;
-}
 .riverdot.seven{
-	margin-left: 245px;
-	margin-top: 306px;
+	margin-left: 43px;
+	margin-top: 515px;
 }
+.riverdot.seven p{
+	margin-left: -10px;
+	margin-top: 3px;
+}
+
 .riverdot.six{
-	margin-left: 386px;
-	margin-top: 191px;
+	margin-left: 415px;
+	margin-top: 305px;
 }
+.riverdot.six p{
+	margin-left: -32px;
+	margin-top: 4px;
+}
+
 .riverdot.five{
-	margin-left: 494px;
-	margin-top: 24px;
+	margin-left: 470px;
+	margin-top: 135px;
 }
+.riverdot.five p{
+	margin-left: -60px;
+	margin-top: 35px;
+}
+
 .riverdot.four{
-	margin-left: 572px;
-	margin-top: 67px;
+	margin-left: 655px;
+	margin-top: 175px;
 }
+.riverdot.four p{
+	margin-left: -10px;
+	margin-top: -5px;
+}
+
 .riverdot.three{
-	margin-left: 731px;
-	margin-top: 141px;
+	margin-left: 840px;
+	margin-top: 220px;
 }
+.riverdot.three p{
+	margin-left: -77px;
+	margin-top: -25px;
+}
+
 .riverdot.two{
-	margin-left: 802px;
-	margin-top: 185px;
+	margin-left: 930px;
+	margin-top: 215px;
 }
+.riverdot.two p{
+	margin-left: -30px;
+	margin-top: 2px;
+}
+
 .riverdot.one{
-	margin-left: 909px;
-	margin-top: 184px;
+	margin-left: 960px;
+	margin-top: 292px;
+}
+.riverdot.one p{
+	margin-left: 12px;
+	margin-top: 2px;
+}
+
+#pgh{
+	position: absolute;
+	text-align: left;
+	margin-top: 0px;
+	color: #1b75bb;
+	width: 200px;
+	margin-left: 395px;
+	margin-top: 478px;
 }
 
 
@@ -145,48 +275,46 @@ h3 {
 
 /* --------------------------------------------------------------------------  control panel */
 #dials{
-/*	border: 1px solid fuchsia;*/
-	height:180px;
-	width:1024px;
-/*	background-image: url("../images/dials.png");
-	background-repeat: no-repeat;*/
-/*    float:left;*/
-	margin-top: 350px;
-    margin-left: 200px;
-/*    position: relative;*/
+/*	height:180px;
+	width:1024px;*/
+	margin-top: 580px;
+	/*color: #c0e0f2; /* #a2d2ed*/
+	/*text-shadow: -1px 0 #c0e0f2, 0 1px #c0e0f2, 1px 0 #c0e0f2, 0 -1px #c0e0f2; *//*1b75bb*/
+	font-size: 2em;
+	font-weight: bold;
 }
 
-#ph{
-	background-color: #1b75bb;
-	color: #fff;
-	width:55px;
-	height:15px;
-	padding: 5px;
-	position: absolute;
-	margin-left: 30px;
-	margin-top: 50px;
+.controls{
+	float:right;
+	margin-right: 730px;
+	margin-top:-200px;
 }
 
-#temp{
-	background-color: #1b75bb;
-	color: #fff;
-	width:55px;
-	height:15px;
-	padding: 5px;
-	position: absolute;
-	margin-top: 75px;
-	margin-left: 30px;
+#clock{
+	margin-bottom: 80px;
 }
 
-#height{
-	background-color: #1b75bb;
-	color: #fff;
-	width:55px;
-	height:40px;
-	padding: 5px;
-	position: absolute;
-	margin-top: 100px;
-	margin-left: 30px;
+#ph, #temp, #height, #rain, #reset, #raining{
+	width:150px;
+	height:70px;
+	border: 3px solid #1b75bb;
+	border-radius: 5px;
+	text-align: center;
+	font-size:  1.5em;
+	font-weight: bold;
+	padding-top: 30px;
+	margin-bottom: 10px;
+	background-color: #fff;
+	color: #000;
+	opacity: .55;
+}
+
+#rain, #reset, #raining {
+	margin-top: 190px;
+}
+
+#raining{
+	opacity: .5;
 }
 
 .arrow{
@@ -203,118 +331,212 @@ h3 {
 
 #timeline{
 	position: absolute;
-	width:780px;
+	width:920px;
 	height:8px;
 	border-radius: 25px;
 	background-color: #1b75bb;
 	text-align: center;
 	color: #fff;
 	margin-top: 83px;
-	margin-left: 140px;
+	margin-left: 50px;
 }
 
 .circleButton{
 	position: absolute;
-	width:50px;
-	height:50px;
+	width:35px;
+	height:35px;
 	border-radius: 25px;
-	background-color: #1b75bb;
+	border: 1px solid #1b75bb;
+	background-color: #4799c6;
 	text-align: center;
 	color: #fff;
-	margin-top: 60px;
+	margin-top: 67px;
 }
 
-.eight{
-	margin-left: 140px;
-}
 .seven{
-	margin-left: 230px;
+	margin-left: 43px;
 }
 .six{
-	margin-left: 370px;
+	margin-left: 415px;
 }
 .five{
-	margin-left: 480px;
+	margin-left: 470px;
 }
 .four{
-	margin-left: 560px;
+	margin-left: 655px;
 }
 .three{
-	margin-left: 720px;
+	margin-left: 840px;
 }
 .two{
-	margin-left: 790px;
+	margin-left: 930px;
 }
 .one{
-	margin-left: 880px;
+	margin-left: 960px;
 }
 
 #instructions{
 	position: absolute;
 	text-align: center;
-	margin-left: 150px;
+	margin-left: 110px;
 	margin-top: 120px;
+	font-size: .5em;
 }
 
-#clock-one {
+#time-seven{
 	position: absolute;
-	margin-top: 10px;
-	margin-left: 888px;
+	margin-top: 20px;
+	margin-left:40px;
 }
-#clock-two {
+#time-six{
 	position: absolute;
-	margin-top: 10px;
-	margin-left: 798px;
+	margin-top: 20px;
+	margin-left: 420px;
 }
-#clock-three {
+#time-five{
 	position: absolute;
-	margin-top: 10px;
-	margin-left: 728px;
+	margin-top: 20px;
+	margin-left: 475px;
 }
-#clock-four {
+#time-four{
 	position: absolute;
-	margin-top: 10px;
-	margin-left: 568px;
+	margin-top: 20px;
+	margin-left: 660px;
 }
-#clock-five {
+#time-three{
 	position: absolute;
-	margin-top: 10px;
-	margin-left: 488px;
+	margin-top: 20px;
+	margin-left: 848px;
 }
-#clock-six {
+#time-two{
 	position: absolute;
-	margin-top: 10px;
-	margin-left: 378px;
+	margin-top: 20px;
+	margin-left: 935px;
 }
-#clock-seven {
+#time-one{
 	position: absolute;
-	margin-top: 10px;
-	margin-left: 238px;
-}
-#clock-eight {
-	position: absolute;
-	margin-top: 10px;
-	margin-left: 148px;
+	margin-top: 20px;
+	margin-left: 975px;
 }
 
+#time-label{
+	position: absolute;
+	margin-top: 20px;
+	margin-left: 1025px;
+	font-size: 0.5em;
+	font-weight: normal;
+}
 
 /* --------------------------------------------------------------------------  gauges */
-#ligonierTempGauge, #ligonierHeightGauge, #ligonierPhGauge {
+
+#sevenTempGauge{
 	position: absolute;
-	top:440px;
-	right:495px;
+	top:710px;
+	left:250px;
+}
+#sevenHeightGauge {
+	position: absolute;
+	top:710px;
+	left:250px;
+}
+#sevenPhGauge {
+	position: absolute;
+	top:710px;
+	left:250px;
 }
 
-#threeTempGauge, #threePhGauge, #threeHeightGauge {
+#sixTempGauge{
 	position: absolute;
-	top:225px;
-	right:525px;
+	top:520px;
+	left:610px;
+}
+#sixHeightGauge{
+	position: absolute;
+	top:520px;
+	left:610px;
+}
+#sixPhGauge {
+	position: absolute;
+	top:520px;
+	left:610px;
 }
 
-#loyalhannaTempGauge, #loyalhannaPhGauge, #loyalhannaHeightGauge {
+#fiveTempGauge{
 	position: absolute;
 	top:300px;
-	right:670px;
+	left:750px;
+}
+#fiveHeightGauge{
+	position: absolute;
+	top:300px;
+	left:750px;
+}
+#fivePhGauge {
+	position: absolute;
+	top:300px;
+	left:750px;
 }
 
+#fourTempGauge{
+	position: absolute;
+	top:340px;
+	left:940px;
+}
+#fourHeightGauge{
+	position: absolute;
+	top:340px;
+	left:940px;
+}
+#fourPhGauge {
+	position: absolute;
+	top:340px;
+	left:940px;
+}
 
+#threeTempGauge{
+	position: absolute;
+	top:525px;
+	left:1115px;
+}
+#threeHeightGauge{
+	position: absolute;
+	top:525px;
+	left:1115px;
+}
+#threePhGauge {
+	position: absolute;
+	top:525px;
+	left:1115px;
+}
+
+#twoTempGauge{
+	position: absolute;
+	top:385px;
+	left:1230px;
+}
+#twoPhGauge{
+	position: absolute;
+	top:385px;
+	left:1230px;
+}
+#twoHeightGauge {
+	position: absolute;
+	top:385px;
+	left:1230px;
+}
+
+#oneTempGauge {
+	position: absolute;
+	top:600px;
+	left:1280px;
+}
+#onePhGauge{
+	position: absolute;
+	top:600px;
+	left:1280px;
+}
+#oneHeightGauge {
+	position: absolute;
+	top:600px;
+	left:1280px;
+}
