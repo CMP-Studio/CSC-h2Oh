@@ -170,7 +170,7 @@ path.line {
 	height: 15px;
 	background-color: #ecc82e;
 	position: absolute;
-	top: 230px;
+	top: 40px;
 	right:1020px;
 	border-radius: 3px;
 }
@@ -331,7 +331,7 @@ path.line {
 
 #timeline{
 	position: absolute;
-	width:920px;
+	width:930px;
 	height:8px;
 	border-radius: 25px;
 	background-color: #1b75bb;
@@ -372,7 +372,7 @@ path.line {
 	margin-left: 930px;
 }
 .one{
-	margin-left: 960px;
+	margin-left: 975px;
 }
 
 #instructions{
@@ -436,12 +436,12 @@ path.line {
 }
 #sevenHeightGauge {
 	position: absolute;
-	top:710px;
-	left:250px;
+	top:685px;
+	left:230px;
 }
 #sevenPhGauge {
 	position: absolute;
-	top:710px;
+	top:700px;
 	left:250px;
 }
 
@@ -452,12 +452,12 @@ path.line {
 }
 #sixHeightGauge{
 	position: absolute;
-	top:520px;
-	left:610px;
+	top:495px;
+	left:590px;
 }
 #sixPhGauge {
 	position: absolute;
-	top:520px;
+	top:510px;
 	left:610px;
 }
 
@@ -468,12 +468,12 @@ path.line {
 }
 #fiveHeightGauge{
 	position: absolute;
-	top:300px;
-	left:750px;
+	top:275px;
+	left:730px;
 }
 #fivePhGauge {
 	position: absolute;
-	top:300px;
+	top:290px;
 	left:750px;
 }
 
@@ -484,12 +484,12 @@ path.line {
 }
 #fourHeightGauge{
 	position: absolute;
-	top:340px;
-	left:940px;
+	top:315px;
+	left:920px;
 }
 #fourPhGauge {
 	position: absolute;
-	top:340px;
+	top:330px;
 	left:940px;
 }
 
@@ -500,12 +500,12 @@ path.line {
 }
 #threeHeightGauge{
 	position: absolute;
-	top:525px;
-	left:1115px;
+	top:500px;
+	left:1095px;
 }
 #threePhGauge {
 	position: absolute;
-	top:525px;
+	top:515px;
 	left:1115px;
 }
 
@@ -516,13 +516,13 @@ path.line {
 }
 #twoPhGauge{
 	position: absolute;
-	top:385px;
+	top:375px;
 	left:1230px;
 }
 #twoHeightGauge {
 	position: absolute;
-	top:385px;
-	left:1230px;
+	top:360px;
+	left:1210px;
 }
 
 #oneTempGauge {
@@ -532,11 +532,11 @@ path.line {
 }
 #onePhGauge{
 	position: absolute;
-	top:600px;
+	top:590px;
 	left:1280px;
 }
 #oneHeightGauge {
 	position: absolute;
-	top:600px;
-	left:1280px;
+	top:575px;
+	left:1260px;
 }

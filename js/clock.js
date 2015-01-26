@@ -27,9 +27,11 @@ var vis, clockGroup;
 		this.config.minute = this.config.minute;//20;
 
 		this.draw();
-		var data;
-		data = this.fields(this.config.hour, this.config.minute)
-		this.render(data);
+		var data, defaultTime;
+		data = this.fields(this.config.hour, this.config.minute);
+		defaultTime = this.fields(12, 0);
+		this.render(defaultTime, data);
+
 	}
 
 	this.fields = function(hour, minute) {
@@ -84,8 +86,32 @@ var vis, clockGroup;
 
 	}
 
-	this.render = function(data)
+	this.render = function(defaultTime, data)
 	{
+
+			var hourArc, minuteArc;
+		    clockGroup.selectAll(".clockhandStatic").remove();
+		    minuteArc = d3.svg.arc().innerRadius(0).outerRadius(this.config.width/3.7).startAngle(function(d) {
+		      return scaleSecsMins(d.numeric);
+		    }).endAngle(function(d) {
+		      return scaleSecsMins(d.numeric);
+		    });
+		    hourArc = d3.svg.arc().innerRadius(0).outerRadius(this.config.width/5).startAngle(function(d) {
+		      return scaleHours(d.numeric % 12);
+		    }).endAngle(function(d) {
+		      return scaleHours(d.numeric % 12);
+		    });
+
+
+			clockGroup.selectAll(".clockhandStatic").data(defaultTime).enter().append("svg:path").attr("d", function(d) {
+
+		      if (d.unit === "minutes") {
+		        return minuteArc(d);
+		      } else if (d.unit === "hours") {
+		        return hourArc(d);
+		      }
+		    }).attr("class", "clockhandStatic").attr("stroke", "#c3c7c9").attr("stroke-width", this.config.width/100).attr("fill", "none");
+
 
 		    var hourArc, minuteArc;
 		    clockGroup.selectAll(".clockhand").remove();
@@ -100,7 +126,6 @@ var vis, clockGroup;
 		      return scaleHours(d.numeric % 12);
 		    });
 
-
 		    clockGroup.selectAll(".clockhand").data(data).enter().append("svg:path").attr("d", function(d) {
 
 		      if (d.unit === "minutes") {
@@ -108,15 +133,16 @@ var vis, clockGroup;
 		      } else if (d.unit === "hours") {
 		        return hourArc(d);
 		      }
-		    }).attr("class", "clockhand").attr("stroke", "#b3b3b3").attr("stroke-width", this.config.width/100).attr("fill", "none");
+		    }).attr("class", "clockhand").attr("stroke", "#595a5b").attr("stroke-width", this.config.width/100).attr("fill", "none");
 
 	}
 
 	this.redraw = function(h, m){
 
-		var data;
+		var data, defaultTime;
 		data = this.fields(h, m);
-		this.render(data);
+		defaultTime = this.fields(12, 0);
+		this.render(defaultTime, data);
 
 	}
 

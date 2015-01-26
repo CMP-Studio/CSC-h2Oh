@@ -11,6 +11,7 @@
 	-->
 	<script type="text/javascript" src="lib/d3.min.js"></script>
 	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="lib/jquery.color.js"></script>
 
 	<link rel='stylesheet' href='css/riverEventStyle.css' type='text/css'/>
 
@@ -125,14 +126,14 @@
 <script>
 
 var locations = ["one", "two", "three", "four", "five", "six", "seven"];
-var values = [{ph:'7.6', temp:'71', height:'12.12', hour:'12', minute:'0', phAfter:'12.1', tempAfter:'51', heightAfter:'1'},
-			  {ph:'7.6', temp:'72', height:'11.93', hour:'14', minute:'15', phAfter:'12.2', tempAfter:'52', heightAfter:'2'},
-			  {ph:'7.6', temp:'73', height:'12.51', hour:'15', minute:'30', phAfter:'12.3', tempAfter:'53', heightAfter:'3'},
-			  {ph:'7.6', temp:'74', height:'12.12', hour:'16', minute:'45', phAfter:'12.4', tempAfter:'54', heightAfter:'4'},
-			  {ph:'7.6', temp:'75', height:'11.93', hour:'17', minute:'0', phAfter:'12.5', tempAfter:'55', heightAfter:'5'},
-			  {ph:'7.6', temp:'76', height:'12.51', hour:'18', minute:'15', phAfter:'12.6', tempAfter:'56', heightAfter:'6'},
-			  {ph:'7.6', temp:'77', height:'12.12', hour:'19', minute:'30', phAfter:'12.7', tempAfter:'57', heightAfter:'7'}];
-var defaultTime = {hour:'12', minute:'55'};
+var values = [{ph:'7.5', temp:'65.48', height:'12.12', hour:'0', minute:'0', phAfter:'7.5', tempAfter:'0', heightAfter:'12.12'},
+			  {ph:'7.5', temp:'66.27', height:'12.12', hour:'0', minute:'0', phAfter:'7.5', tempAfter:'0', heightAfter:'12.12'},
+			  {ph:'7.5', temp:'71.26', height:'12.12', hour:'0', minute:'0', phAfter:'7.5', tempAfter:'0', heightAfter:'12.12'},
+			  {ph:'7.5', temp:'76.15', height:'12.12', hour:'0', minute:'0', phAfter:'7.5', tempAfter:'0', heightAfter:'12.12'},
+			  {ph:'7.5', temp:'75.15', height:'12.12', hour:'2', minute:'30', phAfter:'7.5', tempAfter:'74.91', heightAfter:'12.12'},
+			  {ph:'7.5', temp:'67.41', height:'12.12', hour:'5', minute:'14', phAfter:'7.5', tempAfter:'75.56', heightAfter:'12.12'},
+			  {ph:'7.5', temp:'75.74', height:'12.12', hour:'19', minute:'30', phAfter:'7.5', tempAfter:'0', heightAfter:'12.12'}];
+var defaultTime = {hour:'12', minute:'0'};
 var phGauges = [];
 var temperatureGauges = [];
 var heightGauges = [];
@@ -185,7 +186,9 @@ function onDocumentReady() {
 			min: 0,
 			max: 14,
 			minorTicks: 1,
-			majorTicks: 15
+			majorTicks: 15,
+			labelX: 0,
+			labelY: 23
 		}
 						
 		phGauges[cssID] = new PhGauge(cssID + "PhGauge", config);
@@ -199,7 +202,8 @@ function onDocumentReady() {
 			max: 90,
 			minorTicks: 10,
 			majorTicks: 7,
-			transitionMs: 3000
+			transitionMs: 3000,
+			labelMarginX: -6
 		}
 						
 		temperatureGauges[cssID] = new TemperatureGauge(cssID + "TempGauge", config);
@@ -302,7 +306,7 @@ function onDocumentReady() {
 		clocks[cssID] = new Clock(cssID, config);
 	}
 
-	createClocks("clock", 12, 5);
+	createClocks("clock", 12, 0);
 
 	
 	$('#ph').click(function() {
@@ -345,13 +349,16 @@ function onDocumentReady() {
 
 	$('#reset').toggle();
 	$('#raining').toggle();
+
 	$('#reset').click(function() {
+
 		$('#reset').toggle();
 		$('#rain').toggle();
 
 		fadeOutTimes();
 
 		resetEventTrigger('none');
+		$("#bar").animate({top: "40px"}, 1000);
 
 		clocks["clock"].redraw(values[0].hour, values[0].minute);
 
@@ -441,7 +448,12 @@ function onDocumentReady() {
 	}
 
 	function highlight(name, color, order, sliderNumber){
-		$('.'+name).css('background', color);
+		//$('.'+name).css('background', color);
+		
+		jQuery("."+name).animate({
+            backgroundColor: color
+    	}, 500 );
+
 		resetEventTrigger(name);
 
 		temperatureGauges[locations[order]].redraw(values[order].tempAfter);
@@ -451,7 +463,7 @@ function onDocumentReady() {
 		phGauges[locations[order]].redraw(values[order].phAfter);
 		clocks["clock"].redraw(values[order].hour, values[order].minute);
 
-		$("#bar").animate({top: sliderNumber});
+		$("#bar").animate({top: sliderNumber}, 1000);
 		$("#time-"+name).fadeIn();
 										
 		if(!resetOn){

@@ -26,9 +26,6 @@ function HeightGauge(placeholderName, configuration)
 		this.config.cx = configuration.cx || this.config.size / 2;
 		this.config.cy = configuration.cy || this.config.size / 2;
 
-		console.log("cy: "+this.config.cy+ "  size/2: "+this.config.size / 2);
-
-
 		margin.left = margin.left + this.config.radius;
 		margin.top = margin.top + this.config.radius;
 
