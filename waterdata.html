@@ -303,7 +303,17 @@ function onDocumentReady() {
 							dateString = dateString.substring(0,10);
 							//console.log("update gauges: "+dateString);
 							var ghData = dateString + "," + values[l].height;
-							saveGaugeHeight(rivers[l], ghData);
+
+							// parse date before saving
+							var parts = ghData.split("-");
+							var d = new Date();
+							var thisMonth = d.getMonth();
+							// console.log(thisMonth + " " + parts[1]);
+
+							if( (parts.length > 2) && (parts[1] != thisMonth) ){
+								saveGaugeHeight(rivers[l], ghData);
+								//console.log("saving gen data");
+							}
 						}
 					}
 					break;
