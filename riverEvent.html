@@ -64,13 +64,13 @@
 		<div id="sixTempGauge"></div>
 		<div id="sevenTempGauge"></div>
 
-		<div id="onePhGauge"></div>
-		<div id="twoPhGauge"></div>
-		<div id="threePhGauge"></div>
-		<div id="fourPhGauge"></div>
-		<div id="fivePhGauge"></div>
-		<div id="sixPhGauge"></div>
-		<div id="sevenPhGauge"></div>
+		<div id="oneConductanceGauge"></div>
+		<div id="twoConductanceGauge"></div>
+		<div id="threeConductanceGauge"></div>
+		<div id="fourConductanceGauge"></div>
+		<div id="fiveConductanceGauge"></div>
+		<div id="sixConductanceGauge"></div>
+		<div id="sevenConductanceGauge"></div>
 			
 		<div id="oneHeightGauge"></div>
 		<div id="twoHeightGauge"></div>
@@ -83,10 +83,12 @@
 	</div><!-- map -->
 
 	<div class="controls">
-		<div id="clock"></div>
-		<div id="ph">PH</div>
+<!-- 		<div id="clock"></div> -->
+		
+		<div id="conductance">Conductance</div>
 		<div id="temp">Temperature</div>
-		<div id="height">Gauge Height</div>
+		<div id="explanation"></div>
+<!-- 		<div id="height">Gauge Height</div> -->
 		<div id="rain">Let it rain</div>
 		<div id="reset">Reset</div>
 		<div id="raining">Reset</div>
@@ -94,14 +96,15 @@
 	
 	<div id="dials">
 		<div id="timeline"></div>
+		<div id="dot"></div>
 		<div id="time-label">Travel Time <br />in Minutes</div>
 		<div id="time-one">0</div>
-		<div id="time-two">17</div>
-		<div id="time-three">21</div>
-		<div id="time-four">34</div>
-		<div id="time-five">46</div>
-		<div id="time-six">57</div>
-		<div id="time-seven">1:18</div>
+		<div id="time-two">2</div>
+		<div id="time-three">4</div>
+		<div id="time-four">36</div>
+		<div id="time-five">60</div>
+		<div id="time-six">72</div>
+		<div id="time-seven">96</div>
 		<div class="circleButton seven"></div>
 		<div class="circleButton six"></div>
 		<div class="circleButton five"></div>
@@ -117,34 +120,36 @@
 
 </div><!-- wrapper -->
 
-<script type="text/javascript" src="js/phGauge.js"></script>
+<script type="text/javascript" src="js/conductance.js"></script>
 <script type="text/javascript" src="js/temperatureGauge.js"></script>
-<script type="text/javascript" src="js/heightGauge.js"></script>
+<!-- <script type="text/javascript" src="js/heightGauge.js"></script> -->
 <script type="text/javascript" src="js/elevationGraph.js"></script>
 <script type="text/javascript" src="js/clock.js"></script>
 
 <script>
 
 var locations = ["one", "two", "three", "four", "five", "six", "seven"];
-var values = [{ph:'7.5', temp:'65.48', height:'12.12', hour:'0', minute:'0', phAfter:'7.5', tempAfter:'0', heightAfter:'12.12'},
-			  {ph:'7.5', temp:'66.27', height:'12.12', hour:'0', minute:'0', phAfter:'7.5', tempAfter:'0', heightAfter:'12.12'},
-			  {ph:'7.5', temp:'71.26', height:'12.12', hour:'0', minute:'0', phAfter:'7.5', tempAfter:'0', heightAfter:'12.12'},
-			  {ph:'7.5', temp:'76.15', height:'12.12', hour:'0', minute:'0', phAfter:'7.5', tempAfter:'0', heightAfter:'12.12'},
-			  {ph:'7.5', temp:'75.15', height:'12.12', hour:'2', minute:'30', phAfter:'7.5', tempAfter:'74.91', heightAfter:'12.12'},
-			  {ph:'7.5', temp:'67.41', height:'12.12', hour:'5', minute:'14', phAfter:'7.5', tempAfter:'75.56', heightAfter:'12.12'},
-			  {ph:'7.5', temp:'75.74', height:'12.12', hour:'19', minute:'30', phAfter:'7.5', tempAfter:'0', heightAfter:'12.12'}];
+var values = [{conductance:'120', temp:'65.41',  hour:'0', minute:'0', conductanceAfter:'103', tempAfter:'52.99', heightAfter:'12.12'},
+			  {conductance:'146', temp:'68.58',  hour:'0', minute:'0', conductanceAfter:'113', tempAfter:'54.95', heightAfter:'12.12'},
+			  {conductance:'319', temp:'70.66',  hour:'0', minute:'0', conductanceAfter:'260', tempAfter:'57.09', heightAfter:'12.12'},
+			  {conductance:'576', temp:'74.82', hour:'0', minute:'0', conductanceAfter:'536', tempAfter:'69.15', heightAfter:'12.12'},
+			  {conductance:'648', temp:'74.61',  hour:'2', minute:'30', conductanceAfter:'623', tempAfter:'64.02', heightAfter:'12.12'},
+			  {conductance:'355', temp:'75.4', hour:'5', minute:'14', conductanceAfter:'362', tempAfter:'71.2', heightAfter:'12.12'},
+			  {conductance:'381', temp:'76.3', hour:'19', minute:'30', conductanceAfter:'395', tempAfter:'72.3', heightAfter:'12.12'}];
+
+
 var defaultTime = {hour:'12', minute:'0'};
-var phGauges = [];
+var conductanceGauges = [];
 var temperatureGauges = [];
-var heightGauges = [];
+// var heightGauges = [];
 var clocks = [];
 var resetOn = false;
 var status = 2;
 
 function onDocumentReady() {
 
-	hideGauges("PhGauge");
-	hideGauges("HeightGauge");
+	hideGauges("ConductanceGauge");
+	// hideGauges("HeightGauge");
 	hideTimes();
 
 	/* ---------------------------------------------------------- ELEVATION GRAPH ---- */
@@ -179,20 +184,20 @@ function onDocumentReady() {
 
 	/* ---------------------------------------------------------- GAUGES ---- */
 
-	function createPhGauge(cssID, label) {
+	function createConductanceGauge(cssID, label) {
 		var config = {
 			size: 115,
 			label: label,
-			min: 0,
-			max: 14,
+			min: 99,
+			max: 699,
 			minorTicks: 1,
-			majorTicks: 15,
+			majorTicks: 13,
 			labelX: 0,
 			labelY: 23
 		}
 						
-		phGauges[cssID] = new PhGauge(cssID + "PhGauge", config);
-		phGauges[cssID].render();
+		conductanceGauges[cssID] = new ConductanceGauge(cssID + "ConductanceGauge", config);
+		conductanceGauges[cssID].render();
 	}
 
 	function createTemperatureGauge(cssID){
@@ -210,47 +215,47 @@ function onDocumentReady() {
 		temperatureGauges[cssID].render();
 	}
 
-	function createHeightGauge(cssID, label, fl) {
-		var config = {
-			size: 148,
-			label: label,
-			max: 34,
-			cx: 125,
-			cy: 170, 
-			floodLevel: fl
-		}
+	// function createHeightGauge(cssID, label, fl) {
+	// 	var config = {
+	// 		size: 148,
+	// 		label: label,
+	// 		max: 34,
+	// 		cx: 125,
+	// 		cy: 170, 
+	// 		floodLevel: fl
+	// 	}
 						
-		heightGauges[cssID] = new HeightGauge(cssID + "HeightGauge", config);
-		heightGauges[cssID].render();
-	}
+	// 	heightGauges[cssID] = new HeightGauge(cssID + "HeightGauge", config);
+	// 	heightGauges[cssID].render();
+	// }
 
 	for (var i = 0; i < locations.length; i++){
-		createHeightGauge(locations[i], locations[i], 0);
+		// createHeightGauge(locations[i], locations[i], 0);
 		createTemperatureGauge(locations[i]);
-		createPhGauge(locations[i]);
+		createConductanceGauge(locations[i]);
 		updateRiverGauges(i);
 	}
 
 	// update the data for all gauges and labels
 	function updateRiverGauges(location){
-		updatePh(location);
+		updateConductance(location);
 		updateTemp(location);
-		updateHeight(location);
+		// updateHeight(location);
 	}
 
-	function updatePh(l){
-		phGauges[locations[l]].reset(1);
-		phGauges[locations[l]].redraw(values[l].ph);
+	function updateConductance(l){
+		//conductenceGauges[locations[l]].reset(1);
+		conductanceGauges[locations[l]].redraw(values[l].conductance);
 	}
 
 	function updateTemp(l){		
 		temperatureGauges[locations[l]].redraw(values[l].temp);
 	}
 
-	function updateHeight(l){
-		heightGauges[locations[l]].reset(1);
-		heightGauges[locations[l]].redraw(values[l].height);
-	}
+	// function updateHeight(l){
+	// 	heightGauges[locations[l]].reset(1);
+	// 	heightGauges[locations[l]].redraw(values[l].height);
+	// }
 
 	// capitalizes the first Letter of the string
 	function capFirstLetter(string){
@@ -309,21 +314,24 @@ function onDocumentReady() {
 	createClocks("clock", 12, 0);
 
 	
-	$('#ph').click(function() {
+	$('#conductance').click(function() {
 		hideGauges("TempGauge");
-		showGauges("PhGauge");
-		hideGauges("HeightGauge");
+		showGauges("ConductanceGauge");
+		// hideGauges("HeightGauge");
+		$('#explanation').html("<p>Conductance is another way of measuring water purity like pH.</p>");
+
 	});
 	$('#temp').click(function() {
 		showGauges("TempGauge");
-		hideGauges("PhGauge");
-		hideGauges("HeightGauge");
+		hideGauges("ConductanceGauge");
+		// hideGauges("HeightGauge");
+		$('#explanation').html("<p>The water held at the dam doesn't change much with the addition of fresh rain</p>");
 	});
-	$('#height').click(function() {
-		hideGauges("TempGauge");
-		hideGauges("PhGauge");
-		showGauges("HeightGauge");
-	});
+	// $('#height').click(function() {
+	// 	hideGauges("TempGauge");
+	// 	hideGauges("ConductanceGauge");
+	// 	// showGauges("HeightGauge");
+	// });
 
 	$('.one').click(function() {
 		highlight("one", "#ecc82e", 0, "50px");
@@ -359,16 +367,17 @@ function onDocumentReady() {
 
 		resetEventTrigger('none');
 		$("#bar").animate({top: "40px"}, 1000);
+		$("#dot").css('left', "1238px");
 
 		clocks["clock"].redraw(values[0].hour, values[0].minute);
 
 		//reset gauges
 		for (var i = 0; i < locations.length; i++){
 			temperatureGauges[locations[i]].redraw(values[i].temp);
-			heightGauges[locations[i]].reset(1);
-			heightGauges[locations[i]].redraw(values[i].height);
-			phGauges[locations[i]].reset(1);
-			phGauges[locations[i]].redraw(values[i].ph);
+			// heightGauges[locations[i]].reset(1);
+			// heightGauges[locations[i]].redraw(values[i].height);
+			//conductanceGauge[locations[i]].reset(1);
+			conductanceGauges[locations[i]].redraw(values[i].conductance);
 		};
 
 		resetOn = false;
@@ -379,14 +388,32 @@ function onDocumentReady() {
 		resetOn = true;
 		$('#raining').toggle();
 		$('#rain').toggle();
+		$('#explanation').html("<p>The water held at the dam doesn't change much with the addition of fresh rain</p>");
 
 		highlight("one", "#ecc82e", 0, "50px");
-		setTimeout( function(){ highlight("two", "#ecc82e", 1, "150px"); }, 1000 );
-		setTimeout( function(){ highlight("three", "#ecc82e", 2, "175px"); }, 2000 );
-		setTimeout( function(){ highlight("four", "#ecc82e", 3, "210px"); }, 3000 );
-		setTimeout( function(){ highlight("five", "#ecc82e", 4, "220px"); }, 4000 );
-		setTimeout( function(){ highlight("six", "#ecc82e", 5, "225px"); }, 5000 );
-		setTimeout( function(){ highlight("seven", "#ecc82e", 6, "230px"); }, 6000 );
+		$("#bar").animate({top: "150px"}, 200);
+		$("#dot").animate({left: "1238px"}, 200);
+		setTimeout( function(){ highlight("two", "#ecc82e", 1, "150px"); }, 200 );
+
+		$("#bar").animate({top: "175px"}, 400);
+		$("#dot").animate({left: "1148px"}, 400);
+		setTimeout( function(){ highlight("three", "#ecc82e", 2, "175px"); }, 400 );
+		
+		$("#bar").animate({top: "210px"}, 3400);
+		$("#dot").animate({left: "962px"}, 4500);
+		setTimeout( function(){ highlight("four", "#ecc82e", 3, "210px"); }, 3800 );
+		
+		$("#bar").animate({top: "220px"}, 2200);
+		$("#dot").animate({left: "778px"}, 1500);
+		setTimeout( function(){ highlight("five", "#ecc82e", 4, "220px"); }, 6000 );
+		
+		$("#bar").animate({top: "225px"}, 1200);
+		$("#dot").animate({left: "723px"}, 1200);
+		setTimeout( function(){ highlight("six", "#ecc82e", 5, "225px"); }, 7200 );
+		
+		$("#bar").animate({top: "230px"}, 2400);
+		$("#dot").animate({left: "352px"}, 2300);
+		setTimeout( function(){ highlight("seven", "#ecc82e", 6, "230px"); }, 9600 );
 
 		setTimeout( function(){
 			resetEventTrigger('none');
@@ -457,13 +484,13 @@ function onDocumentReady() {
 		resetEventTrigger(name);
 
 		temperatureGauges[locations[order]].redraw(values[order].tempAfter);
-		heightGauges[locations[order]].reset(1);
-		heightGauges[locations[order]].redraw(values[order].heightAfter);
-		phGauges[locations[order]].reset(1);
-		phGauges[locations[order]].redraw(values[order].phAfter);
-		clocks["clock"].redraw(values[order].hour, values[order].minute);
+		// heightGauges[locations[order]].reset(1);
+		// heightGauges[locations[order]].redraw(values[order].heightAfter);
+		// ConductanceGauge[locations[order]].reset(1);
+		conductanceGauges[locations[order]].redraw(values[order].conductanceAfter);
+		//clocks["clock"].redraw(values[order].hour, values[order].minute);
 
-		$("#bar").animate({top: sliderNumber}, 1000);
+		// $("#bar").animate({top: sliderNumber}, 1000);
 		$("#time-"+name).fadeIn();
 										
 		if(!resetOn){

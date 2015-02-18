@@ -287,14 +287,21 @@ path.line {
 .controls{
 	float:right;
 	margin-right: 730px;
-	margin-top:-200px;
+	margin-top:20px;
 }
 
 #clock{
 	margin-bottom: 80px;
 }
+#explanation{
+	border: 1px solid transparent;
+	margin-bottom: 80px;
+	width: 150px;
+	height: 150px;
+	font-size:  1.6em;
+}
 
-#ph, #temp, #height, #rain, #reset, #raining{
+#conductance, #temp, #height, #rain, #reset, #raining{
 	width:150px;
 	height:70px;
 	border: 3px solid #1b75bb;
@@ -351,6 +358,17 @@ path.line {
 	text-align: center;
 	color: #fff;
 	margin-top: 67px;
+}
+
+#dot{
+	position: absolute;
+	width:12px;
+	height:12px;
+	border-radius: 25px;
+	border: 1px solid #4799c6;
+	background-color: #4799c6;
+	margin-top: 80px;
+	left:1284px;
 }
 
 .seven{
@@ -439,7 +457,7 @@ path.line {
 	top:685px;
 	left:230px;
 }
-#sevenPhGauge {
+#sevenConductanceGauge {
 	position: absolute;
 	top:700px;
 	left:250px;
@@ -455,7 +473,7 @@ path.line {
 	top:495px;
 	left:590px;
 }
-#sixPhGauge {
+#sixConductanceGauge {
 	position: absolute;
 	top:510px;
 	left:610px;
@@ -471,7 +489,7 @@ path.line {
 	top:275px;
 	left:730px;
 }
-#fivePhGauge {
+#fiveConductanceGauge {
 	position: absolute;
 	top:290px;
 	left:750px;
@@ -487,7 +505,7 @@ path.line {
 	top:315px;
 	left:920px;
 }
-#fourPhGauge {
+#fourConductanceGauge {
 	position: absolute;
 	top:330px;
 	left:940px;
@@ -503,7 +521,7 @@ path.line {
 	top:500px;
 	left:1095px;
 }
-#threePhGauge {
+#threeConductanceGauge {
 	position: absolute;
 	top:515px;
 	left:1115px;
@@ -514,7 +532,7 @@ path.line {
 	top:385px;
 	left:1230px;
 }
-#twoPhGauge{
+#twoConductanceGauge{
 	position: absolute;
 	top:375px;
 	left:1230px;
@@ -530,7 +548,7 @@ path.line {
 	top:600px;
 	left:1280px;
 }
-#onePhGauge{
+#oneConductanceGauge{
 	position: absolute;
 	top:590px;
 	left:1280px;

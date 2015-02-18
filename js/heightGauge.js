@@ -76,7 +76,7 @@ function HeightGauge(placeholderName, configuration)
 		    .attr("font-weight", "bolder")
 		    .attr("fill", "#1b75bb")
 		    .attr("xlink:href","#path4")
-            .text("Gauge Height");         
+            .text("Gage Height");         
 
 
 		var node = this.body.selectAll(".node")

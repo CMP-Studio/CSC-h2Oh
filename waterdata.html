@@ -278,24 +278,33 @@ function onDocumentReady() {
 			switch(data.value.timeSeries[i].name.substr(data.value.timeSeries[0].name.length - 9).substr(0,3)){
 				case '400': // PH
 					idPh = i;
-					values[l].ph = data.value.timeSeries[idPh].values[0].value[0].value;
-					values[l].phTime = data.value.timeSeries[idPh].values[0].value[0].dateTime;
+					//console.log("idPh "+idPh);
+					if (data.value.timeSeries[idPh].values[0].value[0] != null) {
+						values[l].ph = data.value.timeSeries[idPh].values[0].value[0].value;
+						values[l].phTime = data.value.timeSeries[idPh].values[0].value[0].dateTime;
+					}
 					break;	
 				case '010': // temperature
-					idTemperature = i;
-					values[l].temp = data.value.timeSeries[idTemperature].values[0].value[0].value;
-					values[l].tempTime = data.value.timeSeries[idTemperature].values[0].value[0].dateTime;
+					idTemperature = i;	
+					//console.log("idTemperature "+idTemperature);
+					if (data.value.timeSeries[idTemperature].values[0].value[0] != null) {
+						values[l].temp = data.value.timeSeries[idTemperature].values[0].value[0].value;
+						values[l].tempTime = data.value.timeSeries[idTemperature].values[0].value[0].dateTime;
+					}
 					break;
 				case '065': // Gauge Height
 					idHeight = i;
-					values[l].height = data.value.timeSeries[idHeight].values[0].value[0].value;
-					values[l].heightTime = data.value.timeSeries[idHeight].values[0].value[0].dateTime;
-					if(refreshType.localeCompare("auto") == 0){
-						dateString = values[l].heightTime;
-						dateString = dateString.substring(0,10);
-						//console.log("update gauges: "+dateString);
-						var ghData = dateString + "," + values[l].height;
-						saveGaugeHeight(rivers[l], ghData);
+					//console.log("idHeight "+idHeight);
+					if( data.value.timeSeries[idHeight].values[0].value[0] != null) {
+						values[l].height = data.value.timeSeries[idHeight].values[0].value[0].value;
+						values[l].heightTime = data.value.timeSeries[idHeight].values[0].value[0].dateTime;
+						if(refreshType.localeCompare("auto") == 0){
+							dateString = values[l].heightTime;
+							dateString = dateString.substring(0,10);
+							//console.log("update gauges: "+dateString);
+							var ghData = dateString + "," + values[l].height;
+							saveGaugeHeight(rivers[l], ghData);
+						}
 					}
 					break;
 			}

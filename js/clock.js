@@ -126,8 +126,9 @@ var vis, clockGroup;
 		      return scaleHours(d.numeric % 12);
 		    });
 
-		    clockGroup.selectAll(".clockhand").data(data).enter().append("svg:path").attr("d", function(d) {
-
+		    var clockP = clockGroup.selectAll(".clockhand");
+		    
+		    clockP.data(data).enter().append("svg:path").attr("d", function(d) {
 		      if (d.unit === "minutes") {
 		        return minuteArc(d);
 		      } else if (d.unit === "hours") {
