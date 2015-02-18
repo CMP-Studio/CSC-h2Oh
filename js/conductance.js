@@ -202,7 +202,7 @@ function ConductanceGauge(placeholderName, configuration)
 				.attr("text-anchor", major == this.config.min ? "start" : "end")
 				.text(major)
 				.style("font-size", fontSize + "px")
-				.style("fill", "#fff")
+				.style("fill", "#1b75bb")
 				.style("stroke-width", "0px")
 
 		}

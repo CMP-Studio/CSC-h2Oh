@@ -43,7 +43,7 @@
 		<div class="elevline h"></div>
 		<div class="elevline j"></div>
 		<div class="elevline l"></div>
-		<div id="bar"></div>
+		<div id="bar">Elevation</div>
 	</div>
 
  	<div id="map">
@@ -129,13 +129,14 @@
 <script>
 
 var locations = ["one", "two", "three", "four", "five", "six", "seven"];
-var values = [{conductance:'120', temp:'65.41',  hour:'0', minute:'0', conductanceAfter:'103', tempAfter:'52.99', heightAfter:'12.12'},
-			  {conductance:'146', temp:'68.58',  hour:'0', minute:'0', conductanceAfter:'113', tempAfter:'54.95', heightAfter:'12.12'},
-			  {conductance:'319', temp:'70.66',  hour:'0', minute:'0', conductanceAfter:'260', tempAfter:'57.09', heightAfter:'12.12'},
-			  {conductance:'576', temp:'74.82', hour:'0', minute:'0', conductanceAfter:'536', tempAfter:'69.15', heightAfter:'12.12'},
-			  {conductance:'648', temp:'74.61',  hour:'2', minute:'30', conductanceAfter:'623', tempAfter:'64.02', heightAfter:'12.12'},
-			  {conductance:'355', temp:'75.4', hour:'5', minute:'14', conductanceAfter:'362', tempAfter:'71.2', heightAfter:'12.12'},
-			  {conductance:'381', temp:'76.3', hour:'19', minute:'30', conductanceAfter:'395', tempAfter:'72.3', heightAfter:'12.12'}];
+var values = [{conductance:'120', temp:'65.41',  hour:'0', minute:'0', conductanceAfter:'103', tempAfter:'52.99', heightAfter:'12.12',  elevation:"1515 ft"},
+			  {conductance:'146', temp:'68.58',  hour:'0', minute:'0', conductanceAfter:'113', tempAfter:'54.95', heightAfter:'12.12', elevation:"1166 ft"},
+			  {conductance:'319', temp:'70.66',  hour:'0', minute:'0', conductanceAfter:'260', tempAfter:'57.09', heightAfter:'12.12', elevation:"1047 ft"},
+			  {conductance:'576', temp:'74.82', hour:'0', minute:'0', conductanceAfter:'536', tempAfter:'69.15', heightAfter:'12.12', elevation:"864 ft"},
+			  {conductance:'648', temp:'74.61',  hour:'2', minute:'30', conductanceAfter:'623', tempAfter:'64.02', heightAfter:'12.12', elevation:"758 ft"},
+			  {conductance:'355', temp:'75.4', hour:'5', minute:'14', conductanceAfter:'362', tempAfter:'71.2', heightAfter:'12.12', elevation:"729 ft"},
+			  {conductance:'381', temp:'76.3', hour:'19', minute:'30', conductanceAfter:'395', tempAfter:'72.3', heightAfter:'12.12', elevation:"682 ft"}];
+
 
 
 var defaultTime = {hour:'12', minute:'0'};
@@ -147,6 +148,10 @@ var resetOn = false;
 var status = 2;
 
 function onDocumentReady() {
+
+	document.addEventListener("contextmenu", function(e){
+		e.preventDefault();
+	}, false);
 
 	hideGauges("ConductanceGauge");
 	// hideGauges("HeightGauge");
@@ -391,27 +396,27 @@ function onDocumentReady() {
 		$('#explanation').html("<p>The water held at the dam doesn't change much with the addition of fresh rain</p>");
 
 		highlight("one", "#ecc82e", 0, "50px");
-		$("#bar").animate({top: "150px"}, 200);
+		$("#bar").html("Elevation: "+values[0].elevation).animate({top: "150px"}, 200);
 		$("#dot").animate({left: "1238px"}, 200);
 		setTimeout( function(){ highlight("two", "#ecc82e", 1, "150px"); }, 200 );
 
-		$("#bar").animate({top: "175px"}, 400);
+		$("#bar").html("Elevation: "+values[1].elevation).animate({top: "175px"}, 400);
 		$("#dot").animate({left: "1148px"}, 400);
 		setTimeout( function(){ highlight("three", "#ecc82e", 2, "175px"); }, 400 );
 		
-		$("#bar").animate({top: "210px"}, 3400);
+		$("#bar").html("Elevation: "+values[2].elevation).animate({top: "210px"}, 3400);
 		$("#dot").animate({left: "962px"}, 4500);
 		setTimeout( function(){ highlight("four", "#ecc82e", 3, "210px"); }, 3800 );
 		
-		$("#bar").animate({top: "220px"}, 2200);
+		$("#bar").html("Elevation: "+values[3].elevation).animate({top: "220px"}, 2200);
 		$("#dot").animate({left: "778px"}, 1500);
 		setTimeout( function(){ highlight("five", "#ecc82e", 4, "220px"); }, 6000 );
 		
-		$("#bar").animate({top: "225px"}, 1200);
+		$("#bar").html("Elevation: "+values[4].elevation).animate({top: "225px"}, 1200);
 		$("#dot").animate({left: "723px"}, 1200);
 		setTimeout( function(){ highlight("six", "#ecc82e", 5, "225px"); }, 7200 );
 		
-		$("#bar").animate({top: "230px"}, 2400);
+		$("#bar").html("Elevation: "+values[5].elevation).animate({top: "230px"}, 2400);
 		$("#dot").animate({left: "352px"}, 2300);
 		setTimeout( function(){ highlight("seven", "#ecc82e", 6, "230px"); }, 9600 );
 
