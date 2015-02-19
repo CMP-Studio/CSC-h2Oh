@@ -305,14 +305,19 @@ function onDocumentReady() {
 							var ghData = dateString + "," + values[l].height;
 
 							// parse date before saving
+							ghData = "2014-01-23,11.97";
 							var parts = ghData.split("-");
 							var d = new Date();
 							var thisMonth = d.getMonth();
-							// console.log(thisMonth + " " + parts[1]);
+							var thisYear = d.getFullYear();
+							var thisDay = d.getDate();
+							//console.log(thisMonth + " " + thisYear + " " + thisDay);
 
-							if( (parts.length > 2) && (parts[1] != thisMonth) ){
-								saveGaugeHeight(rivers[l], ghData);
-								//console.log("saving gen data");
+							if( parts.length > 2 ){
+								if( (parts[1] == thisMonth+1) && (parts[0] == thisYear) && (parts[2] == thisDay) ){
+									saveGaugeHeight(rivers[l], ghData);
+							//		console.log("saving gen data");
+								}
 							}
 						}
 					}

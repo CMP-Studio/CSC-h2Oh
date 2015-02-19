@@ -396,29 +396,31 @@ function onDocumentReady() {
 		$('#explanation').html("<p>The water held at the dam doesn't change much with the addition of fresh rain</p>");
 
 		highlight("one", "#ecc82e", 0, "50px");
-		$("#bar").html("Elevation: "+values[0].elevation).animate({top: "150px"}, 200);
-		$("#dot").animate({left: "1238px"}, 200);
-		setTimeout( function(){ highlight("two", "#ecc82e", 1, "150px"); }, 200 );
+		
+		$("#bar").html("Elevation: "+values[0].elevation).animate({top: "150px"}, 400);
+		$("#dot").animate({left: "1238px"}, 400);
+		setTimeout( function(){ highlight("two", "#ecc82e", 1, "150px"); }, 400 );
 
-		$("#bar").html("Elevation: "+values[1].elevation).animate({top: "175px"}, 400);
-		$("#dot").animate({left: "1148px"}, 400);
-		setTimeout( function(){ highlight("three", "#ecc82e", 2, "175px"); }, 400 );
+
+		$("#bar").html("Elevation: "+values[1].elevation).animate({top: "175px"}, 800);
+		$("#dot").animate({left: "1148px"}, 800);
+		setTimeout( function(){ highlight("three", "#ecc82e", 2, "175px"); }, 800 );
 		
-		$("#bar").html("Elevation: "+values[2].elevation).animate({top: "210px"}, 3400);
-		$("#dot").animate({left: "962px"}, 4500);
-		setTimeout( function(){ highlight("four", "#ecc82e", 3, "210px"); }, 3800 );
+		$("#bar").html("Elevation: "+values[2].elevation).animate({top: "210px"}, 6800);
+		$("#dot").animate({left: "962px"}, 9000);
+		setTimeout( function(){ highlight("four", "#ecc82e", 3, "210px"); }, 7600 );
 		
-		$("#bar").html("Elevation: "+values[3].elevation).animate({top: "220px"}, 2200);
-		$("#dot").animate({left: "778px"}, 1500);
-		setTimeout( function(){ highlight("five", "#ecc82e", 4, "220px"); }, 6000 );
+		$("#bar").html("Elevation: "+values[3].elevation).animate({top: "220px"}, 4400);
+		$("#dot").animate({left: "778px"}, 3000);
+		setTimeout( function(){ highlight("five", "#ecc82e", 4, "220px"); }, 12000 );
 		
-		$("#bar").html("Elevation: "+values[4].elevation).animate({top: "225px"}, 1200);
-		$("#dot").animate({left: "723px"}, 1200);
-		setTimeout( function(){ highlight("six", "#ecc82e", 5, "225px"); }, 7200 );
+		$("#bar").html("Elevation: "+values[4].elevation).animate({top: "225px"}, 2400);
+		$("#dot").animate({left: "723px"}, 2400);
+		setTimeout( function(){ highlight("six", "#ecc82e", 5, "225px"); }, 14400 );
 		
-		$("#bar").html("Elevation: "+values[5].elevation).animate({top: "230px"}, 2400);
-		$("#dot").animate({left: "352px"}, 2300);
-		setTimeout( function(){ highlight("seven", "#ecc82e", 6, "230px"); }, 9600 );
+		$("#bar").html("Elevation: "+values[5].elevation).animate({top: "230px"}, 4800);
+		$("#dot").animate({left: "352px"}, 4600);
+		setTimeout( function(){ highlight("seven", "#ecc82e", 6, "230px"); }, 19200 );
 
 		setTimeout( function(){
 			resetEventTrigger('none');
