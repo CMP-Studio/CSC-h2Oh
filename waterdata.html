@@ -515,7 +515,7 @@ function onDocumentReady() {
 
 	/* creates a grpah for each gauge, either from a json or a csv file */
 
-	function createDailyGraph(cssID, type, location, min, max, dataFileType) {
+	function createDailyGraph(cssID, type, location, min, max, dataFileType, isTemperature) {
 
 		var newData = [];
 		var parseDate = d3.time.format("%Y-%m-%d").parse;
@@ -528,24 +528,38 @@ function onDocumentReady() {
 
 			d3.json(file, function(error, data) {
 
-		            var graphData = data.value.timeSeries[type].values[0].value;
+	            	var graphData = data.value.timeSeries[type].values[0].value;
 
 		            if(graphData.length > 70){
 			            for (var i = 0; i < graphData.length; i += 5){
 			                var dateString = graphData[i].dateTime;
 			                var newDataObject = {};
 			                dateString = dateString.substring(0,10);
-			                newData.push({date:parseDate(dateString), value:graphData[i].value});
+			                //newData.push({date:parseDate(dateString), value:graphData[i].value});
+			                if (isTemperature) {
+			            		newData.push({date:parseDate(dateString), value: convertCtoF(graphData[i].value)});
+					        } else {
+					            newData.push({date:parseDate(dateString), value:graphData[i].value});
+					        }
 			            }
 			            var dateString = graphData[graphData.length-1].dateTime;
 			            dateString = dateString.substring(0,10);
-			            newData.push({date:parseDate(dateString), value:graphData[graphData.length-1].value});
+			            if (isTemperature) {
+			            	newData.push({date:parseDate(dateString), value:convertCtoF(graphData[graphData.length-1].value)});
+				        } else {
+				            newData.push({date:parseDate(dateString), value:graphData[graphData.length-1].value});
+				        }
 			        } else {
 			        	graphData.forEach(function(d) {
 			                var dateString = d.dateTime;
 			                var newDataObject = {};
 			                dateString = dateString.substring(0,10);
 			                newData.push({date:parseDate(dateString), value:d.value});
+			                if (isTemperature) {
+			            		newData.push({date:parseDate(dateString), value:convertCtoF(d.value)});
+					        } else {
+					            newData.push({date:parseDate(dateString), value:d.value});
+					        }
 		            	});
 			        }
 
@@ -595,17 +609,17 @@ function onDocumentReady() {
 		}
 	}
 					//cssID, type, location, min, max, dataFileType)
-	createDailyGraph("phalleghenyGraph", 5, rivers[0], 6.8, 9, "DV"); // DV or Gen
-	createDailyGraph("phmonongahelaGraph", 5, rivers[1], 6.8, 9, "DV"); // DV or Gen
-	createDailyGraph("phohioGraph", 3, rivers[2], 6.8, 9, "DV"); // DV or Gen
+	createDailyGraph("phalleghenyGraph", 5, rivers[0], 6.8, 9, "DV", false); // DV or Gen
+	createDailyGraph("phmonongahelaGraph", 5, rivers[1], 6.8, 9, "DV", false); // DV or Gen
+	createDailyGraph("phohioGraph", 3, rivers[2], 6.8, 9, "DV", false); // DV or Gen
 
-	createDailyGraph("tempalleghenyGraph", 2, rivers[0], -1, 33, "DV"); // DV or Gen
-	createDailyGraph("tempmonongahelaGraph", 2, rivers[1], -1, 33, "DV"); // DV or Gen
-	createDailyGraph("tempohioGraph", 2, rivers[2], -1, 33, "DV"); // DV or Gen
+	createDailyGraph("tempalleghenyGraph", 2, rivers[0], 30, 90, "DV", true); // DV or Gen
+	createDailyGraph("tempmonongahelaGraph", 2, rivers[1], 30, 90, "DV", true); // DV or Gen
+	createDailyGraph("tempohioGraph", 2, rivers[2], 30, 90, "DV", true); // DV or Gen
 
-	createDailyGraph("heightalleghenyGraph", 10, rivers[0], 10, 33, "Gen"); // DV or Gen
-	createDailyGraph("heightmonongahelaGraph", 10, rivers[1], 10, 33, "Gen"); // DV or Gen
-	createDailyGraph("heightohioGraph", 10, rivers[2], 10, 33, "Gen"); // DV or Gen
+	createDailyGraph("heightalleghenyGraph", 10, rivers[0], 10, 33, "Gen", false); // DV or Gen
+	createDailyGraph("heightmonongahelaGraph", 10, rivers[1], 10, 33, "Gen", false); // DV or Gen
+	createDailyGraph("heightohioGraph", 10, rivers[2], 10, 33, "Gen", false); // DV or Gen
 
 	// PH
 	$('#'+rivers[0]+'PhGauge').click(function() {
