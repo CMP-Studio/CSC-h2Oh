@@ -18,7 +18,7 @@
 </head>
 <body>
 
-<div class="space"></div>
+<!-- <div class="space"></div> -->
 
 <div id="wrapper">
 
@@ -39,21 +39,23 @@
 			<div id="phalleghenyGraph"><div class="iconAP"><img src="images/ph.png" width="28px"/></div></div>
 			<div id="acmetoniaPh-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="alleghenyPhGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
-			
+			<div id="warningPhallegheny"><p>Currently<br />no data<br />available</p></div>
 		</div>
 
 		<div class="aPh">
 			<div id="tempalleghenyGraph"><div class="iconAT"><img src="images/waterTempY.png" width="50px"/></div></div>
 			<div id="acmetoniaTemp-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="alleghenyTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/>
-				<div id="wtIconA"><img src="images/waterTemp.png" width="40px"/></div>
+		<!-- 		<div id="wtIconA"><img src="images/waterTemp.png" width="40px"/></div> -->
 			</div>
+			<div id="warningTempallegheny"><p>Currently<br />no data<br />available</p></div>
 		</div>
 
 		<div class="aPh">
 			<div id="heightalleghenyGraph"><div class="iconAH"><img src="images/gaugeHeight.png" width="35px"/></div></div>
 			<div id="acmetoniaHeight-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="alleghenyHeightGauge"><img class="graphButton" src="images/graph.png" width="35px"/></div>
+			<div id="warningHeightallegheny"><p>Currently<br />no data<br />available</p></div>
 		</div>
 	</div>
 
@@ -68,20 +70,23 @@
 			<div id="phmonongahelaGraph"><div class="iconMP"><img src="images/ph.png" width="28px"/></div></div>
 			<div id="elizabethPh-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</div>
 			<div id="monongahelaPhGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
+			<div id="warningPhmonongahela"><p>Currently<br />no data<br />available</p></div>
 		</div>
 
 		<div class="mPh">
 			<div id="tempmonongahelaGraph"><div class="iconMT"><img src="images/waterTempY.png" width="50px"/></div></div>
 			<div id="elizabethTemp-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="monongahelaTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/>
-				<div id="wtIconM"><img src="images/waterTemp.png" width="40px"/></div>
+	<!-- 			<div id="wtIconM"><img src="images/waterTemp.png" width="40px"/></div> -->
 			</div>
+			<div id="warningTempmonongahela"><p>Currently<br />no data<br />available</p></div>
 		</div>
 
 		<div class="mPh">
 			<div id="heightmonongahelaGraph"><div class="iconMH"><img src="images/gaugeHeight.png" width="35px"/></div></div>
 			<div id="elizabethHeight-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="monongahelaHeightGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
+		<div id="warningHeightmonongahela"><p>Currently<br />no data<br />available</p></div>
 		</div>
 	</div>
 
@@ -96,20 +101,23 @@
 			<div id="phohioGraph"><div class="iconOP"><img src="images/ph.png" width="28px"/></div></div>
 			<div id="ohioviewPh-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="ohioPhGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
+			<div id="warningPhohio"><p>Currently<br />no data<br />available</p></div>
 		</div>
 
 		<div id="oPh">
 			<div id="tempohioGraph"><div class="iconOT"><img src="images/waterTempY.png" width="50px"/></div></div>
 			<div id="ohioviewTemp-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="ohioTempGauge"><img class="graphButton" src="images/graph.png" width="40px"/>
-				<div id="wtIconO"><img src="images/waterTemp.png" width="40px"/></div>
+<!-- 				<div id="wtIconO"><img src="images/waterTemp.png" width="40px"/></div> -->
 			</div>
+			<div id="warningTempohio"><p>Currently<br />no data<br />available</p></div>
 		</div>
 
 		<div id="oPh">
 			<div id="heightohioGraph"><div class="iconOH"><img src="images/gaugeHeight.png" width="35px"/></div></div>
 			<div id="ohioviewHeight-gauge-label"><p>Last update:<br /> 01/01/2014 <br /> at: 11:00pm</p></div>
 			<div id="ohioHeightGauge"><img class="graphButton" src="images/graph.png" width="40px"/></div>
+			<div id="warningHeightohio"><p>Currently<br />no data<br />available</p></div>
 		</div>
 	</div>
 </div>
@@ -165,6 +173,9 @@ var values = [{ph:'7.6', phTime:'15:00', temp:'4', tempTime: '15:00', height:'12
 var phGauges = [];
 var temperatureGauges = [];
 var heightGauges = [];
+var phWarning =[false, false, false];
+var tempWarning =[false, false, false];
+var heightWarning =[false, false, false];
 
 var status = 2; // 0,1,2 indicates on what "page" we are 6 months ago, yesterday or today
 
@@ -181,8 +192,42 @@ $('#height'+rivers[0]+'Graph').hide();
 $('#height'+rivers[1]+'Graph').hide();
 $('#height'+rivers[2]+'Graph').hide();
 
+$('#warningTempallegheny').hide();
+$('#warningTempmonongahela').hide();
+$('#warningTempohio').hide();
+
+$('#warningPhallegheny').hide();
+$('#warningPhmonongahela').hide();
+$('#warningPhohio').hide();
+
+$('#warningHeightallegheny').hide();
+$('#warningHeightmonongahela').hide();
+$('#warningHeightohio').hide();
+
 function onDocumentReady() {
 
+	(function () {
+	  var blockContextMenu;
+
+	  blockContextMenu = function (evt) {
+	    evt.preventDefault();
+	  };
+
+	  window = document.querySelector('#myElement');
+	  window.addEventListener('contextmenu', blockContextMenu);
+	})();
+
+	function disableselect(e){
+		return false;
+	}
+	function reEnable(){
+		return true;
+	}
+	document.onselectstart=new Function ("return false")
+	if(window.sidebar){
+		document.onmousedown=disableselect
+		document.onclick=reEnable
+	}
 	/* ------------ GAUGES ------------- GAUGES ------------- GAUGES ------------- */
 
 	function createPhGauge(cssID, label) {
@@ -192,7 +237,7 @@ function onDocumentReady() {
 			min: 0,
 			max: 14,
 			minorTicks: 1,
-			majorTicks: 15
+			majorTicks: 15  
 		}
 						
 		phGauges[cssID] = new PhGauge(cssID + "PhGauge", config);
@@ -278,48 +323,62 @@ function onDocumentReady() {
 			switch(data.value.timeSeries[i].name.substr(data.value.timeSeries[0].name.length - 9).substr(0,3)){
 				case '400': // PH
 					idPh = i;
-					//console.log("idPh "+idPh);
-					if (data.value.timeSeries[idPh].values[0].value[0] != null) {
+					if( data.value.timeSeries[idPh].values[0].value[0] != null){
 						values[l].ph = data.value.timeSeries[idPh].values[0].value[0].value;
 						values[l].phTime = data.value.timeSeries[idPh].values[0].value[0].dateTime;
+						phWarning[l] = false;
+					}else {
+						// console.log("warning: "+ l);
+						showWarning("Ph", l);
+						phWarning[l] = true;
 					}
 					break;	
 				case '010': // temperature
-					idTemperature = i;	
-					//console.log("idTemperature "+idTemperature);
-					if (data.value.timeSeries[idTemperature].values[0].value[0] != null) {
-						values[l].temp = data.value.timeSeries[idTemperature].values[0].value[0].value;
+					idTemperature = i;
+					if(data.value.timeSeries[idTemperature].values[0].value[0] != null){
+						values[l].temp = Math.round(data.value.timeSeries[idTemperature].values[0].value[0].value);
 						values[l].tempTime = data.value.timeSeries[idTemperature].values[0].value[0].dateTime;
+						// console.log(locations[idTemperature] +" "+ Math.round(values[l].temp));
+						//console.log("working: "+idTemperature+" "+data.value.timeSeries[idTemperature].values[0].value[0].value);
+						tempWarning[l] = false;
+					} 
+					else {
+						// console.log("warning: "+ l);
+						showWarning("Temp", l);
+						tempWarning[l] = true;
 					}
 					break;
 				case '065': // Gauge Height
 					idHeight = i;
-					//console.log("idHeight "+idHeight);
-					if( data.value.timeSeries[idHeight].values[0].value[0] != null) {
+					if(data.value.timeSeries[idHeight].values[0].value[0] != null){
 						values[l].height = data.value.timeSeries[idHeight].values[0].value[0].value;
 						values[l].heightTime = data.value.timeSeries[idHeight].values[0].value[0].dateTime;
 						if(refreshType.localeCompare("auto") == 0){
 							dateString = values[l].heightTime;
 							dateString = dateString.substring(0,10);
 							//console.log("update gauges: "+dateString);
+
 							var ghData = dateString + "," + values[l].height;
 
-							// parse date before saving
-							ghData = "2014-01-23,11.97";
+							//parse date before saving
 							var parts = ghData.split("-");
 							var d = new Date();
 							var thisMonth = d.getMonth();
-							var thisYear = d.getFullYear();
 							var thisDay = d.getDate();
-							//console.log(thisMonth + " " + thisYear + " " + thisDay);
+							var thisYear = d.getFullYear();
 
 							if( parts.length > 2 ){
-								if( (parts[1] == thisMonth+1) && (parts[0] == thisYear) && (parts[2] == thisDay) ){
+								if((parts[0] == thisYear) && (parts[1] == thisMonth+1) && (parts[2] == thisDay) ){
 									saveGaugeHeight(rivers[l], ghData);
-							//		console.log("saving gen data");
+									// console.log();
 								}
 							}
 						}
+						heightWarning[l] = false;
+					} else {
+						// console.log("warning: "+ l);
+						showWarning("Height", l);
+						heightWarning[l] = true;
 					}
 					break;
 			}
@@ -330,20 +389,32 @@ function onDocumentReady() {
 
 		phGauges[rivers[l]].reset(1);
 		phGauges[rivers[l]].redraw(values[l].ph, 'Last updated: ' + formatDateToDisplay(values[l].phTime)+ ' at: ' + formatTimeToDisplay(values[l].phTime));
-		$('#'+locations[l]+'Ph-gauge-label p').remove();
-		$('#'+locations[l]+'Ph-gauge-label').append('<p>Last<br />updated:<br /> '+formatDateToDisplay(values[l].phTime)+' <br /> at: '+formatTimeToDisplay(values[l].phTime)+'</p></div>');
+		if(phWarning[l] == false){
+			$('#'+locations[l]+'Ph-gauge-label p').remove();
+			$('#'+locations[l]+'Ph-gauge-label').append('<p>Last<br />updated:<br /> '+formatDateToDisplay(values[l].phTime)+' <br /> at: '+formatTimeToDisplay(values[l].phTime)+'</p></div>');
+		}
 
 		temp = convertCtoF(values[l].temp);
 		temperatureGauges[rivers[l]].redraw(temp);
-		$('#'+locations[l]+'Temp-gauge-label p').remove();
-		$('#'+locations[l]+'Temp-gauge-label').append('<p>Last<br />updated:<br /> '+formatDateToDisplay(values[l].tempTime)+' <br /> at: '+ formatTimeToDisplay(values[l].tempTime)+'</p></div>');
-
+		if(tempWarning[l] == false){
+			$('#'+locations[l]+'Temp-gauge-label p').remove();
+			$('#'+locations[l]+'Temp-gauge-label').append('<p>Last<br />updated:<br /> '+formatDateToDisplay(values[l].tempTime)+' <br /> at: '+ formatTimeToDisplay(values[l].tempTime)+'</p></div>');
+		}
+		
 		heightGauges[rivers[l]].reset(1);
 		heightGauges[rivers[l]].redraw(values[l].height);
-		$('#'+locations[l]+'Height-gauge-label p').remove();
-		$('#'+locations[l]+'Height-gauge-label').append('<p>Last<br />updated:<br /> '+formatDateToDisplay(values[l].heightTime)+' <br /> at: '+ formatTimeToDisplay(values[l].heightTime)+'</p></div>');
-
+		if(heightWarning[l] == false){
+			$('#'+locations[l]+'Height-gauge-label p').remove();
+			$('#'+locations[l]+'Height-gauge-label').append('<p>Last<br />updated:<br /> '+formatDateToDisplay(values[l].heightTime)+' <br /> at: '+ formatTimeToDisplay(values[l].heightTime)+'</p></div>');
+		}
 		//console.log("temp:"+temp+" tempTime:"+tempTime+" gageHeight:"+gageHeight+" gageHeightTime:"+gageHeightTime+" ph:"+ph+" phTime:"+phTime);
+	}
+
+	function showWarning(type, id){
+		$('#'+rivers[id]+type+'Gauge').hide();
+		$('#'+locations[id]+'Temp-gauge-label p').hide();
+		// console.log('#warning: '+ '#'+locations[id]+type+'-gauge-label p');
+		$('#warning'+type+rivers[id]).show();		
 	}
 
 	// capitalizes the first Letter of the string
@@ -384,6 +455,7 @@ function onDocumentReady() {
 	// convert C to F
 	function convertCtoF(c){
 		// (°C × 9/5) + 32
+		// c = Math.round(c);
 		var f = c * 1.8 + 32;
 		f = Math.round(f*100)/100;
 		return f;
@@ -459,6 +531,18 @@ function onDocumentReady() {
 
 			resetGraphToGauge();
 		}
+
+		$('#warningTempallegheny').hide();
+		$('#warningTempmonongahela').hide();
+		$('#warningTempohio').hide();
+
+		$('#warningPhallegheny').hide();
+		$('#warningPhmonongahela').hide();
+		$('#warningPhohio').hide();
+
+		$('#warningHeightallegheny').hide();
+		$('#warningHeightmonongahela').hide();
+		$('#warningHeightohio').hide();
 	});
 
 	$('#rightButton').click(function() {
@@ -496,6 +580,17 @@ function onDocumentReady() {
 
 			resetGraphToGauge();
 		}
+			$('#warningTempallegheny').hide();
+			$('#warningTempmonongahela').hide();
+			$('#warningTempohio').hide();
+
+			$('#warningPhallegheny').hide();
+			$('#warningPhmonongahela').hide();
+			$('#warningPhohio').hide();
+
+			$('#warningHeightallegheny').hide();
+			$('#warningHeightmonongahela').hide();
+			$('#warningHeightohio').hide();
 	});
 
 	// every few minutes update reading values
@@ -528,38 +623,36 @@ function onDocumentReady() {
 
 			d3.json(file, function(error, data) {
 
-	            	var graphData = data.value.timeSeries[type].values[0].value;
+		            var graphData = data.value.timeSeries[type].values[0].value;
 
 		            if(graphData.length > 70){
 			            for (var i = 0; i < graphData.length; i += 5){
 			                var dateString = graphData[i].dateTime;
 			                var newDataObject = {};
 			                dateString = dateString.substring(0,10);
-			                //newData.push({date:parseDate(dateString), value:graphData[i].value});
-			                if (isTemperature) {
-			            		newData.push({date:parseDate(dateString), value: convertCtoF(graphData[i].value)});
-					        } else {
-					            newData.push({date:parseDate(dateString), value:graphData[i].value});
-					        }
+			                if(isTemperature){
+			                	newData.push({date:parseDate(dateString), value:convertCtoF( graphData[i].value)});
+			            	}else {
+			                	newData.push({date:parseDate(dateString), value:graphData[i].value});			            	
+			           		}
 			            }
 			            var dateString = graphData[graphData.length-1].dateTime;
 			            dateString = dateString.substring(0,10);
-			            if (isTemperature) {
-			            	newData.push({date:parseDate(dateString), value:convertCtoF(graphData[graphData.length-1].value)});
-				        } else {
-				            newData.push({date:parseDate(dateString), value:graphData[graphData.length-1].value});
-				        }
+			            if(isTemperature){
+			           		newData.push({date:parseDate(dateString), value:convertCtoF(graphData[graphData.length-1].value)});
+			       		} else {
+			       			newData.push({date:parseDate(dateString), value:graphData[graphData.length-1].value});
+			       		}
 			        } else {
 			        	graphData.forEach(function(d) {
 			                var dateString = d.dateTime;
 			                var newDataObject = {};
 			                dateString = dateString.substring(0,10);
-			                newData.push({date:parseDate(dateString), value:d.value});
-			                if (isTemperature) {
-			            		newData.push({date:parseDate(dateString), value:convertCtoF(d.value)});
-					        } else {
-					            newData.push({date:parseDate(dateString), value:d.value});
-					        }
+			                if(isTemperature){
+				                newData.push({date:parseDate(dateString), value:converCtoF(d.value)});
+				            } else {
+				            	newData.push({date:parseDate(dateString), value:d.value});
+				            }
 		            	});
 			        }
 

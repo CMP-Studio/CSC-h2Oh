@@ -97,7 +97,7 @@
 	<div id="dials">
 		<div id="timeline"></div>
 		<div id="dot"></div>
-		<div id="time-label">Travel Time <br />in Minutes</div>
+		<div id="time-label">Water travel<br />time in hours</div>
 		<div id="time-one">0</div>
 		<div id="time-two">2</div>
 		<div id="time-three">4</div>
@@ -152,6 +152,18 @@ function onDocumentReady() {
 	document.addEventListener("contextmenu", function(e){
 		e.preventDefault();
 	}, false);
+
+	function disableselect(e){
+		return false
+	}
+	function reEnable(){
+		return true
+	}
+	document.onselectstart=new Function ("return false")
+	if (window.sidebar){
+		document.onmousedown=disableselect
+		document.onclick=reEnable
+	}
 
 	hideGauges("ConductanceGauge");
 	// hideGauges("HeightGauge");
@@ -389,6 +401,8 @@ function onDocumentReady() {
 	});
 
 	$('#rain').click(function() {
+
+		$("#time-label").fadeIn();
 
 		resetOn = true;
 		$('#raining').toggle();

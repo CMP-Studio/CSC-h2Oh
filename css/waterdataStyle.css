@@ -1,9 +1,7 @@
 body {
 	font-family: Century Gothic Bold, sans-serif;
-	margin: 32px;
 	font-size: 14px;
 	color: #1b75bb;
-	height:100px;
 }
 
 h1 {
@@ -18,40 +16,25 @@ h2 {
 	font-weight: normal;
 }
 
-
-#wrapper{
-	margin-left: 1.5em;
-}
-
-.space{
-	height: 40px;
-	width:1024;
-	border:1px solid white;
-}
-
+/*button label*/
 #left, #right{
 	padding-top: 80px;
 }
 
 #gaugeWrapper{
-	vertical-align: center;
 	float: left;
+	margin-top: 25px;
 }
 
-#leftWrapper{
-/*	height: 80%;*/
-	width:5%;
+#leftWrapper, #rightWrapper{
 	float: left;
-	margin-top: 24%;
-	margin-right: 10em;
+	padding-top: 480px;
+	margin-left: 100px;
+	margin-right: 60px;
 }
 
 #rightWrapper{
-/*	height: 80%;*/
-	width:5%;
-	float: left;
-	margin-top: 24%;
-	margin-left: 9em;
+	margin-left: 120px;
 }
 
 #leftButton{
@@ -87,12 +70,13 @@ h2 {
 
 #allegheny, #monongahela, #ohio {
 	width: 370px;
-	height:1000px;
+	height:980px;
 	font-weight: bolder;
 	background-color: #e7f1f8;
 	border: 1px solid #e1f0fb;
 	float:left;
-	margin: 1em 3em 0 3em;
+	margin-top: 1em;
+	margin-left: 4.8em;
 }
 
 #allegheny p, #monongahela p, #ohio p{
@@ -103,9 +87,10 @@ h2 {
 }
 
 #heading{
-	font-size: 18px;
+	/*font-size: 18px;
 	padding-left: 80px;
 	text-align: center;
+	*/
 }
 
 #acmetoniaPh-gauge-label, #elizabethPh-gauge-label, #ohioviewPh-gauge-label, #mGraphLabel,
@@ -137,12 +122,12 @@ h2 {
 
 #phalleghenyGraph, #phmonongahelaGraph, #phohioGraph {
 	margin-left: -5px;
-	margin-bottom: 46px;
+	margin-bottom: 56px;
 }
 
 #tempalleghenyGraph, #tempmonongahelaGraph, #tempohioGraph {
 	margin-left: -5px;
-	margin-bottom: 31px;
+	margin-bottom: 44px;
 }
 
 #heightalleghenyGraph, #heightmonongahelaGraph, #heightohioGraph {
@@ -195,65 +180,84 @@ path.area {
 
 .iconAP{
 	position:absolute;
-	top: 170px;
-	left:650px;
+	top: 150px;
+	left:655px;
 }
 .iconAT{
 	position:absolute;
-	top: 480px;
+	top: 445px;
 	left:640px;
 }
 .iconAH{
 	position:absolute;
-	top: 770px;
+	top: 738px;
 	left:650px;
 }
 
 .iconMP{
 	position:absolute;
-	top: 170px;
-	left:1115px;
+	top: 150px;
+	left:1100px;
 }
 .iconMT{
 	position:absolute;
-	top: 480px;
-	left:1100px;
+	top: 445px;
+	left:1085px;
 }
 .iconMH{
 	position:absolute;
-	top: 770px;
-	left:1110px;
+	top: 738px;
+	left:1085px;
 }
 
 .iconOP{
 	position:absolute;
-	top: 170px;
-	left:1570px;
+	top: 150px;
+	left:1540px;
 }
 .iconOT{
 	position:absolute;
-	top: 480px;
-	left:1555px;
+	top: 445px;
+	left:1515px;
 }
 .iconOH{
 	position:absolute;
-	top: 778px;
-	left:1560px;
+	top: 738px;
+	left:1520px;
 }
 
 #wtIconA{
 	position:absolute;
-	top: 555px;
+	top: 510px;
 	left:510px;
 }
 
 #wtIconM{
 	position:absolute;
-	top: 555px;
-	left:970px;
+	top: 510px;
+	left:950px;
 }
 #wtIconO{
 	position:absolute;
-	top: 555px;
-	left:1430px;
+	top: 510px;
+	left:1390px;
+}
+
+#warningPhallegheny, #warningPhohio, #warningPhmonongahela, 
+#warningTempallegheny, #warningTempohio, #warningTempmonongahela,
+#warningHeightallegheny, #warningHeightohio, #warningHeightmonongahela{
+	border: 4px solid #67b5f2;
+	text-align: center;
+	width: 230px;
+	height: 230px;
+	border-radius: 150px;
+	margin-left: 70px;
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+
+#warningPhallegheny p, #warningPhohio p, #warningPhmonongahela p, 
+#warningTempallegheny p, #warningTempohio p, #warningTempmonongahela p, 
+#warningHeightallegheny p, #warningHeightohio p, #warningHeightmonongahela p{
+	padding-top: 80px;
 }
