@@ -8,8 +8,8 @@ function DailyGraph(placeholderName, configuration)
     var parseDate = d3.time.format("%Y-%m-%d").parse;
 
     var scaleFactor = 0.60,
-        margin = {top: 30, right: 70, bottom: 30, left: 50},
-        width = 1735 * scaleFactor - margin.left - margin.right,
+        margin = {top: 30, right: 70, bottom: 30, left: 30},
+        width = 1785 * scaleFactor - margin.left - margin.right,
         height = 455 * scaleFactor - margin.top - margin.bottom,
         newData = [];
 

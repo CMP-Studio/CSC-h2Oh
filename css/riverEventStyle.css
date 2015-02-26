@@ -49,32 +49,32 @@ h3 {
 	margin-top: 0px;
 }
 .elevation.seven{
-	margin-left: 43px;
-	margin-top: 222px;
+	margin-left: 55px;
+	margin-top: 208px;
 }
 .elevation.six{
 	margin-left: 415px;
-	margin-top: 215px;
+	margin-top: 195px;
 }
 .elevation.five{
 	margin-left: 465px;
-	margin-top: 213px;
+	margin-top: 192px;
 }
 .elevation.four{
 	margin-left: 655px;
-	margin-top: 200px;
+	margin-top: 170px;
 }
 .elevation.three{
 	margin-left: 840px;
-	margin-top: 165px;
+	margin-top: 132px;
 }
 .elevation.two{
 	margin-left: 930px;
-	margin-top: 138px;
+	margin-top: 108px;
 }
 .elevation.one{
-	margin-left: 960px;
-	margin-top: 40px;
+	margin-left: 970px;
+	margin-top: 50px;
 }
 
 svg { font: 0.6em Century Gothic;}
@@ -383,7 +383,7 @@ path.line {
 }
 
 .seven{
-	margin-left: 43px;
+	margin-left: 36px;
 }
 .six{
 	margin-left: 415px;
@@ -398,10 +398,10 @@ path.line {
 	margin-left: 840px;
 }
 .two{
-	margin-left: 930px;
+	margin-left: 910px;
 }
 .one{
-	margin-left: 975px;
+	margin-left: 960px;
 }
 
 #instructions{

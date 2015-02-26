@@ -129,7 +129,7 @@
 <script>
 
 var locations = ["one", "two", "three", "four", "five", "six", "seven"];
-var values = [{conductance:'120', temp:'65.41',  hour:'0', minute:'0', conductanceAfter:'103', tempAfter:'52.99', heightAfter:'12.12',  elevation:"1515 ft"},
+var values = [{conductance:'120', temp:'65.41',  hour:'0', minute:'0', conductanceAfter:'103', tempAfter:'52.99', heightAfter:'12.12', elevation:"1515 ft"},
 			  {conductance:'146', temp:'68.58',  hour:'0', minute:'0', conductanceAfter:'113', tempAfter:'54.95', heightAfter:'12.12', elevation:"1166 ft"},
 			  {conductance:'319', temp:'70.66',  hour:'0', minute:'0', conductanceAfter:'260', tempAfter:'57.09', heightAfter:'12.12', elevation:"1047 ft"},
 			  {conductance:'576', temp:'74.82', hour:'0', minute:'0', conductanceAfter:'536', tempAfter:'69.15', heightAfter:'12.12', elevation:"864 ft"},
@@ -196,7 +196,7 @@ function onDocumentReady() {
 			});
 	}
 
-	createDailyGraph("elevation", 600, 728152, 2200); // DV or Gen
+	createDailyGraph("elevation", 600, 500152, 1700); // DV or Gen
 	
 
 	/* ---------------------------------------------------------- GAUGES ---- */
@@ -383,7 +383,7 @@ function onDocumentReady() {
 		fadeOutTimes();
 
 		resetEventTrigger('none');
-		$("#bar").animate({top: "40px"}, 1000);
+		$("#bar").html("Elevation: "+values[0].elevation).animate({top: "50px"}, 1000);
 		$("#dot").css('left', "1238px");
 
 		clocks["clock"].redraw(values[0].hour, values[0].minute);
@@ -415,26 +415,25 @@ function onDocumentReady() {
 		$("#dot").animate({left: "1238px"}, 400);
 		setTimeout( function(){ highlight("two", "#ecc82e", 1, "150px"); }, 400 );
 
-
-		$("#bar").html("Elevation: "+values[1].elevation).animate({top: "175px"}, 800);
+		$("#bar").animate({top: "175px"}, 800);
 		$("#dot").animate({left: "1148px"}, 800);
-		setTimeout( function(){ highlight("three", "#ecc82e", 2, "175px"); }, 800 );
+		setTimeout( function(){ highlight("three", "#ecc82e", 2, "175px"); $("#bar").html("Elevation: "+values[1].elevation); }, 800 );
 		
-		$("#bar").html("Elevation: "+values[2].elevation).animate({top: "210px"}, 6800);
+		$("#bar").animate({top: "210px"}, 6800);
 		$("#dot").animate({left: "962px"}, 9000);
-		setTimeout( function(){ highlight("four", "#ecc82e", 3, "210px"); }, 7600 );
+		setTimeout( function(){ highlight("four", "#ecc82e", 3, "210px"); $("#bar").html("Elevation: "+values[2].elevation); }, 7600 );
 		
-		$("#bar").html("Elevation: "+values[3].elevation).animate({top: "220px"}, 4400);
+		$("#bar").animate({top: "220px"}, 4400);
 		$("#dot").animate({left: "778px"}, 3000);
-		setTimeout( function(){ highlight("five", "#ecc82e", 4, "220px"); }, 12000 );
+		setTimeout( function(){ highlight("five", "#ecc82e", 4, "220px"); $("#bar").html("Elevation: "+values[3].elevation); }, 12000 );
 		
-		$("#bar").html("Elevation: "+values[4].elevation).animate({top: "225px"}, 2400);
+		$("#bar").animate({top: "225px"}, 2400);
 		$("#dot").animate({left: "723px"}, 2400);
-		setTimeout( function(){ highlight("six", "#ecc82e", 5, "225px"); }, 14400 );
+		setTimeout( function(){ highlight("six", "#ecc82e", 5, "225px"); $("#bar").html("Elevation: "+values[4].elevation); }, 14400 );
 		
-		$("#bar").html("Elevation: "+values[5].elevation).animate({top: "230px"}, 4800);
+		$("#bar").animate({top: "230px"}, 4800);
 		$("#dot").animate({left: "352px"}, 4600);
-		setTimeout( function(){ highlight("seven", "#ecc82e", 6, "230px"); }, 19200 );
+		setTimeout( function(){ highlight("seven", "#ecc82e", 6, "230px"); $("#bar").html("Elevation: "+values[5].elevation); }, 19200 );
 
 		setTimeout( function(){
 			resetEventTrigger('none');
