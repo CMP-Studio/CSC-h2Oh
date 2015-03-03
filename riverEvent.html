@@ -352,9 +352,11 @@ function onDocumentReady() {
 
 	$('.one').click(function() {
 		highlight("one", "#ecc82e", 0, "50px");
+		$("#bar").html("Elevation: "+values[0].elevation).animate({top: "150px"}, 1000);
 	});
 	$('.two').click(function() {
 		highlight("two", "#ecc82e", 1, "150px");
+		$("#bar").html("Elevation: "+values[0].elevation).animate({top: "250px"}, 1000);
 	});
 	$('.three').click(function() {
 		highlight("three", "#ecc82e", 2, "175px");

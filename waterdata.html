@@ -496,9 +496,11 @@ function onDocumentReady() {
 	}
 
 	$('#leftButton').click(function() {
+
 		
 		if(status > 2) status = 2;
-		status--;		
+		status--;	
+		
 
 		$('#rightButton').show();
 
@@ -580,17 +582,17 @@ function onDocumentReady() {
 
 			resetGraphToGauge();
 		}
-			$('#warningTempallegheny').hide();
-			$('#warningTempmonongahela').hide();
-			$('#warningTempohio').hide();
+			// $('#warningTempallegheny').hide();
+			// $('#warningTempmonongahela').hide();
+			// $('#warningTempohio').hide();
 
-			$('#warningPhallegheny').hide();
-			$('#warningPhmonongahela').hide();
-			$('#warningPhohio').hide();
+			// $('#warningPhallegheny').hide();
+			// $('#warningPhmonongahela').hide();
+			// $('#warningPhohio').hide();
 
-			$('#warningHeightallegheny').hide();
-			$('#warningHeightmonongahela').hide();
-			$('#warningHeightohio').hide();
+			// $('#warningHeightallegheny').hide();
+			// $('#warningHeightmonongahela').hide();
+			// $('#warningHeightohio').hide();
 	});
 
 	// every few minutes update reading values
